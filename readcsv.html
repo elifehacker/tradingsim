@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        <title>amCharts Example</title> 
+
+        <link rel="stylesheet" href="style.css" type="text/css">
+
+        <script src="amcharts/amcharts.js" type="text/javascript"></script>
+
+        
+
+        <script type="text/javascript">
+
+        var chart;
+
+        window.onload = function() {
+
+            loadCSV("data.txt");
+
+        }
+
+        function loadCSV(file) {
+
+            if (window.XMLHttpRequest) {
+
+                // IE7+, Firefox, Chrome, Opera, Safari
+
+                var request = new XMLHttpRequest();
+
+            }
+
+            else {
+
+                // code for IE6, IE5
+
+                var request = new ActiveXObject('Microsoft.XMLHTTP');
+
+            }
+
+// load data. 'false' indicates that further script
+
+// is not executed until data is loaded and parsed
+
+            request.open('GET', file, false);
+
+            request.send();
+
+            parseCSV(request.responseText);
+
+        }
+
+        function parseCSV(data){
+
+            alert(data);
+
+        }
+
+        </script>
+
+    </head>
+
+    <body style="background-color:#EEEEEE">
+
+        <div id="chartdiv" style="width:600px; height:400px; background-color:#FFFFFF"></div>
+
+    </body>
+
+</html>

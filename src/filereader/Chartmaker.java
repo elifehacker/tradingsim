@@ -5,34 +5,39 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class csvreader {
+public class Chartmaker {
 
 	/**
 	 * @param args
 	 * @throws IOException 
 	 */
-	static String csvFile = "test.csv";
 	BufferedReader br = null;
 	String line = "";
 	String cvsSplitBy = ",";
 	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		csvreader obj = new csvreader();
-		obj.run();
+		Chartmaker obj = new Chartmaker();
+		obj.run("test.csv");
 		
 	}
 	
-	public void run() throws IOException {
+	public void run(String csvFile) throws IOException {
 
-	    BufferedReader br = new BufferedReader(new FileReader(csvFile));
+	    BufferedReader br = new BufferedReader(new FileReader("header.txt"));
+        StringBuilder sb = new StringBuilder();
+
+	    String output = sb.toString();
+	    
 	    try {
-	        StringBuilder sb = new StringBuilder();
+		    br = new BufferedReader(new FileReader(csvFile));
+	        sb = new StringBuilder();
 	        line = br.readLine();
 
 	        while (line != null) {
-	            sb.append(line);
-	            sb.append("\n");
+	        	//work on these
+	            //sb.append(line);
+	            //sb.append("\n");
 	            
 				String[] columns = line.split(cvsSplitBy);
 	            
@@ -41,18 +46,21 @@ public class csvreader {
 	            
 	            line = br.readLine();
 	        }
-	        String everything = sb.toString();
-	        
 	        //System.out.println(everything);
+	        output = output.concat(sb.toString());
 	        
 	    } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-		} finally {
-			br.close();
-			
-	    }
+		} 
+	    br = new BufferedReader(new FileReader("footer.txt"));
+        sb = new StringBuilder();
+
+	    output = output.concat(sb.toString());
+	    
+		br.close();
+
 	}
 	
 

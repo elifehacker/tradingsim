@@ -16,6 +16,8 @@
 *.o
 *.so
 amcharts/images/*
+amstock/.svn/*
+data*
 
 # Packages #
 ############
