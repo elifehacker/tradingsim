@@ -22,7 +22,7 @@ full list of available settings, check the amstock_settings.xml file in the amst
        <title>Ask Orders</title>
        <short>Ask Orders</short>
        <description></description>
-       <file_name>data1.csv</file_name>
+       <file_name>chartdata/data1.csv</file_name>
        <main_drop_down selected="true"></main_drop_down> 	    	  
        <compare_list_box selected="false"></compare_list_box>
        <csv>
@@ -41,7 +41,7 @@ full list of available settings, check the amstock_settings.xml file in the amst
        <title>Bid Orders</title>
        <short>Bid Orders</short>
        <description></description>
-       <file_name>data2.csv</file_name>
+       <file_name>chartdata/data2.csv</file_name>
        <compare_list_box selected="true"></compare_list_box>
        <csv>
          <reverse>true</reverse>
@@ -59,7 +59,7 @@ full list of available settings, check the amstock_settings.xml file in the amst
        <title>Trades</title>
        <short>Trades</short>
         <description></description>       
-       <file_name>data3.csv</file_name>
+       <file_name>chartdata/data3.csv</file_name>
        <csv>
          <reverse>true</reverse>
          <separator>,</separator>
