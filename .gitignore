@@ -18,6 +18,7 @@
 amcharts/images/*
 amstock/.svn/*
 data*
+tradingDB/*
 
 # Packages #
 ############
