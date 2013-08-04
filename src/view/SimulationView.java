@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.ActionListener;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -9,12 +11,12 @@ package view;
  *
  * @author Pei Wang
  */
-public class Simulator extends javax.swing.JFrame {
+public class SimulationView extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
      */
-    public Simulator() {
+    public SimulationView() {
         initComponents();
     }
 
@@ -343,6 +345,64 @@ public class Simulator extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
+    public void add_index_chart_lis(ActionListener l){
+    	but_index_chart.addActionListener(l);
+    }
+    
+    public void add_check_detail_lis(ActionListener l){
+    	but_check_detail.addActionListener(l);
+    }
+    
+    public void add_save_lis(ActionListener l){
+    	but_save.addActionListener(l);
+    }
+    
+    public void add_back_lis(ActionListener l){
+    	but_back.addActionListener(l);
+    }
+    
+    public void add_trade_lis(ActionListener l){
+    	but_trade.addActionListener(l);
+    }
+    
+    public void add_check_chart_lis(ActionListener l){
+    	but_check_chart.addActionListener(l);
+    }
+    
+    public void add_strategy_lis(ActionListener l){
+    	but_strategy.addActionListener(l);
+    }
+    
+    public void add_my_portfolio_lis(ActionListener l){
+    	but_my_portfolio.addActionListener(l);
+    }
+    
+    public void add_minus_lis(ActionListener l){
+    	but_minus.addActionListener(l);
+    }
+    
+    public void add_plus_lis(ActionListener l){
+    	but_plus.addActionListener(l);
+    }
+    
+    public void add_pause_lis(ActionListener l){
+    	but_pause.addActionListener(l);
+    }
+    
+    public void add_auto_lis(ActionListener l){
+    	but_auto.addActionListener(l);
+    }
+    
+    public void add_next_lis(ActionListener l){
+    	but_next.addActionListener(l);
+    }
+    /*
+    public void add__lis(ActionListener l){
+    	but_.addActionListener(l);
+    }
+    */
+    
+    
     private void but_pauseActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
     }                                         
@@ -380,20 +440,20 @@ public class Simulator extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Simulator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SimulationView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Simulator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SimulationView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Simulator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SimulationView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Simulator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SimulationView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Simulator().setVisible(true);
+                new SimulationView().setVisible(true);
             }
         });
     }
