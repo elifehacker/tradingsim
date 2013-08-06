@@ -13,7 +13,7 @@ public class SimulationControl {
 		this.model = m;
 		this.view = v;
 		
-		view.add
+		//add listeners, if have to
 	}
 
 	/**
