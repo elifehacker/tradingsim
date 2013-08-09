@@ -1,12 +1,18 @@
 package view;
 
+import java.applet.Applet;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.net.URL;
 
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -138,9 +144,10 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
 
         desc_textarea.setColumns(20);
         desc_textarea.setRows(5);
+        desc_textarea.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         desc_ScrollPanel.setViewportView(desc_textarea);
 
-        desc_ScrollPanel.setBounds(20, 430, 620, 160);
+        desc_ScrollPanel.setBounds(20, 390, 630, 200);
         leftmultilayer.add(desc_ScrollPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         simulation_front.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
@@ -148,18 +155,12 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
         simulation_front.setBounds(20, 0, 260, 57);
         leftmultilayer.add(simulation_front, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        simulation_back.setFont(new java.awt.Font("Consolas", 1, 85)); // NOI18N
-        simulation_back.setForeground(new java.awt.Color(214, 214, 214));
-        simulation_back.setText("Simulation");
-        simulation_back.setBounds(10, 10, 530, 120);
-        leftmultilayer.add(simulation_back, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout picture_panelLayout = new javax.swing.GroupLayout(picture_panel);
         picture_panel.setLayout(picture_panelLayout);
         picture_panelLayout.setHorizontalGroup(
             picture_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(picture_panelLayout.createSequentialGroup()
-                .addGap(289, 289, 289)
+                .addGap(0, 300, Short.MAX_VALUE)
                 .addComponent(lab_picture)
                 .addContainerGap(331, Short.MAX_VALUE))
         );
@@ -171,9 +172,15 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
                 .addGap(149, 149, 149))
         );
 
-        picture_panel.setBounds(20, 50, 620, 360);
+        picture_panel.setBounds(20, 50, 630, 320);
         leftmultilayer.add(picture_panel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
+        simulation_back.setFont(new java.awt.Font("Consolas", 1, 85)); // NOI18N
+        simulation_back.setForeground(new java.awt.Color(214, 214, 214));
+        simulation_back.setText("Simulation");
+        simulation_back.setBounds(10, 10, 530, 120);
+        leftmultilayer.add(simulation_back, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
         LeftLayout.setHorizontalGroup(
@@ -261,9 +268,43 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
         but_back.addActionListener(this);
         select_table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
+			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
-				desc_textarea.setText("Table!");
+				
+				int row = select_table.getSelectedRow();
+				String folder = (String) select_table.getValueAt(row, 0);
+				if(!folder.equals("null")){
+					desc_textarea.setText("Table! "+folder);
+
+					    BufferedReader br;
+					    String path = "packages/"+folder+"/"+folder;
+						try {
+					        lab_picture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/"+folder+".png")));
+
+							br = new BufferedReader(new FileReader(path+".txt"));
+					        StringBuilder sb = new StringBuilder();
+					        String line = br.readLine();
+
+					        while (line != null) {
+					            sb.append(line);
+					            sb.append('\n');
+					            line = br.readLine();
+					        }
+					        String everything = sb.toString();
+					        desc_textarea.setText(everything);
+					        lab_picture.setIcon(new javax.swing.ImageIcon(getClass().getResource(path+".png")));
+
+					        br.close();
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+				}
+
 			}
         });
         
