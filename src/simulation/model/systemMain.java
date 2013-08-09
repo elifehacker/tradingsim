@@ -3,6 +3,7 @@ package simulation.model;
 import javax.swing.JFrame;
 
 import simulation.control.SimulationControl;
+import view.PackageSelection;
 import view.SimulationView;
 
 public class systemMain {
@@ -34,16 +35,7 @@ public class systemMain {
 	        /* Create and display the form */
 	        java.awt.EventQueue.invokeLater(new Runnable() {
 	            public void run() {
-	                new SimulationView().setVisible(true);
-	                
-	                SimulationModel model = new SimulationModel();
-	        		//tradeView view = new tradeView();
-	                SimulationView view = new SimulationView();
-	        		SimulationControl control = new SimulationControl(model, view);
-	        		
-	        		view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        		view.pack();
-	                view.setVisible(true);
+	                new PackageSelection().setVisible(true);
 	                
 	            }
 	        });
