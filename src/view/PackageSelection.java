@@ -272,7 +272,7 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
 				// TODO Auto-generated method stub
 				
 				int row = select_table.getSelectedRow();
-				String folder = (String) select_table.getValueAt(row, 0);
+				folder = (String) select_table.getValueAt(row, 0);
 				if(!folder.equals("null")){
 					desc_textarea.setText("Table! "+folder);
 
@@ -321,6 +321,11 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
 			
 		}else if (e.getSource() == but_start){
 			System.out.println("start!");
+			if(!folder.equals("")){
+				//this.setVisible(false);
+				new SimulationView(folder).setVisible(true);
+				this.dispose();
+			}
 
 		}else if (e.getSource() == but_back){
 			System.out.println("back!");
@@ -362,7 +367,11 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
             }
         });
     }
-    // Variables declaration - do not modify                     
+    
+    private String folder ="";
+    
+    // Variables declaration - do not modify   
+    
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;
     private javax.swing.JPanel Top;
