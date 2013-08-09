@@ -1,6 +1,12 @@
 package view;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /*
  * To change this template, choose Tools | Templates
@@ -15,9 +21,76 @@ public class SimulationView extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
+     * @param simulation 
      */
-    public SimulationView() {
+	
+	private void readfile(String folder, String type){
+    	if(!folder.equals("null")){
+		    String path = "packages/"+folder+"/"+folder;
+
+    		if(type.equals(".conf")){
+    			try {
+					BufferedReader br = new BufferedReader(new FileReader(path+type));
+			        String line = br.readLine();
+			        String[] splited = line.split(",");
+			        totalentry = Integer.parseInt(splited[0]);
+			        totalfirm = Integer.parseInt(splited[1]);
+			        rows = Integer.parseInt(splited[2]);
+			        firms = new String[totalfirm];
+			        
+			        for(int i = 0; i < totalfirm; i++){
+			        	firms[i] = splited[i+3];
+			        	System.out.println("firm[i] "+firms[i]);
+			        }
+			        
+			        br.close();
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+    		}else if(type.equals(".csv")){
+    			try {
+    				if(br == null)
+    					br = new BufferedReader(new FileReader(path+type));
+    				
+    		        //StringBuilder sb = new StringBuilder();
+    		        String line = br.readLine();
+
+    		        while (line != null) {
+    		            //sb.append(line);
+    		            //sb.append('\n');
+    		        	String[] split = line.split(",");
+    		        	System.out.println("while loop "+split.length);
+    		        	
+    		        	
+    		            line = br.readLine();
+    		        }
+    		        //String everything = sb.toString();
+    		        
+    			} catch (FileNotFoundException e1) {
+    				// TODO Auto-generated catch block
+    				e1.printStackTrace();
+    			} catch (IOException e1) {
+    				// TODO Auto-generated catch block
+    				e1.printStackTrace();
+    			}
+    		}
+
+    	}
+	}
+	
+    public SimulationView(String folder) {
+    	
+    	readfile(folder,".conf");
+    	readfile(folder,".csv");
+
         initComponents();
+        this.addWindowListener(new SwindowsListener());
     }
 
     /**
@@ -38,9 +111,9 @@ public class SimulationView extends javax.swing.JFrame {
         label_stock_index = new javax.swing.JLabel();
         but_index_chart = new javax.swing.JButton();
         but_check_detail = new javax.swing.JButton();
-        index_ScrollPanel = new javax.swing.JScrollPane();
-        index_textarea = new javax.swing.JTextArea();
         simulation_front = new javax.swing.JLabel();
+        index_scroll = new javax.swing.JScrollPane();
+        index_table = new javax.swing.JTable();
         simulation_back = new javax.swing.JLabel();
         Right = new javax.swing.JPanel();
         but_back = new javax.swing.JButton();
@@ -119,17 +192,26 @@ public class SimulationView extends javax.swing.JFrame {
         but_check_detail.setBounds(490, 551, 153, 40);
         leftmultilayer.add(but_check_detail, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        index_textarea.setColumns(20);
-        index_textarea.setRows(5);
-        index_ScrollPanel.setViewportView(index_textarea);
-
-        index_ScrollPanel.setBounds(20, 70, 620, 470);
-        leftmultilayer.add(index_ScrollPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         simulation_front.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
         simulation_front.setText("Simulation");
         simulation_front.setBounds(20, 0, 260, 57);
         leftmultilayer.add(simulation_front, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        index_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        index_scroll.setViewportView(index_table);
+
+        index_scroll.setBounds(20, 70, 630, 470);
+        leftmultilayer.add(index_scroll, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         simulation_back.setFont(new java.awt.Font("Consolas", 1, 85)); // NOI18N
         simulation_back.setForeground(new java.awt.Color(214, 214, 214));
@@ -324,11 +406,12 @@ public class SimulationView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createSequentialGroup()
-                        .addComponent(lab_current_time)
-                        .addGap(18, 18, 18)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(current_time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(RightLayout.createSequentialGroup()
-                        .addComponent(lab_updating_rate)
+                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lab_updating_rate)
+                            .addComponent(lab_current_time))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                         .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(but_auto, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -343,7 +426,7 @@ public class SimulationView extends javax.swing.JFrame {
         getContentPane().add(Right, java.awt.BorderLayout.CENTER);
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>                       
 
     public void add_index_chart_lis(ActionListener l){
     	but_index_chart.addActionListener(l);
@@ -426,6 +509,8 @@ public class SimulationView extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -453,10 +538,70 @@ public class SimulationView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SimulationView().setVisible(true);
+                new SimulationView("test").setVisible(true);
             }
         });
     }
+    
+    class SwindowsListener implements WindowListener{
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowClosed(WindowEvent arg0) {
+			// TODO Auto-generated method stub
+	        try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+    	
+    }
+    
+    private String simulation;
+    private BufferedReader br = null;
+    private int totalentry = 0;
+    private int totalfirm = 0;
+    private String firms[];
+    private int rows = 0;
+
+    private float index[][];
     // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;
@@ -475,8 +620,8 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JButton but_strategy;
     private javax.swing.JButton but_trade;
     private javax.swing.JTextField current_time_TextField;
-    private javax.swing.JScrollPane index_ScrollPanel;
-    private javax.swing.JTextArea index_textarea;
+    private javax.swing.JScrollPane index_scroll;
+    private javax.swing.JTable index_table;
     private javax.swing.JLabel lab_adage;
     private javax.swing.JLabel lab_background;
     private javax.swing.JLabel lab_current_time;
@@ -494,5 +639,5 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JScrollPane stockdetail_scroll;
     private javax.swing.JLayeredPane top_background;
     private javax.swing.JTextField update_rate_TextField;
-    // End of variables declaration                   
+    // End of variables declaration                    
 }
