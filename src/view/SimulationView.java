@@ -32,17 +32,20 @@ public class SimulationView extends javax.swing.JFrame {
     			try {
 					BufferedReader br = new BufferedReader(new FileReader(path+type));
 			        String line = br.readLine();
-			        String[] splited = line.split(",");
-			        totalentry = Integer.parseInt(splited[0]);
-			        totalfirm = Integer.parseInt(splited[1]);
-			        rows = Integer.parseInt(splited[2]);
-			        firms = new String[totalfirm];
-			        
-			        for(int i = 0; i < totalfirm; i++){
-			        	firms[i] = splited[i+3];
-			        	System.out.println("firm[i] "+firms[i]);
+			        if(line !=null){
+				        String[] splited = line.split(",");
+				        totalentry = Integer.parseInt(splited[0]);// check the .conf file
+				        totalfirm = Integer.parseInt(splited[1]);// for more info
+				        rows = Integer.parseInt(splited[2]);
+				        firms = new String[totalfirm];
+				        
+				        for(int i = 0; i < totalfirm; i++){
+				        	firms[i] = splited[i+3];
+				        	System.out.println("firm[i] "+firms[i]);
+				        }
+				        
 			        }
-			        
+
 			        br.close();
 					
 				} catch (FileNotFoundException e) {
@@ -57,7 +60,7 @@ public class SimulationView extends javax.swing.JFrame {
     			try {
     				if(br == null)
     					br = new BufferedReader(new FileReader(path+type));
-    				
+    				int counter = 0;
     		        //StringBuilder sb = new StringBuilder();
     		        String line = br.readLine();
 
@@ -65,9 +68,17 @@ public class SimulationView extends javax.swing.JFrame {
     		            //sb.append(line);
     		            //sb.append('\n');
     		        	String[] split = line.split(",");
+    		        	if(counter == 0){
+    		        		counter = rows;
+    		        		//entry number, date, time
+    		        		
+    		        	}else{
+    		        		//price, A, B, C
+    		        		
+    		        	}
     		        	System.out.println("while loop "+split.length);
     		        	
-    		        	
+    		        	counter --;
     		            line = br.readLine();
     		        }
     		        //String everything = sb.toString();
@@ -138,6 +149,7 @@ public class SimulationView extends javax.swing.JFrame {
         but_next = new javax.swing.JButton();
         lab_current_time = new javax.swing.JLabel();
         current_time_TextField = new javax.swing.JTextField();
+        current_date_TextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -197,16 +209,10 @@ public class SimulationView extends javax.swing.JFrame {
         simulation_front.setBounds(20, 0, 260, 57);
         leftmultilayer.add(simulation_front, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
+        Object[][] obj = new Object[totalfirm][index_title.length];
+        
         index_table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+            obj,index_title
         ));
         index_scroll.setViewportView(index_table);
 
@@ -602,8 +608,7 @@ public class SimulationView extends javax.swing.JFrame {
     private int totalfirm = 0;
     private String firms[];
     private int rows = 0;
-
-    private float index[][];
+    private String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
     // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;
@@ -621,6 +626,7 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JButton but_save;
     private javax.swing.JButton but_strategy;
     private javax.swing.JButton but_trade;
+    private javax.swing.JTextField current_date_TextField;
     private javax.swing.JTextField current_time_TextField;
     private javax.swing.JScrollPane index_scroll;
     private javax.swing.JTable index_table;
