@@ -473,25 +473,29 @@ public class SimulationView extends javax.swing.JFrame {
 				// TODO Auto-generated method stub
 	            
 				printBuffer();
-				
-				for(int b = 0; b <displayBuffer[cycle].length-1; b++){// length-1 because the first line has the time and date
-					for(int c = 0; c <displayBuffer[cycle][b+1].length; c++){// b+1 because the first line has the time and date
-						index_table.setValueAt(displayBuffer[cycle][b+1][c], b, c);
-					}
-					System.out.println("");
-				}
-				cycle++;
+
 				if(cycle == cyclelimit){
 					if(readentry==totalentry){
 						//signal all entry has been displayed
 						
 						
+					}else{
+						//read in more contents
+						bufferRunnable thread = new bufferRunnable();
+						thread.run();
+						
+						cycle=0;
 					}
-					//read in more contents
-					bufferRunnable thread = new bufferRunnable();
-					thread.run();
+
+				}else{
 					
-					cycle=0;
+					for(int b = 0; b <displayBuffer[cycle].length-1; b++){// length-1 because the first line has the time and date
+						for(int c = 0; c <displayBuffer[cycle][b+1].length; c++){// b+1 because the first line has the time and date
+							index_table.setValueAt(displayBuffer[cycle][b+1][c], b, c);
+						}
+						System.out.println("");
+					}
+					cycle++;
 				}
 			}
     		
