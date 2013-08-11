@@ -31,7 +31,6 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
      * Creates new form NewJFrame
      */
     public PackageSelection() {
-        initComponents();
 
         String[] ps = null;
         try {
@@ -40,6 +39,10 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        numOfpackage = ps.length;
+        
+        initComponents();
+
         //String all = "";
         int i = 0;
         for(String s: ps){
@@ -212,12 +215,9 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
         but_back.setText("Back");
 
         select_table.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        Object obj[][] = new Object[numOfpackage][1];
         select_table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},{null},{null},{null},{null},{null},{null},{null},
-                {null},{null},{null},{null},{null},{null},{null},{null},
-                {null},{null},{null},{null},{null},{null},{null},{null}
-            },
+            obj,
             new String [] {
                 "Packages"
             }
@@ -369,7 +369,7 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
     }
     
     private String folder ="";
-    
+    private int numOfpackage = 0;
     // Variables declaration - do not modify   
     
     private javax.swing.JPanel Left;
