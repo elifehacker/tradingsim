@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -19,14 +20,70 @@ import java.io.IOException;
  */
 public class SimulationView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewJFrame
-     * @param simulation 
-     */
+	
+	private void printBuffer(){
+		System.out.println("Print Buffer");
+
+		for(int a = 0; a <displayBuffer.length; a++){
+			for(int b = 0; b <displayBuffer[a].length; b++){
+				for(int c = 0; c <displayBuffer[a][b].length; c++){
+					System.out.print(displayBuffer[a][b][c]+",");
+				}
+				System.out.println("");
+			}
+		}
+	}
+	
+	private void readtobuffer(String path, String type){
+		try {
+			if(br == null)
+				br = new BufferedReader(new FileReader(path+type));
+			int counter = 0;
+	        //StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+	        
+	        int cyc = 0; // used to count event entry
+	        while (cyc != cyclelimit ) {
+	            //sb.append(line);
+	            //sb.append('\n');
+	        	System.out.println("the line was "+line);
+	        	String[] split = line.split(",");
+	        	if(counter == 0){
+	        		//entry number, date, time
+	        		displayBuffer[cyc][counter]=split;
+	        		
+	        	}else{
+	        		//price, A, B, C, Volume
+	        		displayBuffer[cyc][counter]=split;
+	        	}
+	        	//System.out.println("while loop "+split.length);
+	        	
+	        	counter ++;
+	        	if(counter ==rows){
+	        		counter = 0;
+	        		cyc++;
+	        	}
+	        	if(cyc == cyclelimit || readentry+cyc == totalentry) break; // break after reading x entries
+	            line = br.readLine();
+	        }
+	        cyclelimit = cyc;
+	        readentry+=cyc;
+	        //String everything = sb.toString();
+	        
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		printBuffer();
+	}
 	
 	private void readfile(String folder, String type){
     	if(!folder.equals("null")){
-		    String path = "packages/"+folder+"/"+folder;
+		    path = "packages/"+folder+"/"+folder;
 
     		if(type.equals(".conf")){
     			try {
@@ -36,8 +93,10 @@ public class SimulationView extends javax.swing.JFrame {
 				        String[] splited = line.split(",");
 				        totalentry = Integer.parseInt(splited[0]);// check the .conf file
 				        totalfirm = Integer.parseInt(splited[1]);// for more info
-				        rows = Integer.parseInt(splited[2]);
+				        cols = Integer.parseInt(splited[2]);
+				        rows = totalfirm+1;
 				        firms = new String[totalfirm];
+				        displayBuffer = new String[cyclelimit][rows][index_title.length];
 				        
 				        for(int i = 0; i < totalfirm; i++){
 				        	firms[i] = splited[i+3];
@@ -57,46 +116,14 @@ public class SimulationView extends javax.swing.JFrame {
 				}
 
     		}else if(type.equals(".csv")){
-    			try {
-    				if(br == null)
-    					br = new BufferedReader(new FileReader(path+type));
-    				int counter = 0;
-    		        //StringBuilder sb = new StringBuilder();
-    		        String line = br.readLine();
-
-    		        while (line != null) {
-    		            //sb.append(line);
-    		            //sb.append('\n');
-    		        	String[] split = line.split(",");
-    		        	if(counter == 0){
-    		        		counter = rows;
-    		        		//entry number, date, time
-    		        		
-    		        	}else{
-    		        		//price, A, B, C
-    		        		
-    		        	}
-    		        	System.out.println("while loop "+split.length);
-    		        	
-    		        	counter --;
-    		            line = br.readLine();
-    		        }
-    		        //String everything = sb.toString();
-    		        
-    			} catch (FileNotFoundException e1) {
-    				// TODO Auto-generated catch block
-    				e1.printStackTrace();
-    			} catch (IOException e1) {
-    				// TODO Auto-generated catch block
-    				e1.printStackTrace();
-    			}
+    			readtobuffer(path, type);
     		}
 
     	}
 	}
 	
     public SimulationView(String folder) {
-    	
+        cyclelimit = 3;
     	readfile(folder,".conf");
     	readfile(folder,".csv");
 
@@ -433,9 +460,44 @@ public class SimulationView extends javax.swing.JFrame {
 
         getContentPane().add(Right, java.awt.BorderLayout.CENTER);
 
+        addlisteners();
+        
         pack();
     }// </editor-fold>                       
 
+    private void addlisteners(){
+    	but_next.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+	            
+				printBuffer();
+				
+				for(int b = 0; b <displayBuffer[cycle].length-1; b++){// length-1 because the first line has the time and date
+					for(int c = 0; c <displayBuffer[cycle][b+1].length; c++){// b+1 because the first line has the time and date
+						index_table.setValueAt(displayBuffer[cycle][b+1][c], b, c);
+					}
+					System.out.println("");
+				}
+				cycle++;
+				if(cycle == cyclelimit){
+					if(readentry==totalentry){
+						//signal all entry has been displayed
+						
+						
+					}
+					//read in more contents
+					bufferRunnable thread = new bufferRunnable();
+					thread.run();
+					
+					cycle=0;
+				}
+			}
+    		
+    	});
+
+    }
     public void add_index_chart_lis(ActionListener l){
     	but_index_chart.addActionListener(l);
     }
@@ -551,6 +613,15 @@ public class SimulationView extends javax.swing.JFrame {
         });
     }
     
+    public class bufferRunnable implements Runnable {
+
+        public void run() {
+            System.out.println("Hello from a thread!");
+            readtobuffer(path, ".csv");
+        }
+
+    }
+    
     class SwindowsListener implements WindowListener{
 
 		@Override
@@ -607,8 +678,16 @@ public class SimulationView extends javax.swing.JFrame {
     private int totalentry = 0;
     private int totalfirm = 0;
     private String firms[];
+    private int cols = 0;
     private int rows = 0;
     private String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
+    private int readevery = 5;
+    private int cycle = 0;// used to count entries, reset when reach cyclelimit
+    private int cyclelimit;
+    private String displayBuffer[][][];
+    private String path;
+    private int readentry = 0;
+    
     // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;
