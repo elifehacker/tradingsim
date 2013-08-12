@@ -474,76 +474,79 @@ public class SimulationView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                       
 
-    private void addlisteners(){
-    	but_next.addActionListener(new ActionListener(){
+    private class Nextlistener implements ActionListener{
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-	            
-				//printBuffer();
-				if(stopreading == false){
-					System.out.println("File data.csv");
-					File file = new File(chart_dir,chart_index);
-					 
-					// if file doesnt exists, then create it
-					if (!file.exists()) {
-						System.out.println("File does not exist");
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			//printBuffer();
+			newtablecontent = true;
+			
+			if(stopreading == false){
+				System.out.println("File data.csv");
+				File file = new File(chart_dir,chart_index);
+				 
+				// if file doesnt exists, then create it
+				if (!file.exists()) {
+					System.out.println("File does not exist");
 
-						try {
-							file.createNewFile();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
-					}
-					try { //write index to the csv file for amchart
-						if(chartflag == false){
-							System.out.println("Flag is false, first time "+file.getName());
-
-							index_fw = new FileWriter(file.getAbsoluteFile());
-							chartflag = true;
-							
-						}else{
-							index_fw = new FileWriter(file.getAbsoluteFile(),true);
-						}
-		    	        index_bw= new BufferedWriter(index_fw);
-		    	        index_bw.write(displayBuffer[cycle][0][1]+" "+displayBuffer[cycle][0][2]+","+displayBuffer[cycle][0][3]+"\n");
-		    	        index_bw.close();
-
+					try {
+						file.createNewFile();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					//display index in the table
-					for(int b = 0; b <displayBuffer[cycle].length-1; b++){// length-1 because the first line has the time and date
-						for(int c = 0; c <displayBuffer[cycle][b+1].length; c++){// b+1 because the first line has the time and date
-							index_table.setValueAt(displayBuffer[cycle][b+1][c], b, c);
-						}
-						System.out.println("");
-					}
-					cycle++;
-				}
-				if(cycle == cyclelimit){
-					if(readentry==totalentry){
-						//signal all entry has been displayed
-						JOptionPane.showMessageDialog(null,
-							    "You have finished this simulation.");
-						stopreading = true;
-					}else{
-						//read in more contents
-						bufferRunnable thread = new bufferRunnable();
-						thread.run();
-						
-						cycle=0;
-					}
 
 				}
-				
+				try { //write index to the csv file for amchart
+					if(chartflag == false){
+						System.out.println("Flag is false, first time "+file.getName());
+
+						index_fw = new FileWriter(file.getAbsoluteFile());
+						chartflag = true;
+						
+					}else{
+						index_fw = new FileWriter(file.getAbsoluteFile(),true);
+					}
+	    	        index_bw= new BufferedWriter(index_fw);
+	    	        index_bw.write(displayBuffer[cycle][0][1]+" "+displayBuffer[cycle][0][2]+","+displayBuffer[cycle][0][3]+"\n");
+	    	        index_bw.close();
+
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				//display index in the table
+				displayingcycle = cycle;
+				for(int b = 0; b <displayBuffer[cycle].length-1; b++){// length-1 because the first line has the time and date
+					index_table.setValueAt(firms[b], b, 0);
+					for(int c = 0; c <displayBuffer[cycle][b+1].length; c++){// b+1 because the first line has the time and date
+						index_table.setValueAt(displayBuffer[cycle][b+1][c], b, c+1);
+					}
+					System.out.println("");
+				}
+				cycle++;
 			}
-    		
-    	});
+			if(cycle == cyclelimit){
+				if(readentry==totalentry){
+					//signal all entry has been displayed
+					JOptionPane.showMessageDialog(null,
+						    "You have finished this simulation.");
+					stopreading = true;
+				}else{
+					//read in more contents
+					bufferRunnable thread = new bufferRunnable();
+					thread.run();
+					
+					cycle=0;
+				}
+			}
+		}
+    	
+    }
+    
+    private void addlisteners(){
+    	but_next.addActionListener(new Nextlistener());
     	
     	but_index_chart.addActionListener(new ActionListener(){
 
