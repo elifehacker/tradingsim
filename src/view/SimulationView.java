@@ -1,13 +1,19 @@
 package view;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+
+import javax.swing.JOptionPane;
 
 /*
  * To change this template, choose Tools | Templates
@@ -127,6 +133,9 @@ public class SimulationView extends javax.swing.JFrame {
     	readfile(folder,".conf");
     	readfile(folder,".csv");
 
+    	File indexchart = new File(chart_dir, chart_index);
+    	indexchart.delete();
+    	
         initComponents();
         this.addWindowListener(new SwindowsListener());
     }
@@ -472,23 +481,42 @@ public class SimulationView extends javax.swing.JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 	            
-				printBuffer();
+				//printBuffer();
+				if(stopreading == false){
+					System.out.println("File data.csv");
+					File file = new File(chart_dir,chart_index);
+					 
+					// if file doesnt exists, then create it
+					if (!file.exists()) {
+						System.out.println("File does not exist");
 
-				if(cycle == cyclelimit){
-					if(readentry==totalentry){
-						//signal all entry has been displayed
-						
-						
-					}else{
-						//read in more contents
-						bufferRunnable thread = new bufferRunnable();
-						thread.run();
-						
-						cycle=0;
+						try {
+							file.createNewFile();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
 					}
+					try { //write index to the csv file for amchart
+						if(chartflag == false){
+							System.out.println("Flag is false, first time "+file.getName());
 
-				}else{
-					
+							index_fw = new FileWriter(file.getAbsoluteFile());
+							chartflag = true;
+							
+						}else{
+							index_fw = new FileWriter(file.getAbsoluteFile(),true);
+						}
+		    	        index_bw= new BufferedWriter(index_fw);
+		    	        index_bw.write(displayBuffer[cycle][0][1]+" "+displayBuffer[cycle][0][2]+","+displayBuffer[cycle][0][3]+"\n");
+		    	        index_bw.close();
+
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					//display index in the table
 					for(int b = 0; b <displayBuffer[cycle].length-1; b++){// length-1 because the first line has the time and date
 						for(int c = 0; c <displayBuffer[cycle][b+1].length; c++){// b+1 because the first line has the time and date
 							index_table.setValueAt(displayBuffer[cycle][b+1][c], b, c);
@@ -497,14 +525,52 @@ public class SimulationView extends javax.swing.JFrame {
 					}
 					cycle++;
 				}
+				if(cycle == cyclelimit){
+					if(readentry==totalentry){
+						//signal all entry has been displayed
+						JOptionPane.showMessageDialog(null,
+							    "You have finished this simulation.");
+						stopreading = true;
+					}else{
+						//read in more contents
+						bufferRunnable thread = new bufferRunnable();
+						thread.run();
+						
+						cycle=0;
+					}
+
+				}
+				
+			}
+    		
+    	});
+    	
+    	but_index_chart.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				File visual = new File("index.html");
+				try {
+					open(visual);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
     		
     	});
 
     }
+    
+	public static void open(File document) throws IOException {
+	    Desktop dt = Desktop.getDesktop();
+	    dt.open(document);
+	}
+    /*
     public void add_index_chart_lis(ActionListener l){
     	but_index_chart.addActionListener(l);
-    }
+    }*/
     
     public void add_check_detail_lis(ActionListener l){
     	but_check_detail.addActionListener(l);
@@ -549,11 +615,11 @@ public class SimulationView extends javax.swing.JFrame {
     public void add_auto_lis(ActionListener l){
     	but_auto.addActionListener(l);
     }
-    
+    /*
     public void add_next_lis(ActionListener l){
     	but_next.addActionListener(l);
     }
-    /*
+    
     public void add__lis(ActionListener l){
     	but_.addActionListener(l);
     }
@@ -691,6 +757,12 @@ public class SimulationView extends javax.swing.JFrame {
     private String displayBuffer[][][];
     private String path;
     private int readentry = 0;
+    private boolean chartflag = false;
+    private FileWriter index_fw;
+    private BufferedWriter index_bw;
+    private String chart_index = "data.csv";
+    private String chart_dir = "chartdata";
+    private boolean stopreading= false;
     
     // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;

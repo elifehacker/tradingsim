@@ -19,16 +19,16 @@ full list of available settings, check the amstock_settings.xml file in the amst
 
   <data_sets> 
     <data_set did="0">
-       <title>Ask Orders</title>
-       <short>Ask Orders</short>
+       <title>Index</title>
+       <short>Index</short>
        <description></description>
-       <file_name>chartdata/data1.csv</file_name>
+       <file_name>chartdata/data.csv</file_name>
        <main_drop_down selected="true"></main_drop_down> 	    	  
        <compare_list_box selected="false"></compare_list_box>
        <csv>
          <reverse>true</reverse>
          <separator>,</separator>
-         <date_format>YYYY-MM-DD hh:mm:ss</date_format>
+         <date_format>DD.MM.YYYY hh:mm</date_format>
          <decimal_separator>.</decimal_separator>
          <columns>
            <column>date</column>
@@ -36,41 +36,7 @@ full list of available settings, check the amstock_settings.xml file in the amst
          </columns>
        </csv>
     </data_set>
-    
-    <data_set did="1">
-       <title>Bid Orders</title>
-       <short>Bid Orders</short>
-       <description></description>
-       <file_name>chartdata/data2.csv</file_name>
-       <compare_list_box selected="true"></compare_list_box>
-       <csv>
-         <reverse>true</reverse>
-         <separator>,</separator>
-         <date_format>YYYY-MM-DD hh:mm:ss</date_format>
-         <decimal_separator>.</decimal_separator>
-         <columns>
-           <column>date</column>
-           <column>close</column>          
-         </columns>
-       </csv>
-    </data_set>
-        
-    <data_set did="2">
-       <title>Trades</title>
-       <short>Trades</short>
-        <description></description>       
-       <file_name>chartdata/data3.csv</file_name>
-       <csv>
-         <reverse>true</reverse>
-         <separator>,</separator>
-         <date_format>YYYY-MM-DD hh:mm:ss</date_format>
-         <decimal_separator>.</decimal_separator>
-         <columns>
-           <column>date</column>
-           <column>close</column>        
-         </columns>
-       </csv>
-    </data_set>                       
+                    
   </data_sets>
 
   <charts>
