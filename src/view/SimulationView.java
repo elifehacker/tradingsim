@@ -103,7 +103,7 @@ public class SimulationView extends javax.swing.JFrame {
 				        rows = totalfirm+1;
 				        firms = new String[totalfirm];
 				        displayBuffer = new String[cyclelimit][rows][index_title.length];
-				        
+				        displayingtable = new String[rows][index_title.length];
 				        for(int i = 0; i < totalfirm; i++){
 				        	firms[i] = splited[i+3];
 				        	System.out.println("firm[i] "+firms[i]);
@@ -565,10 +565,18 @@ public class SimulationView extends javax.swing.JFrame {
     	});
 
     }
-    
 	public static void open(File document) throws IOException {
 	    Desktop dt = Desktop.getDesktop();
 	    dt.open(document);
+	}
+	
+	public String[][] get_indextable(){
+		for(int i = 0; i < index_table.getRowCount();i++){
+			for(int k = 0; k < index_table.getColumnCount();k++){
+				displayingtable[i][k]= (String) index_table.getValueAt(i,k);
+			}
+		}
+		return displayingtable;
 	}
     /*
     public void add_index_chart_lis(ActionListener l){
@@ -767,6 +775,9 @@ public class SimulationView extends javax.swing.JFrame {
     private String chart_dir = "chartdata";
     private boolean stopreading= false;
     
+    public int displayingcycle = 0;
+    public String[][] displayingtable; 
+    public boolean newtablecontent = false;
     // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;
