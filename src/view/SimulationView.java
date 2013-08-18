@@ -15,6 +15,8 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import simulation.model.DataReader;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -26,92 +28,42 @@ import javax.swing.JOptionPane;
  */
 public class SimulationView extends javax.swing.JFrame {
 
-	
-	private void printBuffer(){
-		System.out.println("Print Buffer");
-
-		for(int a = 0; a <displayBuffer.length; a++){
-			for(int b = 0; b <displayBuffer[a].length; b++){
-				for(int c = 0; c <displayBuffer[a][b].length; c++){
-					System.out.print(displayBuffer[a][b][c]+",");
-				}
-				System.out.println("");
-			}
-		}
+	public void setTableContent(String s, int x, int y){
+		index_table.setValueAt(s, x, y);
 	}
 	
-	private void readtobuffer(String path, String type){
-		try {
-			if(br == null)
-				br = new BufferedReader(new FileReader(path+type));
-			int counter = 0;
-	        //StringBuilder sb = new StringBuilder();
-	        String line = br.readLine();
-	        
-	        int cyc = 0; // used to count event entry
-	        while (cyc != cyclelimit ) {
-	            //sb.append(line);
-	            //sb.append('\n');
-	        	System.out.println("the line was "+line);
-	        	String[] split = line.split(",");
-	        	if(counter == 0){
-	        		//entry number, date, time
-	        		displayBuffer[cyc][counter]=split;
-	        		
-	        	}else{
-	        		//price, A, B, C, Volume
-	        		displayBuffer[cyc][counter]=split;
-	        	}
-	        	//System.out.println("while loop "+split.length);
-	        	
-	        	counter ++;
-	        	if(counter ==rows){
-	        		counter = 0;
-	        		cyc++;
-	        	}
-	        	if(cyc == cyclelimit || readentry+cyc == totalentry) break; // break after reading x entries
-	            line = br.readLine();
-	        }
-	        cyclelimit = cyc;
-	        readentry+=cyc;
-	        //String everything = sb.toString();
-	        
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		printBuffer();
-	}
-	
-	private void readfile(String folder, String type){
+	private void readfile(String folder, String extension){
     	if(!folder.equals("null")){
-		    path = "packages/"+folder+"/"+folder;
+		    path = "packages/"+folder+"/";
 
-    		if(type.equals(".conf")){
+    		if(extension.equals(".conf")){
     			try {
-					BufferedReader br = new BufferedReader(new FileReader(path+type));
+					BufferedReader br = new BufferedReader(new FileReader(path+folder+extension));
 			        String line = br.readLine();
 			        if(line !=null){
 				        String[] splited = line.split(",");
 				        totalentry = Integer.parseInt(splited[0]);// check the .conf file
 				        totalfirm = Integer.parseInt(splited[1]);// for more info
 				        cols = Integer.parseInt(splited[2]);
+				        type = splited[3];
+				        
 				        rows = totalfirm+1;
-				        firms = new String[totalfirm];
-				        displayBuffer = new String[cyclelimit][rows][index_title.length];
+				        firms = new String[totalfirm];        
 				        displayingtable = new String[rows][index_title.length];
+				        
 				        for(int i = 0; i < totalfirm; i++){
-				        	firms[i] = splited[i+3];
+				        	firms[i] = splited[i+4];
 				        	System.out.println("firm[i] "+firms[i]);
 				        }
 				        
 			        }
-
+			        //second line
+			        line = br.readLine();
+			        if(line !=null){
+			        	input_title = line.split(",");				        
+			        }
 			        br.close();
+
 					
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -121,22 +73,31 @@ public class SimulationView extends javax.swing.JFrame {
 					e.printStackTrace();
 				}
 
-    		}else if(type.equals(".csv")){
-    			readtobuffer(path, type);
+    		}else if(extension.equals(".csv")){
+    			//obsolete for now
     		}
 
     	}
 	}
 	
+	private void removechartdata(String pack){
+		File chartdata = new File("packages/"+pack);
+		
+		chartdata.delete();
+	}
+	
     public SimulationView(String folder) {
-        cyclelimit = 3;
-    	readfile(folder,".conf");
-    	readfile(folder,".csv");
-
-    	File indexchart = new File(chart_dir, chart_index);
-    	indexchart.delete();
     	
+    	readfile(folder,".conf");
+
         initComponents();
+    	
+    	removechartdata(folder);
+    	
+        //create DataReader to handle the rest
+        dr = new DataReader(input_title, totalentry, firms, type, path, this);
+        dr.updateTable();
+    	
         this.addWindowListener(new SwindowsListener());
     }
 
@@ -480,67 +441,8 @@ public class SimulationView extends javax.swing.JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
 			//printBuffer();
-			newtablecontent = true;
-			
-			if(stopreading == false){
-				System.out.println("File data.csv");
-				File file = new File(chart_dir,chart_index);
-				 
-				// if file doesnt exists, then create it
-				if (!file.exists()) {
-					System.out.println("File does not exist");
+			dr.updateTable();
 
-					try {
-						file.createNewFile();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-				}
-				try { //write index to the csv file for amchart
-					if(chartflag == false){
-						System.out.println("Flag is false, first time "+file.getName());
-
-						index_fw = new FileWriter(file.getAbsoluteFile());
-						chartflag = true;
-						
-					}else{
-						index_fw = new FileWriter(file.getAbsoluteFile(),true);
-					}
-	    	        index_bw= new BufferedWriter(index_fw);
-	    	        index_bw.write(displayBuffer[cycle][0][1]+" "+displayBuffer[cycle][0][2]+","+displayBuffer[cycle][0][3]+"\n");
-	    	        index_bw.close();
-
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				//display index in the table
-				displayingcycle = cycle;
-				for(int b = 0; b <displayBuffer[cycle].length-1; b++){// length-1 because the first line has the time and date
-					index_table.setValueAt(firms[b], b, 0);
-					for(int c = 0; c <displayBuffer[cycle][b+1].length; c++){// b+1 because the first line has the time and date
-						index_table.setValueAt(displayBuffer[cycle][b+1][c], b, c+1);
-					}
-					System.out.println("");
-				}
-				cycle++;
-			}
-			if(cycle == cyclelimit){
-				if(readentry==totalentry){
-					//signal all entry has been displayed
-					JOptionPane.showMessageDialog(null,
-						    "You have finished this simulation.");
-					stopreading = true;
-				}else{
-					//read in more contents
-					bufferRunnable thread = new bufferRunnable();
-					thread.run();
-					
-					cycle=0;
-				}
-			}
 		}
     	
     }
@@ -693,15 +595,7 @@ public class SimulationView extends javax.swing.JFrame {
             }
         });
     }
-    
-    public class bufferRunnable implements Runnable {
-
-        public void run() {
-            System.out.println("Hello from a thread!");
-            readtobuffer(path, ".csv");
-        }
-
-    }
+   
     
     class SwindowsListener implements WindowListener{
 
@@ -759,21 +653,17 @@ public class SimulationView extends javax.swing.JFrame {
     private int totalentry = 0;
     private int totalfirm = 0;
     private String firms[];
-    private int cols = 0;
-    private int rows = 0;
+    private int cols = 0;	//# of columns in the input data
+    private int rows = 0;	//# of rows in the input data
     private String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
-    private int readevery = 5;
-    private int cycle = 0;// used to count entries, reset when reach cyclelimit
-    private int cyclelimit;
-    private String displayBuffer[][][];
+    private String input_title[];
+    private DataReader dr;
+
     private String path;
-    private int readentry = 0;
-    private boolean chartflag = false;
-    private FileWriter index_fw;
-    private BufferedWriter index_bw;
+
     private String chart_index = "data.csv";
     private String chart_dir = "chartdata";
-    private boolean stopreading= false;
+    private String type;//eg. Intraday 1Hour
     
     public int displayingcycle = 0;
     public String[][] displayingtable; 

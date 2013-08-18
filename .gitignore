@@ -20,6 +20,7 @@ amstock/.svn/*
 data*
 tradingDB/*
 bin/*
+chartdata/amstock/*
 
 # Packages #
 ############
