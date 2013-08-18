@@ -610,6 +610,7 @@ public class SimulationView extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 	        try {
 				br.close();
+				dr.deleteMe();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
