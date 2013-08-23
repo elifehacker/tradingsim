@@ -41,7 +41,6 @@ public class Option extends Derivative{
 		this.strike = strike;
 		this.type = type;
 	}
-	
 
 
 }

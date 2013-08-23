@@ -442,11 +442,16 @@ public class SimulationView extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 			//printBuffer();
 			dr.updateTable();
-
+			newtablecontent = true;
 		}
     	
     }
-    
+    public void setNewTableFlag(boolean b){
+    	 newtablecontent = b;
+    }
+    public boolean getNewTableFlag(){
+    	return newtablecontent;
+    }
     private void addlisteners(){
     	but_next.addActionListener(new Nextlistener());
     	
@@ -608,13 +613,8 @@ public class SimulationView extends javax.swing.JFrame {
 		@Override
 		public void windowClosed(WindowEvent arg0) {
 			// TODO Auto-generated method stub
-	        try {
-				br.close();
-				dr.deleteMe();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			dr.deleteMe();
+
 		}
 
 		@Override
@@ -650,7 +650,6 @@ public class SimulationView extends javax.swing.JFrame {
     }
     
     private String simulation;
-    private BufferedReader br = null;
     private int totalentry = 0;
     private int totalfirm = 0;
     private String firms[];
