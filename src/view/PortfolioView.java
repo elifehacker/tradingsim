@@ -4,7 +4,8 @@ public class PortfolioView extends javax.swing.JFrame {
     /**
      * Creates new form Portfolio
      */
-    public PortfolioView() {
+    public PortfolioView(float sc) {
+    	startingCash = sc;
         initComponents();
     }
 
@@ -35,7 +36,7 @@ public class PortfolioView extends javax.swing.JFrame {
         history_table = new javax.swing.JTable();
         portfolio_back = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -250,11 +251,14 @@ public class PortfolioView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PortfolioView().setVisible(true);
+                new PortfolioView(10000).setVisible(true);
             }
         });
     }
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify 
+    
+    private float startingCash;
+    
     private javax.swing.JPanel History_pane;
     private javax.swing.JLayeredPane LayeredPane;
     private javax.swing.JTable Onahnd_table;

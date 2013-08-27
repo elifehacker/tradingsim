@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import simulation.model.DataReader;
+import simulation.model.Portfolio;
 
 /*
  * To change this template, choose Tools | Templates
@@ -32,8 +33,8 @@ public class SimulationView extends javax.swing.JFrame {
 		index_table.setValueAt(s, x, y);
 	}
 	
-	public float getStartingCash(){
-		return startingCash;
+	public Portfolio getPortfolio(){
+		return portfolio;
 	}
 	
 	private void readfile(String folder, String extension){
@@ -103,6 +104,8 @@ public class SimulationView extends javax.swing.JFrame {
         dr = new DataReader(input_title, totalentry, firms, type, path, this);
         dr.updateTable();
     	
+        portfolio = new Portfolio(startingCash);
+        
         this.addWindowListener(new SwindowsListener());
     }
 
@@ -451,6 +454,27 @@ public class SimulationView extends javax.swing.JFrame {
 		}
     	
     }
+    
+    private class PortfolioListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			Thread t = new Thread(new Runnable(){
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					new PortfolioView(startingCash).setVisible(true);
+				}
+				
+			});
+			t.start();
+			
+		}
+    	
+    }
+    
     public void setNewTableFlag(boolean b){
     	 newtablecontent = b;
     }
@@ -475,6 +499,7 @@ public class SimulationView extends javax.swing.JFrame {
 			}
     		
     	});
+    	but_my_portfolio.addActionListener(new PortfolioListener());
 
     }
 	public static void open(File document) throws IOException {
@@ -666,6 +691,7 @@ public class SimulationView extends javax.swing.JFrame {
 
     private String path;
     private float startingCash;
+    private Portfolio portfolio; 
     
     private String chart_index = "data.csv";
     private String chart_dir = "chartdata";
