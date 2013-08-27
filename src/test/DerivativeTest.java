@@ -40,6 +40,14 @@ public class DerivativeTest {
 		p.purchase(s2);
 		System.out.println(list.size());
 		assertEquals(1,list.size());
+		
+		LinkedList<Derivative> dlist = p.getOnhand();
+		i = 0;
+		for(Derivative d :dlist){
+			assert(d.getId()==i);
+			System.out.println("dlist content: "+d.getId()+" "+d.getPrice()+" "+d.getSymbol());
+			i++;
+		}
 
 		System.out.println("credit "+p.getCredit());
 	}

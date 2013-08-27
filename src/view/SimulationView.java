@@ -32,6 +32,10 @@ public class SimulationView extends javax.swing.JFrame {
 		index_table.setValueAt(s, x, y);
 	}
 	
+	public float getStartingCash(){
+		return startingCash;
+	}
+	
 	private void readfile(String folder, String extension){
     	if(!folder.equals("null")){
 		    path = "packages/"+folder+"/";
@@ -46,13 +50,14 @@ public class SimulationView extends javax.swing.JFrame {
 				        totalfirm = Integer.parseInt(splited[1]);// for more info
 				        cols = Integer.parseInt(splited[2]);
 				        type = splited[3];
+				        startingCash = Float.parseFloat(splited[4]);
 				        
 				        rows = totalfirm+1;
 				        firms = new String[totalfirm];        
 				        displayingtable = new String[rows][index_title.length];
 				        
 				        for(int i = 0; i < totalfirm; i++){
-				        	firms[i] = splited[i+4];
+				        	firms[i] = splited[i+5];
 				        	System.out.println("firm[i] "+firms[i]);
 				        }
 				        
@@ -660,7 +665,8 @@ public class SimulationView extends javax.swing.JFrame {
     private DataReader dr;
 
     private String path;
-
+    private float startingCash;
+    
     private String chart_index = "data.csv";
     private String chart_dir = "chartdata";
     private String type;//eg. Intraday 1Hour
