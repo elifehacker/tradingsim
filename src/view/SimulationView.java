@@ -460,17 +460,8 @@ public class SimulationView extends javax.swing.JFrame {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			Thread t = new Thread(new Runnable(){
+			new PortfolioView(portfolio).setVisible(true);
 
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					new PortfolioView(startingCash).setVisible(true);
-				}
-				
-			});
-			t.start();
-			
 		}
     	
     }
@@ -507,7 +498,29 @@ public class SimulationView extends javax.swing.JFrame {
 	    dt.open(document);
 	}
 	
-	public String[][] get_indextable(){
+	public static Float get_price(String ticker){
+		for(int i = 0; i < index_table.getRowCount();i++){
+			if(index_table.getValueAt(i,0).equals(ticker)){
+				return  Float.parseFloat((String) index_table.getValueAt(i,price_index));	
+			}
+		}
+		return null;
+	}
+	
+	public static String[] get_ticker(String ticker){
+		String[] ret = new String [index_title_length];//index_title.length;
+		for(int i = 0; i < index_table.getRowCount();i++){
+			if(index_table.getValueAt(i,0).equals(ticker)){
+				for(int k = 0; k <index_title_length; k++ ){
+					ret[k] = (String) index_table.getValueAt(i,0);
+				}
+				return ret;
+			}
+		}
+		return null;
+	}
+	
+	public static String[][] get_indextable(){
 		for(int i = 0; i < index_table.getRowCount();i++){
 			for(int k = 0; k < index_table.getColumnCount();k++){
 				displayingtable[i][k]= (String) index_table.getValueAt(i,k);
@@ -686,6 +699,8 @@ public class SimulationView extends javax.swing.JFrame {
     private int cols = 0;	//# of columns in the input data
     private int rows = 0;	//# of rows in the input data
     private String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
+    private static int index_title_length =5;
+    private static int price_index =1;
     private String input_title[];
     private DataReader dr;
 
@@ -698,7 +713,7 @@ public class SimulationView extends javax.swing.JFrame {
     private String type;//eg. Intraday 1Hour
     
     public int displayingcycle = 0;
-    public String[][] displayingtable; 
+    public static String[][] displayingtable; 
     public boolean newtablecontent = false;
     // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
@@ -720,7 +735,7 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JTextField current_date_TextField;
     private javax.swing.JTextField current_time_TextField;
     private javax.swing.JScrollPane index_scroll;
-    private javax.swing.JTable index_table;
+    private static javax.swing.JTable index_table;
     private javax.swing.JLabel lab_adage;
     private javax.swing.JLabel lab_background;
     private javax.swing.JLabel lab_current_time;

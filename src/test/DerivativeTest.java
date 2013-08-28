@@ -50,6 +50,16 @@ public class DerivativeTest {
 		}
 
 		System.out.println("credit "+p.getCredit());
+		
+		LinkedList<Derivative> list2 = new LinkedList<Derivative>();
+		list2.add(s1);
+		list2.add(s2);
+		for(Derivative d :list2){
+			if(d instanceof Stock)
+			System.out.println("list content: "+d.getClass());
+			i++;
+		}
+		
 	}
 
 }
