@@ -25,8 +25,11 @@ public class Option extends Derivative{
 	public void setStrike(float strike) {
 		this.strike = strike;
 	}
-
-	public enum optiontype{call, put};
+	public optiontype getType() {
+		return type;
+	}
+	
+	public static enum optiontype{call, put};
 	
 	private Stock underlying;
 	private String maturity;
