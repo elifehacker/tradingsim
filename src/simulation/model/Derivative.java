@@ -34,8 +34,10 @@ public abstract class Derivative implements Comparable<Derivative>{
 		this.price = price;
 		this.volume = volume;
 		this.symbol = symbol;
-		id = total;
-		total++;
+		if(volume!=0){
+			id = total;
+			total++;
+		}
 	}
 
 	public int getId(){
