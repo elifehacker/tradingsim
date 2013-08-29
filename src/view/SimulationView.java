@@ -98,6 +98,9 @@ public class SimulationView extends javax.swing.JFrame {
 
         initComponents();
     	
+        Object[][] obj = new Object[totalfirm][index_title.length];
+        index_table.setModel(new javax.swing.table.DefaultTableModel(obj,index_title));
+        addlisteners();
     	removechartdata(folder);
     	
         //create DataReader to handle the rest
@@ -155,6 +158,7 @@ public class SimulationView extends javax.swing.JFrame {
         lab_current_time = new javax.swing.JLabel();
         current_time_TextField = new javax.swing.JTextField();
         current_date_TextField = new javax.swing.JTextField();
+        status_TextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -214,10 +218,16 @@ public class SimulationView extends javax.swing.JFrame {
         simulation_front.setBounds(20, 0, 260, 57);
         leftmultilayer.add(simulation_front, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        Object[][] obj = new Object[totalfirm][index_title.length];
-        
         index_table.setModel(new javax.swing.table.DefaultTableModel(
-            obj,index_title
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
         ));
         index_scroll.setViewportView(index_table);
 
@@ -329,9 +339,13 @@ public class SimulationView extends javax.swing.JFrame {
 
         current_time_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         current_time_TextField.setText("jTextField2");
-        
+
         current_date_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         current_date_TextField.setText("jTextField2");
+
+        status_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        status_TextField.setText("jTextField1");
+
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
         RightLayout.setHorizontalGroup(
@@ -357,22 +371,24 @@ public class SimulationView extends javax.swing.JFrame {
                     .addGroup(RightLayout.createSequentialGroup()
                         .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(RightLayout.createSequentialGroup()
+                                .addComponent(lab_updating_rate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(RightLayout.createSequentialGroup()
                                 .addGap(14, 14, 14)
-                                .addComponent(update_rate_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(status_TextField)
+                                    .addComponent(update_rate_TextField))
                                 .addGap(18, 18, 18)
                                 .addComponent(but_minus)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(but_plus)
-                                .addGap(34, 34, 34)
+                                .addGap(35, 35, 35)
                                 .addComponent(but_pause)
-                                .addGap(26, 26, 26)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(but_auto)
-                                .addGap(27, 27, 27)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(but_next)
-                                .addGap(33, 33, 33))
-                            .addGroup(RightLayout.createSequentialGroup()
-                                .addComponent(lab_updating_rate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(32, 32, 32)))
                         .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lab_current_time)
                             .addComponent(current_date_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
@@ -386,7 +402,7 @@ public class SimulationView extends javax.swing.JFrame {
                         .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(but_trade, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(but_strategy, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                         .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(but_check_chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(but_my_portfolio, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -406,7 +422,7 @@ public class SimulationView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lab_stock_detail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(stockdetail_scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                .addComponent(stockdetail_scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(lab_trading_command)
                 .addGap(18, 18, 18)
@@ -421,27 +437,29 @@ public class SimulationView extends javax.swing.JFrame {
                 .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lab_updating_rate)
                     .addComponent(lab_current_time))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(current_date_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(but_auto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addComponent(but_next, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(update_rate_TextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addComponent(but_plus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(but_pause, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addComponent(but_minus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(current_time_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
-                .addGap(22, 22, 22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(but_minus, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(but_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(but_pause, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(but_next, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(but_auto, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(RightLayout.createSequentialGroup()
+                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(current_date_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                            .addComponent(status_TextField))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(update_rate_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                            .addComponent(current_time_TextField))))
+                .addGap(20, 20, 20))
         );
 
         getContentPane().add(Right, java.awt.BorderLayout.CENTER);
 
-        addlisteners();
-        
         pack();
-    }// </editor-fold>                       
+    }// </editor-fold>                    
 
     private class Nextlistener implements ActionListener{
 
@@ -715,6 +733,7 @@ public class SimulationView extends javax.swing.JFrame {
     public int displayingcycle = 0;
     public static String[][] displayingtable; 
     public boolean newtablecontent = false;
+    
     // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;
@@ -749,6 +768,7 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JScrollPane news_scroll;
     private javax.swing.JLabel simulation_back;
     private javax.swing.JLabel simulation_front;
+    private javax.swing.JTextField status_TextField;
     private javax.swing.JTextArea stock_detail_TextArea;
     private javax.swing.JScrollPane stockdetail_scroll;
     private javax.swing.JLayeredPane top_background;
