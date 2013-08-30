@@ -2,6 +2,9 @@ package simulation.model;
 
 import java.util.LinkedList;
 
+import javax.swing.JOptionPane;
+
+import simulation.model.Option.optiontype;
 import view.SimulationView;
 
 public class Portfolio {
@@ -48,6 +51,7 @@ public class Portfolio {
 
 				Derivative s = o.getUnderlying();
 
+				//only considered stock, one one type of order, change this later
 				if(o.getLongShort().equals("Long")){
 					//user placed a buy order of stock
 					if(newprice < s.getPrice()){
@@ -59,7 +63,7 @@ public class Portfolio {
 					
 					if(newprice > s.getPrice()){
 						
-						sell(s);
+						sell(s, newprice);
 					}
 
 				}
@@ -107,14 +111,41 @@ public class Portfolio {
 		}
 	}
 	
-	public void sell(Derivative d){
+	public void purchase(Derivative d, float spotprice){
+		if(credit>d.getTotal()){
+			credit -= d.getVolume()*spotprice;
+			onhand.add(d);
+			System.out.println("purchase "+d.getId());
+			removeOrder(d);
+		}
+	}
+	
+	public void sell(Derivative d, float spotprice){
 		if(onhand.remove(d)){
-			credit += d.getTotal();
+			credit += d.getVolume()*spotprice;
 			removeOnhand(d);
 			removeOrder(d);
 		}
 	}
 	
+    public static float abs(float a) {
+        return (a <= 0.0F) ? 0.0F - a : a;
+    }
+	
+	public void sellOption(Option o, float spotprice){
+		
+		if(spotprice>o.getStrike() ^ o.getType()==optiontype.put){
+			if(onhand.remove(o)){
+				credit += o.getVolume()*(abs(spotprice - o.getStrike()));
+				removeOnhand(o);
+				removeOrder(o);
+			}
+		}else{
+			JOptionPane.showMessageDialog(null,
+				    "Option has no value at the moment, better wait until expiration");
+		}
+
+	}
 	
 	public void makeOrder(Order newo){
 		int i = 0;

@@ -1,6 +1,10 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
+
+import javax.swing.JTable;
 
 import simulation.model.Derivative;
 import simulation.model.Option;
@@ -17,14 +21,14 @@ public class PortfolioView extends javax.swing.JFrame {
     public PortfolioView(Portfolio p) {
         initComponents();
         portfolio = p;
-        cash_lab_num.setText(""+p.getCredit());
         updateTable();
+        addlisteners();
         
     }
 
-    private void updateTable() {
+	private void updateTable() {
 		// TODO Auto-generated method stub
-    	
+
     	setOrderTable();
     	setOnhandTable();
     	//setHistoryTable();
@@ -34,21 +38,26 @@ public class PortfolioView extends javax.swing.JFrame {
 	private void setOnhandTable() {
 		// TODO Auto-generated method stub
 		LinkedList<Derivative> list = portfolio.getOnhand();
-		LinkedList<Stock> slist = new LinkedList<Stock>();
-		LinkedList<Option> olist = new LinkedList<Option>();
+		slist = new LinkedList<Stock>();
+		oplist = new LinkedList<Option>();
 
 		for(Derivative d : list){
 			
 			if(d instanceof Stock){
 				slist.add((Stock) d);
 			}else if(d instanceof Option){
-				olist.add((Option) d);
+				oplist.add((Option) d);
 			}
 		}
 		
-		String[][] stocks = new String[slist.size()+1][stock_title.length]; 
-		String[][] options = new String[olist.size()+1][option_title.length]; 
+		setStockTable();
+		setOptionTable();
+        cash_lab_num.setText(""+portfolio.getCredit());
 
+	}
+
+	private void setStockTable(){
+		String[][] stocks = new String[slist.size()+1][stock_title.length]; 
 		// String stock_title[] = {"Symbol","Bought at","Volume", "Current Price", "Proft/Loss"};
 
 		int i = 0;
@@ -71,19 +80,23 @@ public class PortfolioView extends javax.swing.JFrame {
 		stocks[i][4] = "Total";
 		stocks[i][5] = ""+total;
 		stock_table.setModel(new javax.swing.table.DefaultTableModel(stocks,stock_title));
+	}
+	
+	private void setOptionTable(){
 		
 	    // String option_title[] = {"Symbol","Type","Bought at","Volume", "Strike price", "Current price", "Maturity", "Proft/Loss"};
+		String[][] options = new String[oplist.size()+1][option_title.length]; 
 
-		i = 0;
-		total = 0;
-		for(Option o : olist){
+		int i = 0;
+		int total = 0;
+		for(Option o : oplist){
 			float cur_price;
 			if(TestingMode) cur_price = (float)4.22;
 			else  cur_price = SimulationView.get_price(o.getSymbol());
 			options[i][0] =  ""+o.getId();
 			options[i][1] =  o.getSymbol();
 			options[i][2] =  ""+o.getType();
-			options[i][3] =  ""+o.getUnderlying().getPrice();
+			options[i][3] =  ""+o.getPrice();
 			options[i][4] =  ""+o.getVolume();
 			options[i][5] =  ""+o.getStrike();
 			options[i][6] =  ""+cur_price;
@@ -99,12 +112,12 @@ public class PortfolioView extends javax.swing.JFrame {
 		options[i][7] = "Total";
 		options[i][8] = ""+total;
 		option_table.setModel(new javax.swing.table.DefaultTableModel(options,option_title));
-
 	}
-
+	
 	private void setOrderTable() {
 		// TODO Auto-generated method stub
 		LinkedList<Order> list = portfolio.getOrder();
+        cash_lab_num.setText(""+portfolio.getCredit());
 
 	}
 
@@ -436,6 +449,47 @@ public class PortfolioView extends javax.swing.JFrame {
     private void but_neworder_1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
     } 
+    private class SellDerivativeListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			JTable selected_t = null;
+			int curprice_col = 0;
+			if(Tabbs_pane.getSelectedIndex()==2){
+				selected_t = option_table;
+				curprice_col = 6;
+			}else if(Tabbs_pane.getSelectedIndex()==3){
+				selected_t = strategy_table;
+			}
+			if(selected_t.getSelectedRow()!=-1){
+				int row = selected_t.getSelectedRow();
+				int id = Integer.parseInt((String) selected_t.getValueAt(row, 0));
+				float spotprice = Float.parseFloat((String) selected_t.getValueAt(row, curprice_col));
+				System.out.println("derivative id is "+id);
+				for(Derivative d : portfolio.getOnhand()){
+					if(d.getId()== id){
+						//portfolio.getOnhand().remove(d);
+						if(d instanceof Option)
+							portfolio.sellOption((Option)d, spotprice);
+						break;
+					}
+				}
+				setOnhandTable();
+				for(Derivative d : portfolio.getOnhand()){
+					System.out.println(d.getId());
+				}
+			}
+		
+		}
+    	
+    }
+
+    private void addlisteners() {
+		// TODO Auto-generated method stub
+    	but_sell_option.addActionListener(new SellDerivativeListener());
+	}
+    
     /**
      * @param args the command line arguments
      */
@@ -482,12 +536,14 @@ public class PortfolioView extends javax.swing.JFrame {
         
 	private Portfolio portfolio;
 	
-    private String stock_title[] = {"ID","Symbol","Bought at","Volume", "Current Price", "Proft/Loss"};
-    private String option_title[] = {"ID","Symbol","Type","Bought at","Volume", "Strike price", "Current price", "Maturity", "Proft/Loss"};
+    private String stock_title[] = {"ID","Symbol","Bought at","Volume", "Spot Price", "Proft/Loss"};
+    private String option_title[] = {"ID","Symbol","Type","Bought at","Volume", "Strike price", "Spot price", "Maturity", "Proft/Loss"};
 
     private int selected_stock;
     private int selected_option;
     private int selected_order;
+    private LinkedList<Stock> slist;
+    private LinkedList<Option> oplist;
     
     // Variables declaration - do not modify                     
     private javax.swing.JPanel History_pane;
