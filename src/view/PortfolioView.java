@@ -473,7 +473,7 @@ public class PortfolioView extends javax.swing.JFrame {
 				if(ids!=null){
 					int id = Integer.parseInt(ids);
 					float spotprice = Float.parseFloat((String) selected_t.getValueAt(row, spotprice_col));
-					System.out.println("derivative id is "+id);
+					System.out.println("id of the derivative sold is "+id);
 					for(Derivative d : portfolio.getOnhand()){
 						if(d.getId()== id){
 							//portfolio.getOnhand().remove(d);
@@ -487,9 +487,6 @@ public class PortfolioView extends javax.swing.JFrame {
 					setOnhandTable();
 				}
 
-				for(Derivative d : portfolio.getOnhand()){
-					System.out.println(d.getId());
-				}
 			}
 		
 		}
@@ -537,6 +534,7 @@ public class PortfolioView extends javax.swing.JFrame {
             		p.purchase(new Stock((float) 3.55, 20, "ABC"));
             		p.purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 3.40, Option.optiontype.call));
             		p.purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 5.40, Option.optiontype.call));
+            		p.purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 5.40, Option.optiontype.put));
 
             		new PortfolioView(p).setVisible(true);
             	}else{
