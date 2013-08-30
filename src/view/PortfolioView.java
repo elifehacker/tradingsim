@@ -455,27 +455,38 @@ public class PortfolioView extends javax.swing.JFrame {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			JTable selected_t = null;
-			int curprice_col = 0;
-			if(Tabbs_pane.getSelectedIndex()==2){
+			int spotprice_col = 0;
+			if(Tabbs_pane.getSelectedIndex()==1){
+				selected_t = stock_table;
+				spotprice_col = 4;
+			}else if(Tabbs_pane.getSelectedIndex()==2){
 				selected_t = option_table;
-				curprice_col = 6;
+				spotprice_col = 6;
 			}else if(Tabbs_pane.getSelectedIndex()==3){
 				selected_t = strategy_table;
+				spotprice_col = 0;
+
 			}
-			if(selected_t.getSelectedRow()!=-1){
-				int row = selected_t.getSelectedRow();
-				int id = Integer.parseInt((String) selected_t.getValueAt(row, 0));
-				float spotprice = Float.parseFloat((String) selected_t.getValueAt(row, curprice_col));
-				System.out.println("derivative id is "+id);
-				for(Derivative d : portfolio.getOnhand()){
-					if(d.getId()== id){
-						//portfolio.getOnhand().remove(d);
-						if(d instanceof Option)
-							portfolio.sellOption((Option)d, spotprice);
-						break;
+			int row = selected_t.getSelectedRow();
+			if(row!=-1){
+				String ids = (String) selected_t.getValueAt(row, 0);
+				if(ids!=null){
+					int id = Integer.parseInt(ids);
+					float spotprice = Float.parseFloat((String) selected_t.getValueAt(row, spotprice_col));
+					System.out.println("derivative id is "+id);
+					for(Derivative d : portfolio.getOnhand()){
+						if(d.getId()== id){
+							//portfolio.getOnhand().remove(d);
+							if(d instanceof Option)
+								portfolio.sellOption((Option)d, spotprice);
+							if(d instanceof Stock)
+								portfolio.sell(d, spotprice);
+							break;
+						}
 					}
+					setOnhandTable();
 				}
-				setOnhandTable();
+
 				for(Derivative d : portfolio.getOnhand()){
 					System.out.println(d.getId());
 				}
@@ -488,6 +499,7 @@ public class PortfolioView extends javax.swing.JFrame {
     private void addlisteners() {
 		// TODO Auto-generated method stub
     	but_sell_option.addActionListener(new SellDerivativeListener());
+    	but_sell_stock.addActionListener(new SellDerivativeListener());
 	}
     
     /**
@@ -523,8 +535,8 @@ public class PortfolioView extends javax.swing.JFrame {
             	if(TestingMode = true){
             		Portfolio p = new Portfolio (10000);
             		p.purchase(new Stock((float) 3.55, 20, "ABC"));
-            		p.purchase(new Option((float) 1.50, 20, "ABC", new Stock((float) 3.55, 0, "ABC"), "11/12/2012",(float) 3.40, Option.optiontype.call));
-            		p.purchase(new Option((float) 1.50, 20, "ABC", new Stock((float) 3.55, 0, "ABC"), "11/12/2012",(float) 5.40, Option.optiontype.call));
+            		p.purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 3.40, Option.optiontype.call));
+            		p.purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 5.40, Option.optiontype.call));
 
             		new PortfolioView(p).setVisible(true);
             	}else{

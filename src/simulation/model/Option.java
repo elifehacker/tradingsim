@@ -2,14 +2,6 @@ package simulation.model;
 
 public class Option extends Derivative{
 
-	public Stock getUnderlying() {
-		return underlying;
-	}
-
-	public void setUnderlying(Stock underlying) {
-		this.underlying = underlying;
-	}
-
 	public String getMaturity() {
 		return maturity;
 	}
@@ -31,15 +23,13 @@ public class Option extends Derivative{
 	
 	public static enum optiontype{call, put};
 	
-	private Stock underlying;
 	private String maturity;
 	private float strike;
 	private optiontype type;
 	
-	public Option(float price, int volume, String symbol, Stock underlying,
+	public Option(float price, int volume, String symbol,
 			String maturity, float strike, optiontype type) {
 		super(price, volume, symbol);
-		this.underlying = underlying;
 		this.maturity = maturity;
 		this.strike = strike;
 		this.type = type;
