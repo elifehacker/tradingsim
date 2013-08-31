@@ -15,7 +15,7 @@ public class TradeView extends javax.swing.JFrame {
     /**
      * Creates new form TradePanel
      */
-    public TradePanel() {
+    public TradeView() {
         initComponents();
     }
 
