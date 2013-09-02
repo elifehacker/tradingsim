@@ -449,6 +449,16 @@ public class PortfolioView extends javax.swing.JFrame {
     private void but_neworder_1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
     } 
+    
+    private int findSpotCol(String[] title){
+    	int i = 0;
+    	for(String s : title){
+    		if(s.equals("Spot price")) return i;
+    		i++;
+    	}
+		return i;
+    }
+    
     private class SellDerivativeListener implements ActionListener{
 
 		@Override
@@ -458,10 +468,10 @@ public class PortfolioView extends javax.swing.JFrame {
 			int spotprice_col = 0;
 			if(Tabbs_pane.getSelectedIndex()==1){
 				selected_t = stock_table;
-				spotprice_col = 4;
+				spotprice_col = findSpotCol(stock_title);
 			}else if(Tabbs_pane.getSelectedIndex()==2){
 				selected_t = option_table;
-				spotprice_col = 6;
+				spotprice_col = findSpotCol(option_title);
 			}else if(Tabbs_pane.getSelectedIndex()==3){
 				selected_t = strategy_table;
 				spotprice_col = 0;
@@ -546,7 +556,7 @@ public class PortfolioView extends javax.swing.JFrame {
         
 	private Portfolio portfolio;
 	
-    private String stock_title[] = {"ID","Symbol","Bought at","Volume", "Spot Price", "Proft/Loss"};
+    private String stock_title[] = {"ID","Symbol","Bought at","Volume", "Spot price", "Proft/Loss"};
     private String option_title[] = {"ID","Symbol","Type","Bought at","Volume", "Strike price", "Spot price", "Maturity", "Proft/Loss"};
 
     private int selected_stock;
