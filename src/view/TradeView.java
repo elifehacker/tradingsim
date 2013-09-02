@@ -77,7 +77,7 @@ public class TradeView extends javax.swing.JFrame {
         but_calculate = new javax.swing.JButton();
         but_make_order = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
         background_pane.setBackground(new java.awt.Color(255, 255, 255));
 

@@ -160,7 +160,7 @@ public class PortfolioView extends javax.swing.JFrame {
         cash_lab = new javax.swing.JLabel();
         cash_lab_num = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

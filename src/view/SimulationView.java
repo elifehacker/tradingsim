@@ -483,6 +483,16 @@ public class SimulationView extends javax.swing.JFrame {
 		}
     	
     }
+    private class TradeListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			new TradeView().setVisible(true);
+
+		}
+    	
+    }
     
     public void setNewTableFlag(boolean b){
     	 newtablecontent = b;
@@ -509,7 +519,7 @@ public class SimulationView extends javax.swing.JFrame {
     		
     	});
     	but_my_portfolio.addActionListener(new PortfolioListener());
-
+    	but_trade.addActionListener(new TradeListener());
     }
 	public static void open(File document) throws IOException {
 	    Desktop dt = Desktop.getDesktop();
