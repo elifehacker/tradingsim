@@ -414,7 +414,7 @@ public class TradeView extends javax.swing.JFrame {
         symbol_lab.setBounds(10, 110, 90, 30);
         jLayeredPane.add(symbol_lab, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        symbol_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        symbol_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[20]));
         symbol_combo.setMinimumSize(new java.awt.Dimension(51, 30));
         symbol_combo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -429,7 +429,7 @@ public class TradeView extends javax.swing.JFrame {
         order_type_lab.setBounds(290, 70, 112, 30);
         jLayeredPane.add(order_type_lab, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        order_type_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        order_type_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Market Order", "Stop Order", "Limit Order", "Stop Limit" }));
         order_type_combo.setBounds(400, 70, 159, 30);
         jLayeredPane.add(order_type_combo, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
