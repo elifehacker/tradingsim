@@ -468,6 +468,7 @@ public class SimulationView extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 			//printBuffer();
 			dr.updateTable();
+			portfolio.checkOrders(get_indextable());
 			newtablecontent = true;
 		}
     	
@@ -720,13 +721,21 @@ public class SimulationView extends javax.swing.JFrame {
     	
     }
     
+    public static int get_index_title_index(String s){
+    	for(int i = 0 ; i < index_title.length; i++){
+    		if(index_title[i].equals(s)) return i;
+    	}
+		return 0;
+    	
+    }
+    
     private String simulation;
     private int totalentry = 0;
     private int totalfirm = 0;
     private String firms[];
     private int cols = 0;	//# of columns in the input data
     private int rows = 0;	//# of rows in the input data
-    private String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
+    private static String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
     private static int index_title_length =5;
     private static int price_index =1;
     private String input_title[];
