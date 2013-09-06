@@ -1,7 +1,21 @@
-package simulation.model;
+package order;
 
-public class Order implements Comparable<Order>{
+import derivative.Derivative;
 
+public abstract class Order implements Comparable<Order>{
+
+	public static int getStrategyTotalid() {
+		return strategytotal++;
+	}
+
+	public void setStrategyid(int s) {
+		strategyid = s;
+	}
+
+	public int getStrategyid() {
+		return strategyid;
+	}
+	
 	public Derivative getUnderlying() {
 		return underlying;
 	}
@@ -9,16 +23,6 @@ public class Order implements Comparable<Order>{
 
 	public String getLongShort() {
 		return longshort;
-	}
-
-
-	public String getType() {
-		return type;
-	}
-
-
-	public float getPrice() {
-		return price;
 	}
 
 	public int getId() {
@@ -33,13 +37,13 @@ public class Order implements Comparable<Order>{
 	private static int total=0;
 	private int id=0;
 	
-	
-	public Order(Derivative underlying, String buysell, String type, float price) {
+	private static int strategytotal = 0;
+	private  int strategyid = 0;
+
+	public Order(Derivative underlying, String buysell) {
 		super();
 		this.underlying = underlying;
 		this.longshort = buysell;
-		this.type = type;
-		this.price = price;
 		id = total;
 		total++;
 	}

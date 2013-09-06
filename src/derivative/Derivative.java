@@ -1,6 +1,18 @@
-package simulation.model;
+package derivative;
 
 public abstract class Derivative implements Comparable<Derivative>{
+	
+	public static int getStrategyTotalid() {
+		return strategytotal++;
+	}
+
+	public void setStrategyid(int s) {
+		strategyid = s;
+	}
+	
+	public int getStrategyid() {
+		return strategyid;
+	}
 	
 	public float getPrice() {
 		return price;
@@ -28,6 +40,8 @@ public abstract class Derivative implements Comparable<Derivative>{
 	private static int total=0;
 	private int id=0;
 
+	private static int strategytotal = 0;
+	private  int strategyid = 0;
 	
 	public Derivative(float price, int volume, String symbol) {
 		super();

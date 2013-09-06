@@ -1,4 +1,4 @@
-package simulation.model;
+package derivative;
 
 public class Option extends Derivative{
 
