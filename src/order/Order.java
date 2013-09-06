@@ -31,9 +31,7 @@ public abstract class Order implements Comparable<Order>{
 
 	private Derivative underlying;
 	private String longshort;
-	private String type;
 	
-	private float price;
 	private static int total=0;
 	private int id=0;
 	
