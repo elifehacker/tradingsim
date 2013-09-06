@@ -2,7 +2,6 @@ package simulation.model;
 
 import javax.swing.JFrame;
 
-import simulation.control.SimulationControl;
 import view.PackageSelection;
 import view.SimulationView;
 
