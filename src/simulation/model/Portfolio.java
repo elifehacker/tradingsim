@@ -102,7 +102,7 @@ public class Portfolio {
 		}
 	}
 	
-	public void purchase(Derivative d){
+	public void test_purchase(Derivative d){
 		if(credit>d.getTotal()){
 			credit -= d.getTotal();
 			onhand.add(d);
@@ -111,7 +111,8 @@ public class Portfolio {
 		}
 	}
 	
-	public void purchase(Derivative d, float spotprice){
+	
+	public void test_purchase(Derivative d, float spotprice){
 		if(credit>d.getTotal()){
 			credit -= d.getVolume()*spotprice;
 			onhand.add(d);
@@ -119,6 +120,16 @@ public class Portfolio {
 			removeOrder(d);
 		}
 	}
+	 	
+	public void test_sell(Derivative d, float spotprice){
+
+	 		if(onhand.remove(d)){
+				credit += d.getVolume()*spotprice;
+				removeOnhand(d);
+				removeOrder(d);
+
+	 		}
+	 }
 	
 	public void sell(Derivative d, float spotprice){
 		if(onhand.remove(d)){
