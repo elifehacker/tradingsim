@@ -40,8 +40,6 @@ public class TradePanel extends javax.swing.JPanel {
         x_price_tf = new javax.swing.JTextField();
         x_date_lab = new javax.swing.JLabel();
         x_date_tf = new javax.swing.JTextField();
-        but_calculate1 = new javax.swing.JButton();
-        but_make_order1 = new javax.swing.JButton();
         bottom_pane = new javax.swing.JPanel();
         blank_pane = new javax.swing.JPanel();
         market_pane = new javax.swing.JPanel();
@@ -115,45 +113,22 @@ public class TradePanel extends javax.swing.JPanel {
         x_date_lab.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         x_date_lab.setText("X Date");
 
-        but_calculate1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_calculate1.setText("Calculate");
-        but_calculate1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                but_calculate1ActionPerformed(evt);
-            }
-        });
-
-        but_make_order1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_make_order1.setText("Make Order");
-        but_make_order1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                but_make_order1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout option_paneLayout = new javax.swing.GroupLayout(option_pane);
         option_pane.setLayout(option_paneLayout);
         option_paneLayout.setHorizontalGroup(
             option_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(option_paneLayout.createSequentialGroup()
-                .addGroup(option_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, option_paneLayout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(but_calculate1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(but_make_order1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, option_paneLayout.createSequentialGroup()
-                        .addGroup(option_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(option_type_lab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(x_price_lab, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(option_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(x_price_tf)
-                            .addComponent(option_type_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(x_date_lab, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                        .addComponent(x_date_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(option_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(option_type_lab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(x_price_lab, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(option_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(x_price_tf)
+                    .addComponent(option_type_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(x_date_lab, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(x_date_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
         option_paneLayout.setVerticalGroup(
@@ -168,11 +143,7 @@ public class TradePanel extends javax.swing.JPanel {
                     .addComponent(x_price_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(x_date_lab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(x_date_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(63, 63, 63)
-                .addGroup(option_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(but_calculate1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(but_make_order1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(38, 38, 38))
+                .addGap(135, 135, 135))
         );
 
         mid_pane.add(option_pane, "card3");
@@ -445,14 +416,6 @@ public class TradePanel extends javax.swing.JPanel {
         cl.next(mid_pane);
     }                                          
 
-    private void but_calculate1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        // TODO add your handling code here:
-    }                                              
-
-    private void but_make_order1ActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
-    }                                               
-
     private void market_tfActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
     }                                         
@@ -491,9 +454,7 @@ public class TradePanel extends javax.swing.JPanel {
     private javax.swing.JPanel blank_pane;
     private javax.swing.JPanel bottom_pane;
     private javax.swing.JButton but_calculate;
-    private javax.swing.JButton but_calculate1;
     private javax.swing.JButton but_make_order;
-    private javax.swing.JButton but_make_order1;
     private javax.swing.JButton but_select;
     private javax.swing.JLabel comb_limit_lab;
     private javax.swing.JTextField comb_limit_tf;
