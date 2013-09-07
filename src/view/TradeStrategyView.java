@@ -84,9 +84,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
     public TradeStrategyView() {
         initComponents();
         
-        strategy_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
-        		"Long Call", "Long Put", "Short Call", "Short Put",
-        		"Collar", "Covered Call", "Protective Put", "Spread", "Straddle"}));
+        strategy_combo.setModel(new javax.swing.DefaultComboBoxModel(strategies));
         
         resetview();
     }
@@ -312,13 +310,14 @@ public class TradeStrategyView extends javax.swing.JFrame {
     	String strategy = (String) strategy_combo.getSelectedItem();
     	
     	resetview();
-    	if(index>=0 && index < 4 ){
+    	if(index>=0 && index < 5 ){
+    		if(strategy.equals("Stock")) setpayoff("stock", 1);
     		if(strategy.equals("Long Call")) setpayoff("longcall", 1);
     		if(strategy.equals("Long Put")) setpayoff("longput", 1);
     		if(strategy.equals("Short Call")) setpayoff("shortcall", 1);    		
     		if(strategy.equals("Short Put")) setpayoff("shortput", 1);
     		addpane(1);
-    	}else if(index >=4){
+    	}else if(index >=5){
     		if(strategy.equals("Collar")){
     			setpayoff("longput", 1);
     			setpayoff("stock", 3);
@@ -394,6 +393,9 @@ public class TradeStrategyView extends javax.swing.JFrame {
             }
         });
     }
+    
+    private String[] strategies = {"Stock", "Long Call", "Long Put", "Short Call", "Short Put",
+    		"Collar", "Covered Call", "Protective Put", "Spread", "Straddle"};
     // Variables declaration - do not modify                     
     private javax.swing.JPanel background_pane;
     private javax.swing.JButton but_explain;
