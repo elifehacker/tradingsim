@@ -728,6 +728,12 @@ public class SimulationView extends javax.swing.JFrame {
 		return 0;
     	
     }
+ 
+    public static String[] get_index_title(){
+
+		return index_title;
+    	
+    }
     
     private String simulation;
     private int totalentry = 0;

@@ -1,10 +1,20 @@
 package simulation.model;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
-import simulation.model.Option.optiontype;
+import order.LimitOrder;
+import order.Order;
+import order.StopLimitOrder;
+import order.StopOrder;
+
+import derivative.Derivative;
+import derivative.Option;
+import derivative.Option.optiontype;
+
 import view.SimulationView;
 
 public class Portfolio {
@@ -37,46 +47,68 @@ public class Portfolio {
 		indextable = it;
 
 		float newprice = 0;
+		float netchange = 0;
+
 		int total = orders.size();
-		int o_counter = 0; //order counter
-		int t_counter = 0; //table counter
-		while(o_counter < total && t_counter < indextable.length){
-			String row[] =  indextable[t_counter];
-			Order o = orders.get(o_counter);
-			
-			int result = row[0].compareTo(o.getUnderlying().getSymbol());
-			if(result ==0){
+		int c = 0; //table counter
+		HashSet<String> hs = new HashSet<String>();
+		for(int i = 0; i < orders.size(); i ++){
+			hs.add(orders.get(i).getUnderlying().getSymbol());
+		}
+		int sym_col = SimulationView.get_index_title_index("Symbol");
+		int last_col = SimulationView.get_index_title_index("Last");
+		int net_col = SimulationView.get_index_title_index("Net Change");
+		while(c < indextable.length){
+
+			String row[] = it[c]; 
+			if(hs.contains(row[sym_col])){
+				LinkedList<Order> pendingOrder = new LinkedList<Order>();
+				LinkedList<Order> removingOrder = new LinkedList<Order>();
 				
-				newprice = Float.parseFloat(row[1]);
+				for(Order o : orders){
+					if(o.getUnderlying().getSymbol().equals(row[sym_col])){
+						newprice = Float.parseFloat(row[last_col]);
+						netchange = Float.parseFloat(row[net_col]);
+				
+						if (o instanceof LimitOrder){
+							LimitOrder lo = (LimitOrder) o;
+							if(o.getLongShort().equals("Long") && newprice < lo.getlimitprice()){
+								purchase(o, removingOrder);
+								
+							}else if(o.getLongShort().equals("Short") && newprice > lo.getlimitprice()){
+								sell(o, removingOrder);
+								
+							}
+							
+						}else if (o instanceof StopLimitOrder || o instanceof StopOrder){
+							// Stop order and stop limit order shares some similarity
+							
+							float diff = 0;
+							if(o instanceof StopOrder){
+								StopOrder so = (StopOrder) o;
+								diff =  newprice - so.getstopprice();
+							}else if(o instanceof StopLimitOrder){
+								StopLimitOrder slo = (StopLimitOrder) o;
+								diff =  newprice - slo.getstopprice();
+							}
+							if((netchange<0 && diff<0 && abs(diff)< abs(netchange))||
+									(netchange>0 && diff>0 && diff< netchange)){
+								//triggered
+								if(o instanceof StopOrder){
+									if(o.getLongShort().equals("Long")) purchase(o, removingOrder);
+									if(o.getLongShort().equals("Short")) sell(o, removingOrder);									
+								}else if(o instanceof StopLimitOrder){
+									LimitOrder lo = new LimitOrder(o.getUnderlying(), o.getLongShort(), ((StopLimitOrder) o).getlimitprice());
 
-				Derivative s = o.getUnderlying();
-
-				//only considered stock, one one type of order, change this later
-				if(o.getLongShort().equals("Long")){
-					//user placed a buy order of stock
-					if(newprice < s.getPrice()){
-						
-						purchase(s);
+									removingOrder.add(o);
+									pendingOrder.add(lo);						
+								}
+							}//end of trigger action
+						}//market order executes immediately
 					}
-					
-				}else if(o.getLongShort().equals("Short")){
-					
-					if(newprice > s.getPrice()){
-						
-						sell(s, newprice);
-					}
-
-				}
-				o_counter++;
-				t_counter++;
-
-			}else if(result > 0){
-				//symbol in the table is larger
-				o_counter++;
-			}else{
-				t_counter++;
+				}				
 			}
-			
+			c++;
 		}
 	}
 	
@@ -131,11 +163,28 @@ public class Portfolio {
 	 		}
 	 }
 	
-	public void sell(Derivative d, float spotprice){
+	private void purchase(Order o, LinkedList<Order> list){
+		Derivative d =o.getUnderlying(); 
+		if(credit>d.getTotal()){
+			credit -= d.getTotal();
+			onhand.add(d);
+			System.out.println("order executed in purchase"+d.getId());
+			//orders.remove(o);
+			list.add(o);
+
+		}
+	}
+	
+	private void sell(Order o, LinkedList<Order> list){
+		Derivative d =o.getUnderlying(); 
 		if(onhand.remove(d)){
-			credit += d.getVolume()*spotprice;
-			removeOnhand(d);
-			removeOrder(d);
+			credit += d.getTotal();
+			if(!onhand.remove(d)){
+				credit -= d.getTotal();
+			}
+			System.out.println("order executed in sell"+d.getId());
+			//orders.remove(o);
+			list.add(o);
 		}
 	}
 	
@@ -149,7 +198,7 @@ public class Portfolio {
 			if(onhand.remove(o)){
 				credit += o.getVolume()*(abs(spotprice - o.getStrike()));
 				removeOnhand(o);
-				removeOrder(o);
+				//removeOrder(o);
 			}
 		}else{
 			JOptionPane.showMessageDialog(null,
@@ -159,17 +208,22 @@ public class Portfolio {
 	}
 	
 	public void makeOrder(Order newo){
-		int i = 0;
-		for(Order o: orders){
-			if(o.getUnderlying().getSymbol().compareTo(newo.getUnderlying().getSymbol())> 0){
-				orders.add(i, newo);
-				break;
-			}
-			i++;
-		}
-		if(i == orders.size())orders.add(newo);
+		orders.add(newo);
 	}
 
+	public void printAll(){
+		System.out.println("Orders:");
+		for(Order o : orders){
+			Derivative d = o.getUnderlying();
+			System.out.println("OID: "+o.getId()+" DID: "+d.getId()+" "+d.getSymbol()+" "+d.getTotal());
+		}
+		System.out.println("Derivatives:");
+		for(Derivative d : onhand){
+			System.out.println("DID: "+d.getId()+" "+d.getSymbol()+" "+d.getTotal());
+		}		
+		
+	}
+	
 	public float sellOnhandbyId(int id){
 		for(Derivative d : onhand){
 			if(d.getId() == id){

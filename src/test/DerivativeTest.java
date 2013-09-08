@@ -4,25 +4,28 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 
+import order.Order;
+
 import org.junit.Test;
 
-import simulation.model.Derivative;
-import simulation.model.Order;
+import derivative.Derivative;
+import derivative.Stock;
+
 import simulation.model.Portfolio;
-import simulation.model.Stock;
 
 public class DerivativeTest {
 
 	@SuppressWarnings("deprecation")
 	@Test
 	public void test() {
+		/*
 		System.out.println("test 1");
 		Stock s1 = new Stock((float) 5.22, 10, "ABC");
 		Stock s2 = new Stock((float) 9.88, 20, "BBC");
 		assertEquals(5.22,s1.getPrice(),0.001);
 		Portfolio p = new Portfolio(1000);
-		Order o1 = new Order(s1, "Long", "Stock", (float) 5.22);
-		Order o2 = new Order(s2, "Long", "Stock", (float) 9.88);
+		Order o1 = new Order(s1, "Long");
+		Order o2 = new Order(s2, "Long");
 
 		p.makeOrder(o1);
 		p.makeOrder(o2);
@@ -33,7 +36,7 @@ public class DerivativeTest {
 		System.out.println(list.size());
 		for(Order o :list){
 			assert(o.getId()==i);
-			System.out.println("list content: "+o.getId()+" "+o.getPrice()+" "+o.getUnderlying().getSymbol());
+			System.out.println("list content: "+o.getId()+" "+o.getUnderlying().getSymbol());
 			i++;
 		}
 		
@@ -59,7 +62,7 @@ public class DerivativeTest {
 			System.out.println("list content: "+d.getClass());
 			i++;
 		}
-		
+	*/	
 	}
 
 }

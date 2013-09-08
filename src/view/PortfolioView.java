@@ -16,7 +16,7 @@ import simulation.model.Portfolio;
 
 public class PortfolioView extends javax.swing.JFrame {
 
-	private static boolean TestingMode = true;
+	private static boolean TestingMode = false;
     /**
      * Creates new form Portfolio
      */
