@@ -2,8 +2,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class Program {
+	
+	public static void inc(int num,  LinkedList<Integer> list){
+		num++;
+		list.add(num);
+	}
+	
     public static void main(String[] args) {
         String text = "Hello world";
         try {
@@ -14,6 +21,11 @@ public class Program {
         } catch ( IOException e ) {
            e.printStackTrace();
         }
+        int n = 5;
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        Program.inc(n, list);
+        System.out.println(n+" "+list.get(0));
+        
     }
 }
 
