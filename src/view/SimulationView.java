@@ -56,7 +56,8 @@ public class SimulationView extends javax.swing.JFrame {
         //create DataReader to handle the rest
 
         dr.updateTable();
-    	
+		current_date_TextField.setText(dr.getDate());
+
         portfolio = new Portfolio(dr.getStartingCash());
         
         this.addWindowListener(new SwindowsListener());
@@ -257,7 +258,7 @@ public class SimulationView extends javax.swing.JFrame {
         lab_updating_rate.setText("Updating Rate");
 
         update_rate_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        update_rate_TextField.setText("jTextField1");
+        update_rate_TextField.setText("Rate");
         update_rate_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 update_rate_TextFieldActionPerformed(evt);
@@ -288,13 +289,13 @@ public class SimulationView extends javax.swing.JFrame {
         lab_current_time.setText("Current Time");
 
         current_time_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        current_time_TextField.setText("jTextField2");
+        current_time_TextField.setText("Time");
 
         current_date_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        current_date_TextField.setText("jTextField2");
+        current_date_TextField.setText("Date");
 
         status_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        status_TextField.setText("jTextField1");
+        status_TextField.setText("Status");
 
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
@@ -420,6 +421,7 @@ public class SimulationView extends javax.swing.JFrame {
 			dr.updateTable();
 			portfolio.checkOrders(dr.get_table());
 			newtablecontent = true;
+			current_date_TextField.setText(dr.getDate());
 		}
     	
     }
