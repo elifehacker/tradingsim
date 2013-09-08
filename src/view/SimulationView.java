@@ -36,55 +36,7 @@ public class SimulationView extends javax.swing.JFrame {
 	public Portfolio getPortfolio(){
 		return portfolio;
 	}
-	
-	private void readfile(String folder, String extension){
-    	if(!folder.equals("null")){
-		    path = "packages/"+folder+"/";
 
-    		if(extension.equals(".conf")){
-    			try {
-					BufferedReader br = new BufferedReader(new FileReader(path+folder+extension));
-			        String line = br.readLine();
-			        if(line !=null){
-				        String[] splited = line.split(",");
-				        totalentry = Integer.parseInt(splited[0]);// check the .conf file
-				        totalfirm = Integer.parseInt(splited[1]);// for more info
-				        cols = Integer.parseInt(splited[2]);
-				        type = splited[3];
-				        startingCash = Float.parseFloat(splited[4]);
-				        
-				        rows = totalfirm+1;
-				        firms = new String[totalfirm];        
-				        displayingtable = new String[rows][index_title.length];
-				        
-				        for(int i = 0; i < totalfirm; i++){
-				        	firms[i] = splited[i+5];
-				        	System.out.println("firm[i] "+firms[i]);
-				        }
-				        
-			        }
-			        //second line
-			        line = br.readLine();
-			        if(line !=null){
-			        	input_title = line.split(",");				        
-			        }
-			        br.close();
-
-					
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-    		}else if(extension.equals(".csv")){
-    			//obsolete for now
-    		}
-
-    	}
-	}
 	
 	private void removechartdata(String pack){
 		File chartdata = new File("packages/"+pack);
@@ -94,20 +46,18 @@ public class SimulationView extends javax.swing.JFrame {
 	
     public SimulationView(String folder) {
     	
-    	readfile(folder,".conf");
-
+        dr = new DataReader(folder,".conf");
+        
         initComponents();
     	
-        Object[][] obj = new Object[totalfirm][index_title.length];
-        index_table.setModel(new javax.swing.table.DefaultTableModel(obj,index_title));
         addlisteners();
     	removechartdata(folder);
     	
         //create DataReader to handle the rest
-        dr = new DataReader(input_title, totalentry, firms, type, path, this);
+
         dr.updateTable();
     	
-        portfolio = new Portfolio(startingCash);
+        portfolio = new Portfolio(dr.getStartingCash());
         
         this.addWindowListener(new SwindowsListener());
     }
@@ -468,7 +418,7 @@ public class SimulationView extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 			//printBuffer();
 			dr.updateTable();
-			portfolio.checkOrders(get_indextable());
+			portfolio.checkOrders(dr.get_table());
 			newtablecontent = true;
 		}
     	
@@ -536,27 +486,11 @@ public class SimulationView extends javax.swing.JFrame {
 		return null;
 	}
 	
-	public static String[] get_ticker(String ticker){
-		String[] ret = new String [index_title_length];//index_title.length;
-		for(int i = 0; i < index_table.getRowCount();i++){
-			if(index_table.getValueAt(i,0).equals(ticker)){
-				for(int k = 0; k <index_title_length; k++ ){
-					ret[k] = (String) index_table.getValueAt(i,0);
-				}
-				return ret;
-			}
-		}
-		return null;
+	public static void setDisplay(String[][] table){
+		displayingtable = table;
+        index_table.setModel(new javax.swing.table.DefaultTableModel(displayingtable,index_title));
 	}
-	
-	public static String[][] get_indextable(){
-		for(int i = 0; i < index_table.getRowCount();i++){
-			for(int k = 0; k < index_table.getColumnCount();k++){
-				displayingtable[i][k]= (String) index_table.getValueAt(i,k);
-			}
-		}
-		return displayingtable;
-	}
+
     /*
     public void add_index_chart_lis(ActionListener l){
     	but_index_chart.addActionListener(l);
@@ -735,27 +669,17 @@ public class SimulationView extends javax.swing.JFrame {
     	
     }
     
-    private String simulation;
-    private int totalentry = 0;
-    private int totalfirm = 0;
-    private String firms[];
-    private int cols = 0;	//# of columns in the input data
-    private int rows = 0;	//# of rows in the input data
+
+
     private static String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
-    private static int index_title_length =5;
-    private static int price_index =1;
-    private String input_title[];
+    private static int price_index =1; //where "Last" colume is
     private DataReader dr;
 
-    private String path;
-    private float startingCash;
     private Portfolio portfolio; 
     
     private String chart_index = "data.csv";
     private String chart_dir = "chartdata";
-    private String type;//eg. Intraday 1Hour
     
-    public int displayingcycle = 0;
     public static String[][] displayingtable; 
     public boolean newtablecontent = false;
     
