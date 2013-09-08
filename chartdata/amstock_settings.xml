@@ -28,7 +28,7 @@ full list of available settings, check the amstock_settings.xml file in the amst
        <csv>
          <reverse>true</reverse>
          <separator>,</separator>
-         <date_format>DD.MM.YYYY hh:mm</date_format>
+         <date_format>DD.MM.YYYY</date_format>
          <decimal_separator>.</decimal_separator>
          <columns>
            <column>date</column>
@@ -102,11 +102,9 @@ full list of available settings, check the amstock_settings.xml file in the amst
       <text_color_selected>ffffff</text_color_selected>
     </button>
   
-		<periods>		
-		<period type="ss" count="10">10s</period>		
-		<period type="mm" count="1">1m</period>		
-		<period type="hh" count="1">1H</period>
+		<periods>				
         <period type="DD" count="1">1D</period>
+        <period type="DD" count="7">7D</period>
     	<period type="MM" count="1">1M</period>
     	<period selected="true" type="YYYY" count="1">1Y</period>
     	<period type="YTD" count="0">YTD</period>
