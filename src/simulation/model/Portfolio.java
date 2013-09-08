@@ -106,7 +106,14 @@ public class Portfolio {
 							}//end of trigger action
 						}//market order executes immediately
 					}
-				}				
+				}
+				for(Order o : pendingOrder){
+					orders.add(o);
+				}
+				for(Order o : removingOrder){
+					orders.remove(o);
+				}
+				
 			}
 			c++;
 		}
