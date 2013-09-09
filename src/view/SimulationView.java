@@ -46,7 +46,7 @@ public class SimulationView extends javax.swing.JFrame {
 	
     public SimulationView(String folder) {
     	
-        dr = new DataReader(folder,".conf");
+        dr = new DataReader(folder);
         
         initComponents();
     	
