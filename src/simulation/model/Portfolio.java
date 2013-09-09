@@ -108,12 +108,23 @@ public class Portfolio {
 					}
 				}
 				for(Order o : pendingOrder){
-					orders.add(o);
+					//check again, because limit order might be executed in the same round
+					if (o instanceof LimitOrder){
+						LimitOrder lo = (LimitOrder) o;
+						if(o.getLongShort().equals("Long") && newprice < lo.getlimitprice()){
+							purchase(o, removingOrder);
+							
+						}else if(o.getLongShort().equals("Short") && newprice > lo.getlimitprice()){
+							sell(o, removingOrder);
+							
+						}else{
+							orders.add(o);
+						}
+					}
 				}
 				for(Order o : removingOrder){
 					orders.remove(o);
 				}
-				
 			}
 			c++;
 		}
@@ -219,6 +230,7 @@ public class Portfolio {
 	}
 
 	public void printAll(){
+		System.out.println("------------");
 		System.out.println("Orders:");
 		for(Order o : orders){
 			Derivative d = o.getUnderlying();
