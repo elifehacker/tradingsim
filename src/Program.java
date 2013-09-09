@@ -25,6 +25,10 @@ public class Program {
         LinkedList<Integer> list = new LinkedList<Integer>();
         Program.inc(n, list);
         System.out.println(n+" "+list.get(0));
+        String s1[] = {"a","b"};
+        String s2[] = s1;
+        s2[0] = "c";
+        System.out.println(s1[0]);
         
     }
 }
