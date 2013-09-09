@@ -14,6 +14,7 @@ import order.StopOrder;
 import derivative.Derivative;
 import derivative.Option;
 import derivative.Option.optiontype;
+import derivative.Stock;
 
 import view.SimulationView;
 
@@ -72,10 +73,13 @@ public class Portfolio {
 				
 						if (o instanceof LimitOrder){
 							LimitOrder lo = (LimitOrder) o;
-							if(o.getLongShort().equals("Long") && newprice < lo.getlimitprice()){
+							//System.out.println("limit order! "+newprice+" "+lo.getlimitprice());
+
+							if(o.getLongShort().equals("Long") && newprice <= lo.getlimitprice()){
 								purchase(o, removingOrder);
 								
-							}else if(o.getLongShort().equals("Short") && newprice > lo.getlimitprice()){
+							}else if(o.getLongShort().equals("Short") && newprice >= lo.getlimitprice()){
+								//System.out.println("call sell");
 								sell(o, removingOrder);
 								
 							}
@@ -91,8 +95,8 @@ public class Portfolio {
 								StopLimitOrder slo = (StopLimitOrder) o;
 								diff =  newprice - slo.getstopprice();
 							}
-							if((netchange<0 && diff<0 && abs(diff)< abs(netchange))||
-									(netchange>0 && diff>0 && diff< netchange)){
+							if((netchange<=0 && diff<=0 && abs(diff)<= abs(netchange))||
+									(netchange>=0 && diff>=0 && diff<= netchange)){
 								//triggered
 								if(o instanceof StopOrder){
 									if(o.getLongShort().equals("Long")) purchase(o, removingOrder);
@@ -182,28 +186,60 @@ public class Portfolio {
 	 }
 	
 	private void purchase(Order o, LinkedList<Order> list){
-		Derivative d =o.getUnderlying(); 
-		if(credit>d.getTotal()){
-			credit -= d.getTotal();
-			onhand.add(d);
-			System.out.println("order executed in purchase"+d.getId());
+		Derivative under =o.getUnderlying(); 
+		if(credit>under.getTotal()){
+			credit -= under.getTotal();
+			onhand.add(under);
+			System.out.println("order executed in purchase "+under.getId());
 			//orders.remove(o);
 			list.add(o);
 
 		}
 	}
 	
-	private void sell(Order o, LinkedList<Order> list){
-		Derivative d =o.getUnderlying(); 
-		if(onhand.remove(d)){
-			credit += d.getTotal();
-			if(!onhand.remove(d)){
-				credit -= d.getTotal();
+	private void sell(Order o, LinkedList<Order> removingOrder){
+
+		Derivative under =o.getUnderlying(); 
+		//System.out.println("sell called");
+		LinkedList<Derivative> list = new LinkedList<Derivative>();
+
+		if(under instanceof Stock){
+			for(Derivative d: onhand){
+				if(d instanceof Stock && d.compare(under)){
+					list.add(d);
+				}			
 			}
-			System.out.println("order executed in sell"+d.getId());
-			//orders.remove(o);
-			list.add(o);
+		}else if(under instanceof Option){
+			Option u = (Option)under;
+			for(Derivative d: onhand){
+				if(d instanceof Option){
+					Option p = (Option)d;
+					if(p.compare(u))list.add(d);
+				}			
+			}
+		} 
+		for(Derivative d: list){
+			int v = d.getVolume()-under.getVolume();
+			if(v == 0){
+				onhand.remove(d);
+				credit+= under.getTotal();
+				removingOrder.add(o);
+				break;				
+			}else if(v > 0){
+				d.setVolume(v);
+				credit+= under.getTotal();
+				removingOrder.add(o);
+				break;
+			}else if(v < 0){
+				onhand.remove(d);
+				under.setVolume(-v);
+				credit+= d.getVolume()*under.getPrice();
+			}
+			
 		}
+		System.out.println("order executed in sell");
+		//orders.remove(o);
+		
 	}
 	
     public static float abs(float a) {
@@ -231,6 +267,8 @@ public class Portfolio {
 
 	public void printAll(){
 		System.out.println("------------");
+		System.out.println("Credit: "+credit);
+
 		System.out.println("Orders:");
 		for(Order o : orders){
 			Derivative d = o.getUnderlying();

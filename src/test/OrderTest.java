@@ -14,7 +14,7 @@ import derivative.Stock;
 import simulation.model.Portfolio;
 
 public class OrderTest {
-
+/*
 	@Test
 	public void test1() {
 		System.out.println("-------Test1-------");
@@ -62,6 +62,57 @@ public class OrderTest {
 		p.checkOrders(new String[][] {{"ABC", "7.4", "0.5", "9.09", "100"}});
 		p.printAll();
 		
-	}
+	}*/
 
+	@Test
+	public void test4() {
+		System.out.println("-------Test4-------");
+		Portfolio p = new Portfolio(1000);
+		
+		Order o1 = new LimitOrder(new Stock((float)5.0, 10, "ABC"), "Short", 5);
+		Order o2 = new LimitOrder(new Stock((float)8.0, 10, "ABC"), "Short", 8);
+		p.makeOrder(o1);
+		p.makeOrder(o2);
+		//{"Symbol","Last","Net Change", "% Change", "Volumn"};
+		p.test_purchase(new Stock((float)7.0, 20, "ABC"), 7);
+		p.printAll();
+
+		p.checkOrders(new String[][] {{"ABC", "6.6", "0.5", "9.09", "100"}});
+		p.printAll();
+		
+	}
+	@Test
+	public void test5() {
+		System.out.println("---------Test5--------");
+
+		Portfolio p = new Portfolio(1000);
+		Order o1 = new StopOrder(new Stock((float)7.0, 10, "ABC"), "Long", 7);
+		Order o2 = new StopOrder(new Stock((float)8.0, 10, "ABC"), "Long", 8);
+
+		p.makeOrder(o1);
+		p.makeOrder(o2);
+
+		p.printAll();
+		p.checkOrders(new String[][] {{"ABC", "7.4", "0.5", "9.09", "100"}});
+		p.printAll();
+
+		
+	}
+	
+	@Test
+	public void test6() {
+		System.out.println("---------Test6--------");
+		Portfolio p = new Portfolio(1000);
+		Order o1 = new StopLimitOrder(new Stock((float)7.0, 10, "ABC"), "Long", 6, 7);
+		Order o2 = new StopLimitOrder(new Stock((float)6.5, 10, "ABC"), "Long", 7, (float)6.5);
+
+		p.makeOrder(o1);
+		p.makeOrder(o2);
+
+		p.printAll();
+		p.checkOrders(new String[][] {{"ABC", "7.4", "0.5", "9.09", "100"}});
+		p.printAll();
+		
+	}
+	
 }

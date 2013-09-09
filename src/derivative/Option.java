@@ -21,6 +21,15 @@ public class Option extends Derivative{
 		return type;
 	}
 	
+	public boolean compare(Option o){
+		boolean b = super.compare(o);
+		if(b == false) return false;
+		if(!maturity.equals(o.getMaturity())) return false;
+		if(strike!= o.getStrike()) return false;
+		if(type!= o.getType()) return false;
+		return true;
+	}
+	
 	public static enum optiontype{call, put};
 	
 	private String maturity;

@@ -30,8 +30,8 @@ public abstract class Derivative implements Comparable<Derivative>{
 		this.volume = volume;
 	}
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
+	public boolean compare(Derivative another) {
+		return this.symbol.equals(another.getSymbol());
 	}
 
 	private float price;
