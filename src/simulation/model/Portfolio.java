@@ -108,7 +108,7 @@ public class Portfolio {
 					}
 				}
 				for(Order o : pendingOrder){
-					//check again, because limit order might be executed in the same round
+					//check again, because limit order might be executed in the same cycle
 					if (o instanceof LimitOrder){
 						LimitOrder lo = (LimitOrder) o;
 						if(o.getLongShort().equals("Long") && newprice < lo.getlimitprice()){
