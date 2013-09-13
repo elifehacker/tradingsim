@@ -544,9 +544,9 @@ public class PortfolioView extends javax.swing.JFrame {
             	if(TestingMode = true){
             		Portfolio p = new Portfolio (10000);
             		p.test_purchase(new Stock((float) 3.55, 20, "ABC"));
-            		p.test_purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 3.40, Option.optiontype.call));
-            		p.test_purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 5.40, Option.optiontype.call));
-            		p.test_purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 5.40, Option.optiontype.put));
+            		p.test_purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 3.40, "Call"));
+            		p.test_purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 5.40, "Call"));
+            		p.test_purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 5.40, "Put"));
 
             		new PortfolioView(p).setVisible(true);
             	}else{
