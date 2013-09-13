@@ -14,7 +14,6 @@ import order.StopOrder;
 
 import derivative.Derivative;
 import derivative.Option;
-import derivative.Option.optiontype;
 import derivative.Stock;
 
 import view.SimulationView;
@@ -83,7 +82,8 @@ public class Portfolio {
 						}else if (o instanceof LimitOrder){
 							LimitOrder lo = (LimitOrder) o;
 							//System.out.println("limit order! "+newprice+" "+lo.getlimitprice());
-
+							o.getUnderlying().setPrice(lo.getlimitprice());
+							
 							if(o.getLongShort().equals("Long") && newprice <= lo.getlimitprice()){
 								purchase(o, removingOrder);
 								
@@ -100,9 +100,13 @@ public class Portfolio {
 							if(o instanceof StopOrder){
 								StopOrder so = (StopOrder) o;
 								diff =  newprice - so.getstopprice();
+								o.getUnderlying().setPrice(so.getstopprice());
+
 							}else if(o instanceof StopLimitOrder){
 								StopLimitOrder slo = (StopLimitOrder) o;
 								diff =  newprice - slo.getstopprice();
+								o.getUnderlying().setPrice(slo.getstopprice());
+
 							}
 							if((netchange<=0 && diff<=0 && abs(diff)<= abs(netchange))||
 									(netchange>=0 && diff>=0 && diff<= netchange)){
@@ -257,7 +261,7 @@ public class Portfolio {
 	
 	public void sellOption(Option o, float spotprice){
 		
-		if(spotprice>o.getStrike() ^ o.getType()==optiontype.put){
+		if(spotprice>o.getStrike() ^ o.getType().equals("Put")){
 			if(onhand.remove(o)){
 				credit += o.getVolume()*(abs(spotprice - o.getStrike()));
 				removeOnhand(o);

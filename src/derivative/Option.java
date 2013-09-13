@@ -17,7 +17,7 @@ public class Option extends Derivative{
 	public void setStrike(float strike) {
 		this.strike = strike;
 	}
-	public optiontype getType() {
+	public String getType() {
 		return type;
 	}
 	
@@ -26,18 +26,16 @@ public class Option extends Derivative{
 		if(b == false) return false;
 		if(!maturity.equals(o.getMaturity())) return false;
 		if(strike!= o.getStrike()) return false;
-		if(type!= o.getType()) return false;
+		if(type.equals(o.getType())) return false;
 		return true;
 	}
-	
-	public static enum optiontype{call, put};
-	
+		
 	private String maturity;
 	private float strike;
-	private optiontype type;
+	private String type;
 	
 	public Option(float price, int volume, String symbol,
-			String maturity, float strike, optiontype type) {
+			String maturity, float strike, String type) {
 		super(price, volume, symbol);
 		this.maturity = maturity;
 		this.strike = strike;

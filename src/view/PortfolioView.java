@@ -104,8 +104,8 @@ public class PortfolioView extends javax.swing.JFrame {
 			options[i][6] =  ""+cur_price;
 			options[i][7] =  ""+o.getMaturity();
 			float net =0;
-			if(o.getType().equals(Option.optiontype.call)) net= (cur_price-o.getStrike())*o.getVolume();
-			else if(o.getType().equals(Option.optiontype.put))net= (o.getStrike()-cur_price)*o.getVolume();
+			if(o.getType().equals("Call")) net= (cur_price-o.getStrike())*o.getVolume();
+			else if(o.getType().equals("Put"))net= (o.getStrike()-cur_price)*o.getVolume();
 			if(net > 0)options[i][8] ="+"+net;
 			else options[i][8] =""+net;
 			total+=net;

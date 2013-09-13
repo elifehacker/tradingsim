@@ -6,8 +6,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import order.Order;
+import derivative.Derivative;
+import derivative.Option;
+import derivative.Stock;
 
+import order.LimitOrder;
+import order.MarketOrder;
+import order.Order;
+import order.StopLimitOrder;
+import order.StopOrder;
+
+import simulation.model.Portfolio;
 import view.TradeView.reselectListener;
 
 /*
@@ -488,20 +497,34 @@ public class TradePanel extends javax.swing.JPanel {
     		if(n == 0){
     			
     			String symbol = parent.getSelectedSymbol();     			
-    			Order order;    			
+    			Order order = null;
+    			Derivative d = null;
     			String otype = (String)order_type_combo.getSelectedItem();
     			String dtype = (String)security_combo.getSelectedItem();
+    			int volume = Integer.parseInt(volume_tf.getText());
+    			String action = (String)action_combo.getSelectedItem();
+    			
+				if(dtype.equals("Stock")){
+					d = new Stock(0,volume,symbol);
+					
+				}else if (dtype.equals("Option")){
+					
+					d = new Option(0,volume,symbol, 
+							x_date_tf.getText(),Float.parseFloat(x_price_tf.getText()), 
+							(String)option_type_combo.getSelectedItem());  				
+				} 			
     			
     			if(otype.equals("Market Order")){
-    				
+       				order = new MarketOrder(d, action);
     			}else if(otype.equals("Limit Order")){
-    				
+    				order = new LimitOrder(d, action, Float.parseFloat(limit_tf.getText()));
     			}else if(otype.equals("Stop Order")){
-    				
+    				order = new StopOrder(d, action, Float.parseFloat(stop_tf.getText())); 
     			}else if(otype.equals("Stop Limit")){
-    				
-    			}    			
-    			
+    				order = new StopLimitOrder(d, action, Float.parseFloat(comb_stop_tf.getText()),Float.parseFloat(comb_limit_tf.getText()));   				
+    			} 
+				parent.getPortfolio().makeOrder(order);
+				parent.getPortfolio().printAll();
     		}
     		
     	}else{
