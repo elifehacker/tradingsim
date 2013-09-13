@@ -68,7 +68,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
 	
 	private void addpane(int num){
 		while(num!=0){
-			order_pane.add(new TradePanel(), FlowLayout.LEFT);
+			order_pane.add(new TradePanel(this), FlowLayout.LEFT);
 			num--;
 		}
 	}
@@ -262,8 +262,8 @@ public class TradeStrategyView extends javax.swing.JFrame {
         order_pane.setMaximumSize(new java.awt.Dimension(3277, 3277));
         order_pane.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        order_pane.add(new TradePanel(), FlowLayout.LEFT);
-        order_pane.add(new TradePanel(), FlowLayout.LEFT);
+        order_pane.add(new TradePanel(this), FlowLayout.LEFT);
+        order_pane.add(new TradePanel(this), FlowLayout.LEFT);
 
         order_scroll.setViewportView(order_pane);
 

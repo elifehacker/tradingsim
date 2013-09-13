@@ -1,6 +1,14 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
+
+import order.Order;
+
+import view.TradeView.reselectListener;
 
 /*
  * To change this template, choose Tools | Templates
@@ -16,8 +24,10 @@ public class TradePanel extends javax.swing.JPanel {
     /**
      * Creates new form TradePanel
      */
-    public TradePanel() {
+    public TradePanel(TradeStrategyView v) {
+    	parent = v;
         initComponents();
+        addlisteners();
     }
 
     /**
@@ -98,7 +108,7 @@ public class TradePanel extends javax.swing.JPanel {
             .addGap(0, 80, Short.MAX_VALUE)
         );
 
-        mid_pane.add(stock_pane, "card2");
+        mid_pane.add(stock_pane, "Stock");
 
         option_pane.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -146,7 +156,7 @@ public class TradePanel extends javax.swing.JPanel {
                 .addGap(135, 135, 135))
         );
 
-        mid_pane.add(option_pane, "card3");
+        mid_pane.add(option_pane, "Option");
 
         mid_pane.setBounds(0, 80, 570, 80);
         jLayeredPane.add(mid_pane, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -167,7 +177,7 @@ public class TradePanel extends javax.swing.JPanel {
             .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        bottom_pane.add(blank_pane, "card6");
+        bottom_pane.add(blank_pane, "blank_pane");
 
         market_pane.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -188,9 +198,9 @@ public class TradePanel extends javax.swing.JPanel {
                 .addGroup(market_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(market_lab, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(market_paneLayout.createSequentialGroup()
-                        .addGap(114, 114, 114)
+                        .addGap(111, 111, 111)
                         .addComponent(market_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(287, Short.MAX_VALUE))
+                .addContainerGap(290, Short.MAX_VALUE))
         );
         market_paneLayout.setVerticalGroup(
             market_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +210,7 @@ public class TradePanel extends javax.swing.JPanel {
                 .addComponent(market_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        bottom_pane.add(market_pane, "card3");
+        bottom_pane.add(market_pane, "Market Order");
 
         stop_pane.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -233,7 +243,7 @@ public class TradePanel extends javax.swing.JPanel {
                 .addComponent(stop_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        bottom_pane.add(stop_pane, "card5");
+        bottom_pane.add(stop_pane, "Stop Order");
 
         limit_pane.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -266,7 +276,7 @@ public class TradePanel extends javax.swing.JPanel {
                 .addComponent(limit_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        bottom_pane.add(limit_pane, "card4");
+        bottom_pane.add(limit_pane, "Limit Order");
 
         stop_limit_pane.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -320,7 +330,7 @@ public class TradePanel extends javax.swing.JPanel {
                 .addGap(0, 3, Short.MAX_VALUE))
         );
 
-        bottom_pane.add(stop_limit_pane, "card2");
+        bottom_pane.add(stop_limit_pane, "Stop Limit");
 
         bottom_pane.setBounds(0, 160, 560, 60);
         jLayeredPane.add(bottom_pane, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -409,13 +419,38 @@ public class TradePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>                        
+    
+    
+    class reselectListener implements ActionListener{
 
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+	        CardLayout cl = (CardLayout)(mid_pane.getLayout());
+			cl.show(mid_pane, "Stock");
+			cl = (CardLayout)(bottom_pane.getLayout());
+			cl.show(bottom_pane, "blank_pane");
+			selected = false;
+		}
+    	
+    }
+    
+    private void addlisteners(){
+    	reselectListener rl = new reselectListener();
+    	security_combo.addActionListener(rl);
+    	order_type_combo.addActionListener(rl);
+
+    }
+    
     private void but_selectActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
         CardLayout cl = (CardLayout)(mid_pane.getLayout());
-        cl.next(mid_pane);
-    }                                          
-
+		cl.show(mid_pane, (String)security_combo.getSelectedItem());
+		cl = (CardLayout)(bottom_pane.getLayout());
+		cl.show(bottom_pane, (String)order_type_combo.getSelectedItem());
+		selected = true;
+    } 
+    
     private void market_tfActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
     }                                         
@@ -440,14 +475,48 @@ public class TradePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }                                             
 
+
     private void but_make_orderActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
-    }                                              
+    	if(selected){
+    		int n = JOptionPane.showConfirmDialog(
+    			    this,
+    			    "Are you sure to make this order?",
+    			    "Confirmation",
+    			    JOptionPane.YES_NO_OPTION);
+    		System.out.println("Confirmation is "+n); // yes == 0 , no == 1
+    		if(n == 0){
+    			
+    			String symbol = parent.getSelectedSymbol();     			
+    			Order order;    			
+    			String otype = (String)order_type_combo.getSelectedItem();
+    			String dtype = (String)security_combo.getSelectedItem();
+    			
+    			if(otype.equals("Market Order")){
+    				
+    			}else if(otype.equals("Limit Order")){
+    				
+    			}else if(otype.equals("Stop Order")){
+    				
+    			}else if(otype.equals("Stop Limit")){
+    				
+    			}    			
+    			
+    		}
+    		
+    	}else{
+			JOptionPane.showMessageDialog(null,
+				    "Click \"Select\" buttone to lock in order");
+    	}
+    }                                                   
 
     private void security_comboActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
     }                                              
 
+    private boolean selected = false;
+    private TradeStrategyView parent;
+    
     // Variables declaration - do not modify                     
     private javax.swing.JComboBox action_combo;
     private javax.swing.JLabel action_lab;

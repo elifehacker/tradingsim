@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import order.Order;
+
+import derivative.Derivative;
+import derivative.Stock;
+
 import simulation.model.Portfolio;
 
 /*
@@ -21,8 +26,8 @@ public class TradeView extends javax.swing.JFrame {
     /**
      * Creates new form TradePanel
      */
-    public TradeView(TradeStrategyView v) {
-    	parent = v;
+    public TradeView(Portfolio p) {
+    	portfolio = p;
         initComponents();
         addlisteners();
     }
@@ -534,25 +539,21 @@ public class TradeView extends javax.swing.JFrame {
     			    JOptionPane.YES_NO_OPTION);
     		System.out.println("Confirmation is "+n); // yes == 0 , no == 1
     		if(n == 0){
-    			String symbol = parent.getSelectedSymbol(); 
     			
-    			if(((String)security_combo.getSelectedItem()).equals("Stock")){
-    				
-    			}else if(((String)security_combo.getSelectedItem()).equals("Option")){
-    				
-    			}
-
-    			String type = (String)order_type_combo.getSelectedItem();
+    			String symbol = (String)symbol_combo.getSelectedItem();     			
+    			Order order;    			
+    			String otype = (String)order_type_combo.getSelectedItem();
+    			String dtype = (String)security_combo.getSelectedItem();
     			
-    			if(type.equals("Market Order")){
+    			if(otype.equals("Market Order")){
     				
-    			}else if(type.equals("Limit Order")){
+    			}else if(otype.equals("Limit Order")){
     				
-    			}else if(type.equals("Stop Order")){
+    			}else if(otype.equals("Stop Order")){
     				
-    			}else if(type.equals("Stop Limit")){
+    			}else if(otype.equals("Stop Limit")){
     				
-    			}
+    			}    			
     			
     		}
     		
@@ -617,15 +618,14 @@ public class TradeView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	TradeStrategyView tst = new TradeStrategyView(new Portfolio(10000));
-            	tst.test_setSelectedSymbol("ABC");
-                new TradeView(tst).setVisible(true);
+
+                new TradeView(new Portfolio(10000)).setVisible(true);
             }
         });
     }
     
     private boolean selected = false;
-    private TradeStrategyView parent;
+    private Portfolio portfolio;
     // Variables declaration - do not modify                     
     private javax.swing.JComboBox action_combo;
     private javax.swing.JLabel action_lab;
@@ -633,9 +633,7 @@ public class TradeView extends javax.swing.JFrame {
     private javax.swing.JPanel blank_pane;
     private javax.swing.JPanel bottom_pane;
     private javax.swing.JButton but_calculate;
-    private javax.swing.JButton but_calculate1;
     private javax.swing.JButton but_make_order;
-    private javax.swing.JButton but_make_order1;
     private javax.swing.JButton but_select;
     private javax.swing.JLabel cash_lab;
     private javax.swing.JLabel cash_num_lab;
