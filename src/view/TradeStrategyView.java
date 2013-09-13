@@ -82,14 +82,19 @@ public class TradeStrategyView extends javax.swing.JFrame {
     /**
      * Creates new form TradePanel
      */
-    public TradeStrategyView(Portfolio p) {
+    public TradeStrategyView(Portfolio p, String[] f) {
         initComponents();
         portfolio = p;
+        firms = f;
         strategy_combo.setModel(new javax.swing.DefaultComboBoxModel(strategies));
-        
+        symbol_combo.setModel(new javax.swing.DefaultComboBoxModel(f));
         resetview();
     }
 
+    public Portfolio getPortfolio(){
+    	return portfolio;
+    }
+    
     
 	public String getSelectedSymbol(){
 		return (String) symbol_combo.getSelectedItem();
@@ -132,7 +137,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
         trade_lab = new javax.swing.JLabel();
         trade_back_lab = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(4147, 4147));
 
         background_pane.setBackground(new java.awt.Color(255, 255, 255));
@@ -399,7 +404,8 @@ public class TradeStrategyView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TradeStrategyView(new Portfolio (10000)).setVisible(true);
+            	String[] ss =  {"ABC","XYZ"};
+                new TradeStrategyView(new Portfolio (10000), ss).setVisible(true);
             }
         });
     }
@@ -407,7 +413,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
     private String[] strategies = {"Stock", "Long Call", "Long Put", "Short Call", "Short Put",
     		"Collar", "Covered Call", "Protective Put", "Spread", "Straddle"};
     private Portfolio portfolio;
-    
+    private String[] firms;
     // Variables declaration - do not modify                     
     private javax.swing.JPanel background_pane;
     private javax.swing.JButton but_explain;
