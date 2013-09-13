@@ -4,6 +4,8 @@ import java.awt.CardLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 
+import simulation.model.Portfolio;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -63,7 +65,6 @@ public class TradeStrategyView extends javax.swing.JFrame {
 			payoff_lab6.setText("=");
 		}		
 	}
-
 	
 	private void addpane(int num){
 		while(num!=0){
@@ -81,14 +82,23 @@ public class TradeStrategyView extends javax.swing.JFrame {
     /**
      * Creates new form TradePanel
      */
-    public TradeStrategyView() {
+    public TradeStrategyView(Portfolio p) {
         initComponents();
-        
+        portfolio = p;
         strategy_combo.setModel(new javax.swing.DefaultComboBoxModel(strategies));
         
         resetview();
     }
 
+    
+	public String getSelectedSymbol(){
+		return (String) symbol_combo.getSelectedItem();
+	}
+    
+	public void test_setSelectedSymbol(String s){
+		symbol_combo.setSelectedItem(s);
+	}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -389,13 +399,15 @@ public class TradeStrategyView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TradeStrategyView().setVisible(true);
+                new TradeStrategyView(new Portfolio (10000)).setVisible(true);
             }
         });
     }
     
     private String[] strategies = {"Stock", "Long Call", "Long Put", "Short Call", "Short Put",
     		"Collar", "Covered Call", "Protective Put", "Spread", "Straddle"};
+    private Portfolio portfolio;
+    
     // Variables declaration - do not modify                     
     private javax.swing.JPanel background_pane;
     private javax.swing.JButton but_explain;
