@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import javax.swing.JTable;
 
+import order.MarketOrder;
 import order.Order;
 
 import derivative.Derivative;
@@ -120,6 +121,21 @@ public class PortfolioView extends javax.swing.JFrame {
 		// TODO Auto-generated method stub
 		LinkedList<Order> list = portfolio.getOrder();
         cash_lab_num.setText(""+portfolio.getCredit());
+		String[][] orders = new String[portfolio.getOrder().size()][order_title.length]; 
+		//{"ID","Symbol","Security","Order Type", "Long/Short"};
+		int i = 0;
+		for(Order o : portfolio.getOrder()){
+			Derivative d = o.getUnderlying();
+			orders[i][0] = ""+o.getId();
+			orders[i][1] = d.getSymbol();
+			if(d instanceof Stock) orders[i][2] = "Stock";
+			if(d instanceof Option) orders[i][2] = "Option";
+			orders[i][3] = o.getClass().getName();
+			orders[i][4] = o.getLongShort();
+			
+			i++;
+		}        
+		order_table.setModel(new javax.swing.table.DefaultTableModel(orders,order_title));
 
 	}
 
@@ -138,7 +154,7 @@ public class PortfolioView extends javax.swing.JFrame {
         Tabbs_pane = new javax.swing.JTabbedPane();
         Orders_pane = new javax.swing.JPanel();
         Order_scroll = new javax.swing.JScrollPane();
-        orders_table = new javax.swing.JTable();
+        order_table = new javax.swing.JTable();
         but_neworder = new javax.swing.JButton();
         but_cancelorder = new javax.swing.JButton();
         Stock_pane = new javax.swing.JPanel();
@@ -176,7 +192,7 @@ public class PortfolioView extends javax.swing.JFrame {
 
         Orders_pane.setBackground(new java.awt.Color(255, 255, 255));
 
-        orders_table.setModel(new javax.swing.table.DefaultTableModel(
+        order_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -187,7 +203,7 @@ public class PortfolioView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        Order_scroll.setViewportView(orders_table);
+        Order_scroll.setViewportView(order_table);
 
         but_neworder.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_neworder.setText("New Order");
@@ -509,6 +525,18 @@ public class PortfolioView extends javax.swing.JFrame {
 		// TODO Auto-generated method stub
     	but_sell_option.addActionListener(new SellDerivativeListener());
     	but_sell_stock.addActionListener(new SellDerivativeListener());
+    	
+    	but_cancelorder.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				int row = order_table.getSelectedRow();
+				if(row!=-1){
+					portfolio.getOrder().remove(row);
+					setOrderTable();
+				}
+			}
+    	});
 	}
     
     /**
@@ -547,7 +575,7 @@ public class PortfolioView extends javax.swing.JFrame {
             		p.test_purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 3.40, "Call"));
             		p.test_purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 5.40, "Call"));
             		p.test_purchase(new Option((float) 1.50, 20, "ABC", "11/12/2012",(float) 5.40, "Put"));
-
+            		p.makeOrder(new MarketOrder(new Stock((float)3.5, 10, "ABC"), "Short"));
             		new PortfolioView(p).setVisible(true);
             	}else{
                     new PortfolioView(new Portfolio (10000)).setVisible(true);
@@ -557,6 +585,8 @@ public class PortfolioView extends javax.swing.JFrame {
     }
         
 	private Portfolio portfolio;
+	
+    private String order_title[] = {"ID","Symbol","Security","Order Type", "Long/Short"};
 	
     private String stock_title[] = {"ID","Symbol","Bought at","Volume", "Spot price", "Proft/Loss"};
     private String option_title[] = {"ID","Symbol","Type","Bought at","Volume", "Strike price", "Spot price", "Maturity", "Proft/Loss"};
@@ -592,7 +622,7 @@ public class PortfolioView extends javax.swing.JFrame {
     private javax.swing.JTable history_table;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTable option_table;
-    private javax.swing.JTable orders_table;
+    private javax.swing.JTable order_table;
     private javax.swing.JLabel portfolio_back;
     private javax.swing.JLabel portfolio_front;
     private javax.swing.JTable stock_table;
