@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import javax.swing.JOptionPane;
 
 import order.LimitOrder;
+import order.MarketOrder;
 import order.Order;
 import order.StopLimitOrder;
 import order.StopOrder;
@@ -70,8 +71,16 @@ public class Portfolio {
 					if(o.getUnderlying().getSymbol().equals(row[sym_col])){
 						newprice = Float.parseFloat(row[last_col]);
 						netchange = Float.parseFloat(row[net_col]);
-				
-						if (o instanceof LimitOrder){
+
+						if (o instanceof MarketOrder){
+							o.getUnderlying().setPrice(newprice);
+							if(o.getLongShort().equals("Long")){								
+								purchase(o, removingOrder);								
+							}else if(o.getLongShort().equals("Short")){
+								sell(o, removingOrder);
+							}			
+							
+						}else if (o instanceof LimitOrder){
 							LimitOrder lo = (LimitOrder) o;
 							//System.out.println("limit order! "+newprice+" "+lo.getlimitprice());
 
