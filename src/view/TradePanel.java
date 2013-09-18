@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import model.Portfolio;
+
 import derivative.Derivative;
 import derivative.Option;
 import derivative.Stock;
@@ -16,7 +18,6 @@ import order.Order;
 import order.StopLimitOrder;
 import order.StopOrder;
 
-import simulation.model.Portfolio;
 import view.TradeView.reselectListener;
 
 /*

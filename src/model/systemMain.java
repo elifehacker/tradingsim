@@ -1,4 +1,4 @@
-package simulation.model;
+package model;
 
 import javax.swing.JFrame;
 

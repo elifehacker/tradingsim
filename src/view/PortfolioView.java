@@ -6,6 +6,8 @@ import java.util.LinkedList;
 
 import javax.swing.JTable;
 
+import model.Portfolio;
+
 import order.MarketOrder;
 import order.Order;
 
@@ -13,7 +15,6 @@ import derivative.Derivative;
 import derivative.Option;
 import derivative.Stock;
 
-import simulation.model.Portfolio;
 
 public class PortfolioView extends javax.swing.JFrame {
 

@@ -1,1 +1,1 @@
-Main-Class: view.SimulationView
+Main-Class: view.PackageSelection

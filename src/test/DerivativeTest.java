@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 
+import model.Portfolio;
 import order.Order;
 
 import org.junit.Test;
@@ -11,7 +12,6 @@ import org.junit.Test;
 import derivative.Derivative;
 import derivative.Stock;
 
-import simulation.model.Portfolio;
 
 public class DerivativeTest {
 

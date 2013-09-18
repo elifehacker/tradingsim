@@ -1,4 +1,4 @@
-package simulation.model;
+package model;
 
 public class News {
 

@@ -5,12 +5,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import model.Portfolio;
+
 import order.Order;
 
 import derivative.Derivative;
 import derivative.Stock;
 
-import simulation.model.Portfolio;
 
 /*
  * To change this template, choose Tools | Templates

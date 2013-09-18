@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
+import model.Portfolio;
 import order.LimitOrder;
 import order.MarketOrder;
 import order.Order;
@@ -12,7 +13,6 @@ import org.junit.Test;
 
 import derivative.Stock;
 
-import simulation.model.Portfolio;
 
 public class OrderTest {
 /*

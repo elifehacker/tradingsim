@@ -1,4 +1,4 @@
-package simulation.model;
+package model;
 
 import java.util.HashMap;
 import java.util.HashSet;

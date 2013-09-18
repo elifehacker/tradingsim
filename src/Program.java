@@ -11,6 +11,24 @@ public class Program {
 		list.add(num);
 	}
 	
+	public static void reset(Program p){
+		p.resetNum();
+	}
+	
+	private int num;
+	
+	public Program(int n){
+		num = n;
+	}
+	
+	public void resetNum(){
+		num = 0;
+	}
+	
+	public int getNum(){
+		return num;
+	}
+	
     public static void main(String[] args) {
         String text = "Hello world";
         try {
@@ -29,6 +47,10 @@ public class Program {
         String s2[] = s1;
         s2[0] = "c";
         System.out.println(s1[0]);
+        System.out.println("-----------");
+        Program p = new Program(9);
+        reset(p);
+        System.out.println(p.getNum());
         
     }
 }

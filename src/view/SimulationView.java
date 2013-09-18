@@ -17,8 +17,9 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import simulation.model.DataReader;
-import simulation.model.Portfolio;
+import model.DataReader;
+import model.Portfolio;
+
 
 /*
  * To change this template, choose Tools | Templates
@@ -52,7 +53,7 @@ public class SimulationView extends javax.swing.JFrame {
 	
     public SimulationView(String folder) {
     	
-        dr = new DataReader(folder);
+        dr = new DataReader(folder, 10000);
         
         initComponents();
     	

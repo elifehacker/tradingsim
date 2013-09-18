@@ -4,7 +4,8 @@ import java.awt.CardLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 
-import simulation.model.Portfolio;
+import model.Portfolio;
+
 
 /*
  * To change this template, choose Tools | Templates
