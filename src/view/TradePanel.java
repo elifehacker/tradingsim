@@ -61,10 +61,7 @@ public class TradePanel extends javax.swing.JPanel {
         x_date_lab = new javax.swing.JLabel();
         x_date_tf = new javax.swing.JTextField();
         bottom_pane = new javax.swing.JPanel();
-        blank_pane = new javax.swing.JPanel();
         market_pane = new javax.swing.JPanel();
-        market_lab = new javax.swing.JLabel();
-        market_tf = new javax.swing.JTextField();
         stop_pane = new javax.swing.JPanel();
         stop_lab = new javax.swing.JLabel();
         stop_tf = new javax.swing.JTextField();
@@ -174,50 +171,17 @@ public class TradePanel extends javax.swing.JPanel {
         bottom_pane.setBackground(new java.awt.Color(255, 255, 255));
         bottom_pane.setLayout(new java.awt.CardLayout());
 
-        blank_pane.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout blank_paneLayout = new javax.swing.GroupLayout(blank_pane);
-        blank_pane.setLayout(blank_paneLayout);
-        blank_paneLayout.setHorizontalGroup(
-            blank_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
-        );
-        blank_paneLayout.setVerticalGroup(
-            blank_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
-
-        bottom_pane.add(blank_pane, "blank_pane");
-
         market_pane.setBackground(new java.awt.Color(255, 255, 255));
-
-        market_lab.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        market_lab.setText("Market Order Price");
-
-        market_tf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                market_tfActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout market_paneLayout = new javax.swing.GroupLayout(market_pane);
         market_pane.setLayout(market_paneLayout);
         market_paneLayout.setHorizontalGroup(
             market_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(market_paneLayout.createSequentialGroup()
-                .addGroup(market_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(market_lab, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(market_paneLayout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(market_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(290, Short.MAX_VALUE))
+            .addGap(0, 560, Short.MAX_VALUE)
         );
         market_paneLayout.setVerticalGroup(
             market_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(market_paneLayout.createSequentialGroup()
-                .addComponent(market_lab)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(market_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(0, 60, Short.MAX_VALUE)
         );
 
         bottom_pane.add(market_pane, "Market Order");
@@ -429,7 +393,7 @@ public class TradePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>                        
-    
+
     
     class reselectListener implements ActionListener{
 
@@ -439,7 +403,7 @@ public class TradePanel extends javax.swing.JPanel {
 	        CardLayout cl = (CardLayout)(mid_pane.getLayout());
 			cl.show(mid_pane, "Stock");
 			cl = (CardLayout)(bottom_pane.getLayout());
-			cl.show(bottom_pane, "blank_pane");
+			cl.show(bottom_pane, "Market Order");
 			selected = false;
 		}
     	

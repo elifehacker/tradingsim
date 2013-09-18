@@ -67,7 +67,7 @@ public class SimulationView extends javax.swing.JFrame {
 		
 		update_rate_TextField.setText("Rate");
 		current_time_TextField.setText("Time");
-		current_date_TextField.setText("Date");
+		//current_date_TextField.setText("Date");
 		status_TextField.setText("Status");
 		
 		portfolio = new Portfolio(dr.getStartingCash());
