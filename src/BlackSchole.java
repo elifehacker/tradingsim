@@ -94,11 +94,22 @@ public class BlackSchole {
 		price = BlackSchole.BlackScholes('c', 30.14, 15.00, 0.25, 0.01, 0.5762);
 		System.out.println(price);
 		
-		double v = findImpliedvolatility('c', 120, 125, 0.33, 0.0283, 0 , 5 , 9);//0.0283 -- 10 year gov bond
+		System.out.println("-------");
+
+		double v = findImpliedvolatility('c', 120, 125, 2.33, 0.0068, 0 , 5 , 9.09);//0.0283 -- 10 year gov bond
 		System.out.println(v);
 
-		price = BlackSchole.BlackScholes('c', 120, 125, 0.33, 0.0283, 0.3877);
+		price = BlackSchole.BlackScholes('c', 120, 95, 2.33, 0.0068, v);//should be 27.05
 		System.out.println(price);
+
+		System.out.println("-------");
+
+		v = findImpliedvolatility('c', 35, 30, 1.33, 0.0033, 0 , 5 , 6.33);//0.0033 -- 2 year gov bond
+		System.out.println(v);
+
+		price = BlackSchole.BlackScholes('c', 35, 35, 1.33, 0.0033, v);//should be 3.2
+		System.out.println(price);	
+	
 	}
 
 }
