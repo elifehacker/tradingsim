@@ -473,7 +473,7 @@ public class SimulationView extends javax.swing.JFrame {
     	});
     	
 
-    	but_trade.addActionListener(new ActionListener(){
+    	but_strategy.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import model.BlackSchole;
 import model.Portfolio;
 
 import derivative.Derivative;
@@ -447,6 +448,14 @@ public class TradePanel extends javax.swing.JPanel {
 
     private void but_calculateActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
+		String dtype = (String)security_combo.getSelectedItem();
+    	if (dtype.equals("Option")){
+	    	BlackSchole bs = new BlackSchole();
+	    	double price = bs.findOptionPrice(parent.getSelectedSymbol(), (String)option_type_combo.getSelectedItem(), 
+	    			x_price_tf.getText(), x_date_tf.getText());
+	    	JOptionPane.showMessageDialog(null,
+				    "Price of your option is $"+price);
+    	}
     }                                             
 
 
