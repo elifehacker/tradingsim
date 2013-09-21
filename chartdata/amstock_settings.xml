@@ -28,7 +28,7 @@ full list of available settings, check the amstock_settings.xml file in the amst
        <csv>
          <reverse>true</reverse>
          <separator>,</separator>
-         <date_format>DD.MM.YYYY</date_format>
+         <date_format>DD-MM-YYYY</date_format>
          <decimal_separator>.</decimal_separator>
          <columns>
            <column>date</column>
