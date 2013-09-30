@@ -4,12 +4,14 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 
+import model.BlackSchole;
 import model.Portfolio;
 import order.Order;
 
 import org.junit.Test;
 
 import derivative.Derivative;
+import derivative.Option;
 import derivative.Stock;
 
 
@@ -63,6 +65,25 @@ public class DerivativeTest {
 			i++;
 		}
 	*/	
+		
+		float newprice = 20;
+		float netchange = -5;
+		
+		Option u = new Option(0, 10, "ABC", "8-12-15", 30, "Put");
+		float lastprice = newprice-netchange;
+		BlackSchole bs = new BlackSchole();
+		bs.updateDate("8-8-14");
+		String[] f = {"ABC"};
+		bs.setFirms(f);
+		double[] v = {0.2};
+		bs.setVolatility(v);
+		double lastoptionprice = bs.findOptionPrice(u.getSymbol(), u.getType(), lastprice, u.getStrike(), u.getMaturity());
+		double nowoptionprice = bs.findOptionPrice(u.getSymbol(), u.getType(), newprice, u.getStrike(), u.getMaturity());
+		newprice = (float) nowoptionprice;
+		netchange = (float) (nowoptionprice - lastoptionprice);
+
+		System.out.println(lastoptionprice+" "+nowoptionprice);
+		System.out.println(newprice+" "+netchange);
 	}
 
 }

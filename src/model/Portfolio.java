@@ -68,8 +68,19 @@ public class Portfolio {
 				
 				for(Order o : orders){
 					if(o.getUnderlying().getSymbol().equals(row[sym_col])){
-						newprice = Float.parseFloat(row[last_col]);
+						newprice = Float.parseFloat(row[last_col]);//stock
 						netchange = Float.parseFloat(row[net_col]);
+						
+						if(o.getUnderlying() instanceof Option){
+							Option u = (Option) o.getUnderlying();
+							float lastprice = newprice-netchange;
+							BlackSchole bs = new BlackSchole();
+							double lastoptionprice = bs.findOptionPrice(u.getSymbol(), u.getType(), lastprice, u.getStrike(), u.getMaturity());
+							double nowoptionprice = bs.findOptionPrice(u.getSymbol(), u.getType(), newprice, u.getStrike(), u.getMaturity());
+							newprice = (float) nowoptionprice;
+							netchange = (float) (nowoptionprice - lastoptionprice);
+
+						}
 
 						if (o instanceof MarketOrder){
 							o.getUnderlying().setPrice(newprice);

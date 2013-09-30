@@ -23,6 +23,21 @@ public class BlackSchole {
 		// TODO Auto-generated method stub
 		firms = v;
 	}
+
+	public double findOptionPrice(String tic, String callput, float crt_price, float x_price, String x_date){
+		int i;
+		for(i = 0; i<firms.length; i++){
+			if(firms[i].equals(tic))break;
+		}
+		double v = volatility[i];
+
+		char t = 'P';
+		if(callput.equals("Call")) t = 'C';	
+
+		double timediff = timetilmaturity(date, x_date);
+		return BlackScholes(t, crt_price, x_price, 
+				timediff, bondyield(timediff), v);
+	}
 	
 	public double findOptionPrice(String tic, String callput, String x_price, String x_date){
 		int i;
