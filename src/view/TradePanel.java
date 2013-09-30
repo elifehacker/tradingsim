@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import model.BlackSchole;
+import model.IndexTable;
 import model.Portfolio;
 
 import derivative.Derivative;
@@ -446,15 +447,69 @@ public class TradePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }                                            
 
+    private int validateInput(){
+    	int v;
+		try{
+			String otype = (String)order_type_combo.getSelectedItem();
+			float p = 0;
+			v = Integer.parseInt(volume_tf.getText());
+			String dtype = (String)security_combo.getSelectedItem();
+			
+			if(v<=0) return 0;
+			if(otype.equals("Market Order")){
+				String last = IndexTable.getCell(parent.getSelectedSymbol(), IndexTable.getLast());	
+				System.out.println("TradePanel "+last);
+				p = Float.parseFloat(last);
+			}else if(otype.equals("Limit Order")){
+				p = Float.parseFloat(limit_tf.getText());
+			}else if(otype.equals("Stop Order")){
+				p = Float.parseFloat(stop_tf.getText()); 
+			}else if(otype.equals("Stop Limit")){
+				p = Float.parseFloat(comb_stop_tf.getText());
+				p = Float.parseFloat(comb_limit_tf.getText());   				
+			}
+			if(dtype.equals("Stock")){								
+			    total_tf.setText(""+p*v);
+			}else if (dtype.equals("Option")){
+				
+	    		try{
+			    	BlackSchole bs = new BlackSchole();
+			    	double price = bs.findOptionPrice(parent.getSelectedSymbol(), (String)option_type_combo.getSelectedItem(), 
+			    			x_price_tf.getText(), x_date_tf.getText());
+			    	JOptionPane.showMessageDialog(null,
+						    "Current market price of your option is $"+price);	
+					if(otype.equals("Market Order")){
+						total_tf.setText(""+price*v);
+					}else{
+						total_tf.setText(""+p*v);						
+					}
+	    		}catch (Exception e){
+			    	JOptionPane.showMessageDialog(null,
+			    			"Please enter input in correct format, X_Date(DD-MM-YY)");
+	    		}
+			}
+	    				
+		}catch (Exception e){
+			JOptionPane.showMessageDialog(null,
+				    "Please enter valid volume and price");
+			return 0;
+		}   	
+    	
+    	return v;
+    }
+    
+    
     private void but_calculateActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
-		String dtype = (String)security_combo.getSelectedItem();
-    	if (dtype.equals("Option")){
-	    	BlackSchole bs = new BlackSchole();
-	    	double price = bs.findOptionPrice(parent.getSelectedSymbol(), (String)option_type_combo.getSelectedItem(), 
-	    			x_price_tf.getText(), x_date_tf.getText());
-	    	JOptionPane.showMessageDialog(null,
-				    "Price of your option is $"+price);
+    	if(selected){
+    		int vol = validateInput();
+    		if(vol==0){
+    			return;
+    		}
+	    	
+    	}else{
+    		JOptionPane.showMessageDialog(null,
+				    "Click \"Select\" buttone to lock in order");
     	}
     }                                             
 
@@ -462,6 +517,10 @@ public class TradePanel extends javax.swing.JPanel {
     private void but_make_orderActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
     	if(selected){
+    		if(validateInput()==0){
+    			return;
+    		}
+
     		int n = JOptionPane.showConfirmDialog(
     			    this,
     			    "Are you sure to make this order?",
@@ -490,6 +549,13 @@ public class TradePanel extends javax.swing.JPanel {
     			
     			if(otype.equals("Market Order")){
        				order = new MarketOrder(d, action);
+       				
+    		    	BlackSchole bs = new BlackSchole();
+    		    	double price = bs.findOptionPrice(parent.getSelectedSymbol(), (String)option_type_combo.getSelectedItem(), 
+    		    			x_price_tf.getText(), x_date_tf.getText());
+       				
+    				total_tf.setText(""+price*volume);
+
     			}else if(otype.equals("Limit Order")){
     				order = new LimitOrder(d, action, Float.parseFloat(limit_tf.getText()));
     			}else if(otype.equals("Stop Order")){
