@@ -292,7 +292,6 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
 					        }
 					        String everything = sb.toString();
 					        desc_textarea.setText(everything);
-					        lab_picture.setIcon(new javax.swing.ImageIcon(getClass().getResource(path+".png")));
 
 					        br.close();
 						} catch (FileNotFoundException e1) {

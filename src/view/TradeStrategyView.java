@@ -76,7 +76,9 @@ public class TradeStrategyView extends javax.swing.JFrame {
 	
 	private void resetview(){
         clearlabs();
-		order_pane.removeAll();		
+		order_pane.removeAll();
+		order_pane.revalidate();
+		order_pane.repaint();
         //order_pane.add(new TradePanel(), FlowLayout.LEFT);
 	}
 	
