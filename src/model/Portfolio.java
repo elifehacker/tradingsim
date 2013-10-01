@@ -211,13 +211,15 @@ public class Portfolio {
 	
 	private void purchase(Order o, LinkedList<Order> list){
 		Derivative under =o.getUnderlying(); 
-		if(credit>under.getTotal()){
+		if(credit>=under.getTotal()){
 			credit -= under.getTotal();
 			onhand.add(under);
 			System.out.println("order executed in purchase "+under.getId());
 			//orders.remove(o);
 			list.add(o);
-
+		}else{
+			JOptionPane.showMessageDialog(null,
+				    "Insufficent fund to execute the order with id "+under.getId()+" of "+under.getSymbol());
 		}
 	}
 	

@@ -3,9 +3,17 @@ package derivative;
 public abstract class Derivative implements Comparable<Derivative>{
 	
 	public static int getStrategyTotalid() {
-		return strategytotal++;
+		return strategytotal;
 	}
 
+	public String getTag(){
+		return tag;
+	}
+	
+	public void setTag(String t){
+		tag = t;
+	}
+	
 	public void setStrategyid(int s) {
 		strategyid = s;
 	}
@@ -42,6 +50,8 @@ public abstract class Derivative implements Comparable<Derivative>{
 
 	private static int strategytotal = 0;
 	private  int strategyid = 0;
+	
+	private String tag="";
 	
 	public Derivative(float price, int volume, String symbol) {
 		super();

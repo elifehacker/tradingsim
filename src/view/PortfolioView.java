@@ -2,6 +2,8 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
@@ -36,10 +38,78 @@ public class PortfolioView extends javax.swing.JFrame {
 
     	setOrderTable();
     	setOnhandTable();
+    	setStrategyTable();
     	//setHistoryTable();
 
 	}
+	
+	private void setStrats(Order o, int xy, String[][] strats){
+		strats[xy][0] = ""+o.getStrategyid()+" "+o.getTag();
+		strats[xy][1] = ""+o.getId();
+		strats[xy][2] = "Order: "+o.getLongShort();
+		strats[xy][3] = o.getUnderlying().getSymbol();
+		strats[xy][4] = ""+o.getUnderlying().getVolume();
+	}
 
+	private void setStrats(Derivative d, int xy, String[][] strats){
+		strats[xy][0] = ""+d.getStrategyid()+" "+d.getTag();
+		strats[xy][1] = ""+d.getId();
+		if(d instanceof Stock)	strats[xy][2] = "Stock";
+		if(d instanceof Option)	strats[xy][2] = "Option";
+		strats[xy][3] = d.getSymbol();
+		strats[xy][4] = ""+d.getVolume();
+	}
+
+	private void setStrategyTable() {
+		int total = portfolio.getOrder().size()+portfolio.getOnhand().size();
+		String[][] strats = new String[total][strategy_title.length]; 
+		LinkedList<Order> orders =portfolio.getOrder(); 
+		LinkedList<Derivative> onhands = portfolio.getOnhand();
+		Collections.sort(orders, new Comparator <Order>(){
+			@Override
+			public int compare(Order a, Order b) {
+				// TODO Auto-generated method stub
+				return a.getStrategyid()- b.getStrategyid();
+			}
+		});
+		Collections.sort(onhands, new Comparator <Derivative>(){
+			@Override
+			public int compare(Derivative a, Derivative b) {
+				// TODO Auto-generated method stub
+				return a.getStrategyid()- b.getStrategyid();
+			}
+		});
+		
+		int x = 0;
+		int y = 0;
+		//  "Strat ID", "ID", "Type", "Symbol", "Volume"};
+		while(x<orders.size() && y < onhands.size()){
+			if(orders.get(x).getStrategyid()<onhands.get(y).getStrategyid()){
+				Order o = orders.get(x);
+				setStrats(o,x+y, strats);
+				x++;
+			}else{
+				Derivative d = onhands.get(y);
+				setStrats(d,x+y,strats);
+				y++;
+			}
+			
+		}
+		while(x<orders.size()){
+			Order o = orders.get(x);
+			setStrats(o,x+y, strats);
+			x++;
+		}
+		
+		while(y<onhands.size()){
+			Derivative d = onhands.get(y);
+			setStrats(d,x+y,strats);
+			y++;
+		}
+		
+		strategy_table.setModel(new javax.swing.table.DefaultTableModel(strats,strategy_title));
+	}
+	
 	private void setOnhandTable() {
 		// TODO Auto-generated method stub
 		LinkedList<Derivative> list = portfolio.getOnhand();
@@ -605,6 +675,8 @@ public class PortfolioView extends javax.swing.JFrame {
     private String stock_title[] = {"ID","Symbol","Bought at","Volume", "Spot price", "Proft/Loss"};
     private String option_title[] = {"ID","Symbol","Type","Bought at","Volume", "Strike price", "Spot price", "Maturity", "Proft/Loss"};
 
+    private String strategy_title[]={"Strat ID", "ID", "Type", "Symbol", "Volume"};
+    
     private int selected_stock;
     private int selected_option;
     private int selected_order;
