@@ -91,9 +91,15 @@ public class TradeStrategyView extends javax.swing.JFrame {
         firms = f;
         strategy_combo.setModel(new javax.swing.DefaultComboBoxModel(strategies));
         symbol_combo.setModel(new javax.swing.DefaultComboBoxModel(f));
+        cash_num_lab.setText(""+portfolio.getCredit());
+        updateCredit();
         resetview();
     }
 
+    public void updateCredit(){
+        cash_num_lab.setText(""+portfolio.getCredit());    	
+    }
+    
     public Portfolio getPortfolio(){
     	return portfolio;
     }

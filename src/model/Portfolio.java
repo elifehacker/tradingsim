@@ -270,17 +270,12 @@ public class Portfolio {
         return (a <= 0.0F) ? 0.0F - a : a;
     }
 	
-	public void sellOption(Option o, float spotprice){
+	public void excerciseOption(Option o, float spotprice){
 		
-		if(spotprice>o.getStrike() ^ o.getType().equals("Put")){
-			if(onhand.remove(o)){
-				credit += o.getVolume()*(abs(spotprice - o.getStrike()));
-				removeOnhand(o);
-				//removeOrder(o);
-			}
-		}else{
-			JOptionPane.showMessageDialog(null,
-				    "Option has no value at the moment, better wait until expiration");
+		if(onhand.remove(o)){
+			credit += o.getVolume()*(abs(spotprice - o.getStrike()));
+			removeOnhand(o);
+			//removeOrder(o);
 		}
 
 	}

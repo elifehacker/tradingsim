@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import model.Portfolio;
@@ -92,7 +93,7 @@ public class PortfolioView extends javax.swing.JFrame {
 		String[][] options = new String[oplist.size()+1][option_title.length]; 
 
 		int i = 0;
-		int total = 0;
+		float  total = 0;
 		for(Option o : oplist){
 			float cur_price;
 			if(TestingMode) cur_price = (float)4.22;
@@ -106,8 +107,8 @@ public class PortfolioView extends javax.swing.JFrame {
 			options[i][6] =  ""+cur_price;
 			options[i][7] =  ""+o.getMaturity();
 			float net =0;
-			if(o.getType().equals("Call")) net= (cur_price-o.getStrike())*o.getVolume();
-			else if(o.getType().equals("Put"))net= (o.getStrike()-cur_price)*o.getVolume();
+			if(o.getType().equals("Call")) net= (cur_price-o.getStrike()-o.getPrice())*o.getVolume();
+			else if(o.getType().equals("Put"))net= (o.getStrike()-cur_price-o.getPrice())*o.getVolume();
 			if(net > 0)options[i][8] ="+"+net;
 			else options[i][8] =""+net;
 			total+=net;
@@ -133,10 +134,11 @@ public class PortfolioView extends javax.swing.JFrame {
 			if(d instanceof Option) orders[i][2] = "Option";
 			orders[i][3] = o.getClass().getName();
 			orders[i][4] = o.getLongShort();
+			orders[i][5] = ""+o.getUnderlying().getVolume();
 			
 			i++;
 		}        
-		order_table.setModel(new javax.swing.table.DefaultTableModel(orders,order_title));
+		orders_table.setModel(new javax.swing.table.DefaultTableModel(orders,order_title));
 
 	}
 
@@ -155,23 +157,20 @@ public class PortfolioView extends javax.swing.JFrame {
         Tabbs_pane = new javax.swing.JTabbedPane();
         Orders_pane = new javax.swing.JPanel();
         Order_scroll = new javax.swing.JScrollPane();
-        order_table = new javax.swing.JTable();
+        orders_table = new javax.swing.JTable();
         but_neworder = new javax.swing.JButton();
         but_cancelorder = new javax.swing.JButton();
         Stock_pane = new javax.swing.JPanel();
         Stock_scroll = new javax.swing.JScrollPane();
         stock_table = new javax.swing.JTable();
-        but_sell_stock = new javax.swing.JButton();
         Option_pane = new javax.swing.JPanel();
         Option_scroll = new javax.swing.JScrollPane();
         option_table = new javax.swing.JTable();
-        but_sell_option = new javax.swing.JButton();
+        but_excercise = new javax.swing.JButton();
         Strategy_pane = new javax.swing.JPanel();
         Strategy_scroll = new javax.swing.JScrollPane();
         strategy_table = new javax.swing.JTable();
-        but_sell_derivative = new javax.swing.JButton();
-        but_neworder_1 = new javax.swing.JButton();
-        but_cancelorder_1 = new javax.swing.JButton();
+        but_detail = new javax.swing.JButton();
         History_pane = new javax.swing.JPanel();
         history_scroll = new javax.swing.JScrollPane();
         history_table = new javax.swing.JTable();
@@ -193,7 +192,7 @@ public class PortfolioView extends javax.swing.JFrame {
 
         Orders_pane.setBackground(new java.awt.Color(255, 255, 255));
 
-        order_table.setModel(new javax.swing.table.DefaultTableModel(
+        orders_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -204,7 +203,7 @@ public class PortfolioView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        Order_scroll.setViewportView(order_table);
+        Order_scroll.setViewportView(orders_table);
 
         but_neworder.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_neworder.setText("New Order");
@@ -257,26 +256,17 @@ public class PortfolioView extends javax.swing.JFrame {
         ));
         Stock_scroll.setViewportView(stock_table);
 
-        but_sell_stock.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_sell_stock.setText("Sell Stock");
-
         javax.swing.GroupLayout Stock_paneLayout = new javax.swing.GroupLayout(Stock_pane);
         Stock_pane.setLayout(Stock_paneLayout);
         Stock_paneLayout.setHorizontalGroup(
             Stock_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Stock_scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Stock_paneLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(but_sell_stock, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
         );
         Stock_paneLayout.setVerticalGroup(
             Stock_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Stock_paneLayout.createSequentialGroup()
                 .addComponent(Stock_scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(but_sell_stock, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         Tabbs_pane.addTab("Onhand: Stock", Stock_pane);
@@ -296,9 +286,14 @@ public class PortfolioView extends javax.swing.JFrame {
         ));
         Option_scroll.setViewportView(option_table);
 
-        but_sell_option.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_sell_option.setText("Sell Option");
-
+        but_excercise.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        but_excercise.setText("Excercise");
+        but_excercise.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                but_excerciseActionPerformed(evt);
+            }
+        });
+        
         javax.swing.GroupLayout Option_paneLayout = new javax.swing.GroupLayout(Option_pane);
         Option_pane.setLayout(Option_paneLayout);
         Option_paneLayout.setHorizontalGroup(
@@ -306,7 +301,7 @@ public class PortfolioView extends javax.swing.JFrame {
             .addComponent(Option_scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Option_paneLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(but_sell_option, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(but_excercise, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
         Option_paneLayout.setVerticalGroup(
@@ -314,7 +309,7 @@ public class PortfolioView extends javax.swing.JFrame {
             .addGroup(Option_paneLayout.createSequentialGroup()
                 .addComponent(Option_scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(but_sell_option, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addComponent(but_excercise, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -335,46 +330,28 @@ public class PortfolioView extends javax.swing.JFrame {
         ));
         Strategy_scroll.setViewportView(strategy_table);
 
-        but_sell_derivative.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_sell_derivative.setText("Sell Derivative");
-
-        but_neworder_1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_neworder_1.setText("New Order");
-        but_neworder_1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                but_neworder_1ActionPerformed(evt);
-            }
-        });
-
-        but_cancelorder_1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_cancelorder_1.setText("Cancel Order");
+        but_detail.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        but_detail.setText("Detail");
 
         javax.swing.GroupLayout Strategy_paneLayout = new javax.swing.GroupLayout(Strategy_pane);
         Strategy_pane.setLayout(Strategy_paneLayout);
         Strategy_paneLayout.setHorizontalGroup(
             Strategy_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Strategy_scroll)
+            .addComponent(Strategy_scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Strategy_paneLayout.createSequentialGroup()
-                .addContainerGap(205, Short.MAX_VALUE)
-                .addComponent(but_neworder_1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(but_cancelorder_1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(but_sell_derivative)
-                .addGap(20, 20, 20))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(but_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         Strategy_paneLayout.setVerticalGroup(
             Strategy_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Strategy_paneLayout.createSequentialGroup()
                 .addComponent(Strategy_scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(Strategy_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(but_sell_derivative, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(but_cancelorder_1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(but_neworder_1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(but_detail, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
+        
         Tabbs_pane.addTab("Strategy View", Strategy_pane);
 
         History_pane.setBackground(new java.awt.Color(255, 255, 255));
@@ -469,6 +446,44 @@ public class PortfolioView extends javax.swing.JFrame {
         // TODO add your handling code here:
     } 
     
+	private void but_excerciseActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		JTable selected_t = null;
+		int spotprice_col = 0;
+		if(Tabbs_pane.getSelectedIndex()==2){
+			selected_t = option_table;
+			spotprice_col = findSpotCol(option_title);
+		}
+
+		int row = selected_t.getSelectedRow();
+		if(row!=-1){
+			
+			int n = JOptionPane.showConfirmDialog(
+				    this,
+				    "Are you sure to excercise this option?",
+				    "Confirmation",
+				    JOptionPane.YES_NO_OPTION);
+			System.out.println("Confirmation is "+n); // yes == 0 , no == 1
+			if(n == 0){
+				String ids = (String) selected_t.getValueAt(row, 0);
+				if(ids!=null){
+					int id = Integer.parseInt(ids);
+					float spotprice = Float.parseFloat((String) selected_t.getValueAt(row, spotprice_col));
+					System.out.println("id of the option excercised is "+id);
+					for(Derivative d : portfolio.getOnhand()){
+						if(d.getId()== id){
+							//portfolio.getOnhand().remove(d);
+							if(d instanceof Option)
+								portfolio.excerciseOption((Option)d, spotprice);
+							break;
+						}
+					}
+					setOnhandTable();
+				}
+			}
+		}//end of if row == -1;
+	}//end of but_excerciseActionPerformed
+    
     private int findSpotCol(String[] title){
     	int i = 0;
     	for(String s : title){
@@ -478,7 +493,7 @@ public class PortfolioView extends javax.swing.JFrame {
 		return i;
     }
     
-    private class SellDerivativeListener implements ActionListener{
+    private class ExcerciseOption implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -494,8 +509,8 @@ public class PortfolioView extends javax.swing.JFrame {
 			}else if(Tabbs_pane.getSelectedIndex()==3){
 				selected_t = strategy_table;
 				spotprice_col = 0;
-
 			}
+
 			int row = selected_t.getSelectedRow();
 			if(row!=-1){
 				String ids = (String) selected_t.getValueAt(row, 0);
@@ -507,7 +522,7 @@ public class PortfolioView extends javax.swing.JFrame {
 						if(d.getId()== id){
 							//portfolio.getOnhand().remove(d);
 							if(d instanceof Option)
-								portfolio.sellOption((Option)d, spotprice);
+								portfolio.excerciseOption((Option)d, spotprice);
 							if(d instanceof Stock)
 								portfolio.test_sell(d, spotprice);
 							break;
@@ -524,14 +539,12 @@ public class PortfolioView extends javax.swing.JFrame {
 
     private void addlisteners() {
 		// TODO Auto-generated method stub
-    	but_sell_option.addActionListener(new SellDerivativeListener());
-    	but_sell_stock.addActionListener(new SellDerivativeListener());
     	
     	but_cancelorder.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				int row = order_table.getSelectedRow();
+				int row = orders_table.getSelectedRow();
 				if(row!=-1){
 					portfolio.getOrder().remove(row);
 					setOrderTable();
@@ -587,7 +600,7 @@ public class PortfolioView extends javax.swing.JFrame {
         
 	private Portfolio portfolio;
 	
-    private String order_title[] = {"ID","Symbol","Security","Order Type", "Long/Short"};
+    private String order_title[] = {"ID","Symbol","Security","Order Type", "Long/Short", "Volume"};
 	
     private String stock_title[] = {"ID","Symbol","Bought at","Volume", "Spot price", "Proft/Loss"};
     private String option_title[] = {"ID","Symbol","Type","Bought at","Volume", "Strike price", "Spot price", "Maturity", "Proft/Loss"};
@@ -611,19 +624,16 @@ public class PortfolioView extends javax.swing.JFrame {
     private javax.swing.JScrollPane Strategy_scroll;
     private javax.swing.JTabbedPane Tabbs_pane;
     private javax.swing.JButton but_cancelorder;
-    private javax.swing.JButton but_cancelorder_1;
+    private javax.swing.JButton but_detail;
+    private javax.swing.JButton but_excercise;
     private javax.swing.JButton but_neworder;
-    private javax.swing.JButton but_neworder_1;
-    private javax.swing.JButton but_sell_derivative;
-    private javax.swing.JButton but_sell_option;
-    private javax.swing.JButton but_sell_stock;
     private javax.swing.JLabel cash_lab;
     private javax.swing.JLabel cash_lab_num;
     private javax.swing.JScrollPane history_scroll;
     private javax.swing.JTable history_table;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTable option_table;
-    private javax.swing.JTable order_table;
+    private javax.swing.JTable orders_table;
     private javax.swing.JLabel portfolio_back;
     private javax.swing.JLabel portfolio_front;
     private javax.swing.JTable stock_table;

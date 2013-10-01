@@ -549,13 +549,13 @@ public class TradePanel extends javax.swing.JPanel {
     			
     			if(otype.equals("Market Order")){
        				order = new MarketOrder(d, action);
-       				
-    		    	BlackSchole bs = new BlackSchole();
-    		    	double price = bs.findOptionPrice(parent.getSelectedSymbol(), (String)option_type_combo.getSelectedItem(), 
-    		    			x_price_tf.getText(), x_date_tf.getText());
-       				
-    				total_tf.setText(""+price*volume);
-
+       				if (dtype.equals("Option")){
+	    		    	BlackSchole bs = new BlackSchole();
+	    		    	double price = bs.findOptionPrice(parent.getSelectedSymbol(), (String)option_type_combo.getSelectedItem(), 
+	    		    			x_price_tf.getText(), x_date_tf.getText());
+	       				
+	    				total_tf.setText(""+price*volume);
+       				}
     			}else if(otype.equals("Limit Order")){
     				order = new LimitOrder(d, action, Float.parseFloat(limit_tf.getText()));
     			}else if(otype.equals("Stop Order")){
