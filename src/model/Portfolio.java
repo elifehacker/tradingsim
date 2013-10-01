@@ -67,12 +67,14 @@ public class Portfolio {
 				LinkedList<Order> removingOrder = new LinkedList<Order>();
 				
 				for(Order o : orders){
-					if(o.getUnderlying().getSymbol().equals(row[sym_col])){
+					Derivative d = o.getUnderlying();
+					if(d.getSymbol().equals(row[sym_col])){
 						newprice = Float.parseFloat(row[last_col]);//stock
 						netchange = Float.parseFloat(row[net_col]);
-						
-						if(o.getUnderlying() instanceof Option){
-							Option u = (Option) o.getUnderlying();
+						boolean oflag = false;
+						if(d instanceof Option){
+							oflag = true;
+							Option u = (Option) d;
 							float lastprice = newprice-netchange;
 							BlackSchole bs = new BlackSchole();
 							double lastoptionprice = bs.findOptionPrice(u.getSymbol(), u.getType(), lastprice, u.getStrike(), u.getMaturity());
@@ -83,8 +85,8 @@ public class Portfolio {
 						}
 
 						if (o instanceof MarketOrder){
-							o.getUnderlying().setPrice(newprice);
-							if(o.getLongShort().equals("Long")){								
+							d.setPrice(newprice);
+							if(o.getLongShort().equals("Long")||oflag){								
 								purchase(o, removingOrder);								
 							}else if(o.getLongShort().equals("Short")){
 								sell(o, removingOrder);
@@ -93,9 +95,9 @@ public class Portfolio {
 						}else if (o instanceof LimitOrder){
 							LimitOrder lo = (LimitOrder) o;
 							//System.out.println("limit order! "+newprice+" "+lo.getlimitprice());
-							o.getUnderlying().setPrice(lo.getlimitprice());
+							d.setPrice(lo.getlimitprice());
 							
-							if(o.getLongShort().equals("Long") && newprice <= lo.getlimitprice()){
+							if((o.getLongShort().equals("Long")||oflag) && newprice <= lo.getlimitprice()){
 								purchase(o, removingOrder);
 								
 							}else if(o.getLongShort().equals("Short") && newprice >= lo.getlimitprice()){
@@ -111,22 +113,22 @@ public class Portfolio {
 							if(o instanceof StopOrder){
 								StopOrder so = (StopOrder) o;
 								diff =  newprice - so.getstopprice();
-								o.getUnderlying().setPrice(so.getstopprice());
+								d.setPrice(so.getstopprice());
 
 							}else if(o instanceof StopLimitOrder){
 								StopLimitOrder slo = (StopLimitOrder) o;
 								diff =  newprice - slo.getstopprice();
-								o.getUnderlying().setPrice(slo.getstopprice());
+								d.setPrice(slo.getstopprice());
 
 							}
 							if((netchange<=0 && diff<=0 && abs(diff)<= abs(netchange))||
 									(netchange>=0 && diff>=0 && diff<= netchange)){
 								//triggered
 								if(o instanceof StopOrder){
-									if(o.getLongShort().equals("Long")) purchase(o, removingOrder);
+									if(o.getLongShort().equals("Long")||oflag) purchase(o, removingOrder);
 									if(o.getLongShort().equals("Short")) sell(o, removingOrder);									
 								}else if(o instanceof StopLimitOrder){
-									LimitOrder lo = new LimitOrder(o.getUnderlying(), o.getLongShort(), ((StopLimitOrder) o).getlimitprice());
+									LimitOrder lo = new LimitOrder(d, o.getLongShort(), ((StopLimitOrder) o).getlimitprice());
 
 									removingOrder.add(o);
 									pendingOrder.add(lo);						
@@ -139,7 +141,7 @@ public class Portfolio {
 					//check again, because limit order might be executed in the same cycle
 					if (o instanceof LimitOrder){
 						LimitOrder lo = (LimitOrder) o;
-						if(o.getLongShort().equals("Long") && newprice < lo.getlimitprice()){
+						if((o.getLongShort().equals("Long")||o.getUnderlying() instanceof Option) && newprice < lo.getlimitprice()){
 							purchase(o, removingOrder);
 							
 						}else if(o.getLongShort().equals("Short") && newprice > lo.getlimitprice()){

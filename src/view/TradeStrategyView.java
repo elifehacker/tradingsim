@@ -152,7 +152,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
         trade_lab = new javax.swing.JLabel();
         trade_back_lab = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(4147, 4147));
 
         background_pane.setBackground(new java.awt.Color(255, 255, 255));
