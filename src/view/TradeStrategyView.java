@@ -3,6 +3,9 @@ package view;
 import java.awt.CardLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+
+import order.Order;
 
 import model.Portfolio;
 
@@ -18,6 +21,9 @@ import model.Portfolio;
  */
 public class TradeStrategyView extends javax.swing.JFrame {
 
+	public String getSelectedStrategy(){
+		return (String) strategy_combo.getSelectedItem();
+	}
 	
 	private void clearlabs(){
 		payoff_lab1.setIcon(null);
@@ -69,7 +75,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
 	
 	private void addpane(int num){
 		while(num!=0){
-			order_pane.add(new TradePanel(this), FlowLayout.LEFT);
+			order_pane.add(new TradePanel(portfolio,getSelectedSymbol() , getSelectedStrategy()), FlowLayout.LEFT);
 			num--;
 		}
 	}
@@ -146,7 +152,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
         trade_lab = new javax.swing.JLabel();
         trade_back_lab = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(4147, 4147));
 
         background_pane.setBackground(new java.awt.Color(255, 255, 255));
@@ -156,11 +162,16 @@ public class TradeStrategyView extends javax.swing.JFrame {
 
         strategy_lab.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         strategy_lab.setText("Strategy");
-        strategy_lab.setBounds(20, 40, 100, 30);
+        strategy_lab.setBounds(20, 50, 100, 30);
         jLayeredPane.add(strategy_lab, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         strategy_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Market Order", "Stop Order", "Limit Order", "Stop Limit" }));
-        strategy_combo.setBounds(120, 40, 159, 30);
+        strategy_combo.setBounds(120, 50, 159, 30);
+        strategy_combo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	strategy_comboActionPerformed(evt);
+            }
+        });
         jLayeredPane.add(strategy_combo, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         but_explain.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
@@ -170,7 +181,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
                 but_explainActionPerformed(evt);
             }
         });
-        but_explain.setBounds(500, 40, 160, 34);
+        but_explain.setBounds(800, 50, 160, 34);
         jLayeredPane.add(but_explain, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         but_select.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
@@ -180,17 +191,17 @@ public class TradeStrategyView extends javax.swing.JFrame {
                 but_selectActionPerformed(evt);
             }
         });
-        but_select.setBounds(320, 40, 159, 34);
+        but_select.setBounds(620, 50, 159, 34);
         jLayeredPane.add(but_select, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         cash_num_lab.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         cash_num_lab.setText("jLabel1");
-        cash_num_lab.setBounds(1010, 40, 140, 30);
+        cash_num_lab.setBounds(1070, 50, 160, 30);
         jLayeredPane.add(cash_num_lab, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         cash_lab.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         cash_lab.setText("Cash:");
-        cash_lab.setBounds(950, 40, 50, 30);
+        cash_lab.setBounds(1010, 50, 50, 30);
         jLayeredPane.add(cash_lab, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         payoff_pane.setBackground(new java.awt.Color(255, 255, 255));
@@ -237,7 +248,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
             payoff_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(payoff_paneLayout.createSequentialGroup()
                 .addComponent(payoff_lab1)
-                .addGap(0, 31, Short.MAX_VALUE))
+                .addGap(0, 25, Short.MAX_VALUE))
             .addGroup(payoff_paneLayout.createSequentialGroup()
                 .addGroup(payoff_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(payoff_lab3)
@@ -254,7 +265,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
 
         payoff_scroll.setViewportView(payoff_pane);
 
-        payoff_scroll.setBounds(20, 80, 1200, 210);
+        payoff_scroll.setBounds(20, 90, 1200, 230);
         jLayeredPane.add(payoff_scroll, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         symbol_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -264,20 +275,17 @@ public class TradeStrategyView extends javax.swing.JFrame {
                 symbol_comboActionPerformed(evt);
             }
         });
-        symbol_combo.setBounds(120, 300, 161, 30);
+        symbol_combo.setBounds(410, 50, 161, 30);
         jLayeredPane.add(symbol_combo, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         symbol_lab.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         symbol_lab.setText("Symbol");
-        symbol_lab.setBounds(20, 300, 90, 30);
+        symbol_lab.setBounds(310, 50, 90, 30);
         jLayeredPane.add(symbol_lab, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         order_pane.setBackground(new java.awt.Color(255, 255, 255));
         order_pane.setMaximumSize(new java.awt.Dimension(3277, 3277));
         order_pane.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        order_pane.add(new TradePanel(this), FlowLayout.LEFT);
-        order_pane.add(new TradePanel(this), FlowLayout.LEFT);
 
         order_scroll.setViewportView(order_pane);
 
@@ -332,7 +340,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
         // TODO add your handling code here:
     	int index = strategy_combo.getSelectedIndex();
     	String strategy = (String) strategy_combo.getSelectedItem();
-    	
+    	Order.incStrategyTotalid();
     	resetview();
     	if(index>=0 && index < 5 ){
     		if(strategy.equals("Stock")) setpayoff("stock", 1);
@@ -381,8 +389,12 @@ public class TradeStrategyView extends javax.swing.JFrame {
 
     private void symbol_comboActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
+    	resetview();
     }                                            
-
+	private void strategy_comboActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+    	resetview();		
+	}
     /**
      * @param args the command line arguments
      */

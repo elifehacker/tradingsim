@@ -36,8 +36,10 @@ public class TradePanel extends javax.swing.JPanel {
     /**
      * Creates new form TradePanel
      */
-    public TradePanel(TradeStrategyView v) {
-    	parent = v;
+    public TradePanel(Portfolio p, String tic, String strat) {
+    	portfolio = p;
+    	symbol = tic;
+    	strategy = strat;
         initComponents();
         addlisteners();
     }
@@ -457,7 +459,7 @@ public class TradePanel extends javax.swing.JPanel {
 			
 			if(v<=0) return 0;
 			if(otype.equals("Market Order")){
-				String last = IndexTable.getCell(parent.getSelectedSymbol(), IndexTable.getLast());	
+				String last = IndexTable.getCell(symbol, IndexTable.getLast());	
 				System.out.println("TradePanel "+last);
 				p = Float.parseFloat(last);
 			}else if(otype.equals("Limit Order")){
@@ -474,7 +476,7 @@ public class TradePanel extends javax.swing.JPanel {
 				
 	    		try{
 			    	BlackSchole bs = new BlackSchole();
-			    	double price = bs.findOptionPrice(parent.getSelectedSymbol(), (String)option_type_combo.getSelectedItem(), 
+			    	double price = bs.findOptionPrice(symbol, (String)option_type_combo.getSelectedItem(), 
 			    			x_price_tf.getText(), x_date_tf.getText());
 			    	JOptionPane.showMessageDialog(null,
 						    "Current market price of your option is $"+price);	
@@ -529,7 +531,6 @@ public class TradePanel extends javax.swing.JPanel {
     		System.out.println("Confirmation is "+n); // yes == 0 , no == 1
     		if(n == 0){
     			
-    			String symbol = parent.getSelectedSymbol();     			
     			Order order = null;
     			Derivative d = null;
     			String otype = (String)order_type_combo.getSelectedItem();
@@ -551,7 +552,7 @@ public class TradePanel extends javax.swing.JPanel {
        				order = new MarketOrder(d, action);
        				if (dtype.equals("Option")){
 	    		    	BlackSchole bs = new BlackSchole();
-	    		    	double price = bs.findOptionPrice(parent.getSelectedSymbol(), (String)option_type_combo.getSelectedItem(), 
+	    		    	double price = bs.findOptionPrice(symbol, (String)option_type_combo.getSelectedItem(), 
 	    		    			x_price_tf.getText(), x_date_tf.getText());
 	       				
 	    				total_tf.setText(""+price*volume);
@@ -563,8 +564,9 @@ public class TradePanel extends javax.swing.JPanel {
     			}else if(otype.equals("Stop Limit")){
     				order = new StopLimitOrder(d, action, Float.parseFloat(comb_stop_tf.getText()),Float.parseFloat(comb_limit_tf.getText()));   				
     			} 
-				parent.getPortfolio().makeOrder(order);
-				parent.getPortfolio().printAll();
+    			order.setTag(strategy);
+				portfolio.makeOrder(order);
+				portfolio.printAll();
     		}
     		
     	}else{
@@ -578,7 +580,9 @@ public class TradePanel extends javax.swing.JPanel {
     }                                              
 
     private boolean selected = false;
-    private TradeStrategyView parent;
+    private Portfolio portfolio;
+    private String symbol;
+    private String strategy;
     
     // Variables declaration - do not modify                     
     private javax.swing.JComboBox action_combo;
