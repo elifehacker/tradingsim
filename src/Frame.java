@@ -2,7 +2,9 @@
 
     import java.awt.event.ActionListener;
 
-    import javax.swing.*;
+import javax.swing.*;
+
+import com.michaelbaranov.microba.calendar.DatePicker;
 
     public class Frame extends JFrame{
         private JPanel panel1, panel2;
@@ -25,6 +27,7 @@
         private void addPanel()
         {
             panel1.add(but);
+            panel1.add(new DatePicker());
             panel2.add(but2);
             add(panel1);
         }
