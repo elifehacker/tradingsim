@@ -1,19 +1,29 @@
-#RIC,Date[L],Time[L],Type,Market VWAP,PE Ratio,Yield,Open,High,Low,Last,Volume,Close Bid,Close Ask
-ABT,20-Aug-13,,End Of Day (from Real-Time),34.7957,65.9535,1.6134,34.9,34.95,34.69,34.71,4495078,34.7,34.87
-ABT,21-Aug-13,,End Of Day (from Real-Time),34.6277,65.8205,1.6166,34.68,34.86,34.44,34.64,5413216,34.36,34.84
-ABT,22-Aug-13,,End Of Day (from Real-Time),34.5947,65.8775,1.6152,34.67,34.75,34.43,34.67,4197546,34.48,34.84
-ABT,23-Aug-13,,End Of Day (from Real-Time),34.7035,66.2005,1.6073,34.85,34.87,34.43,34.84,4024563,34.7,34.99
-ABT,26-Aug-13,,End Of Day (from Real-Time),34.708,65.5925,1.6222,34.83,34.9,34.52,34.52,3408959,34.46,34.73
-ABT,27-Aug-13,,End Of Day (from Real-Time),34.1222,64.6234,1.6466,34.32,34.33,33.995,34.01,5301055,34,34.14
-ABT,28-Aug-13,,End Of Day (from Real-Time),33.8408,64.1294,1.6593,33.97,34.035,33.73,33.75,7262110,33.73,33.91
-ABT,29-Aug-13,,End Of Day (from Real-Time),33.8722,64.0914,1.6602,33.63,34.13,33.52,33.73,5676395,33.63,33.88
-ABT,30-Aug-13,,End Of Day (from Real-Time),33.4109,63.3313,1.6802,33.72,33.73,33.23,33.33,7337091,33.25,33.33
-MMM,20-Aug-13,,End Of Day (from Real-Time),115.5429,17.9735,2.2128,115.52,115.89,115.19,115.42,2153925,115.41,115.99
-MMM,21-Aug-13,,End Of Day (from Real-Time),114.0054,17.7598,2.2395,114.79,114.84,113.34,113.42,2293686,112.8,113.38
-MMM,22-Aug-13,,End Of Day (from Real-Time),114.585,17.9555,2.2151,113.61,114.89,113.3445,114.67,2002010,100.14,114.97
-MMM,23-Aug-13,,End Of Day (from Real-Time),114.3062,17.9132,2.2203,114.76,115,113.59,114.4,1953688,114.14,114.6
-MMM,26-Aug-13,,End Of Day (from Real-Time),114.7711,17.9022,2.2216,114.38,115.1725,114.04,114.33,1816978,113.91,114.98
-MMM,27-Aug-13,,End Of Day (from Real-Time),113.0752,17.6517,2.2532,113.41,113.82,112.67,112.73,1916148,112.55,112.98
-MMM,28-Aug-13,,End Of Day (from Real-Time),112.983,17.694,2.2478,112.51,113.42,112.36,113,1545807,112.71,113.56
-MMM,29-Aug-13,,End Of Day (from Real-Time),113.3487,17.7441,2.2414,112.87,113.83,112.58,113.32,1457228,113.12,113.99
-MMM,30-Aug-13,,End Of Day (from Real-Time),113.3413,17.7848,2.2363,113.61,113.74,112.85,113.58,2205589,113.36,114.98
+#RIC,Date[L],Time[L],Type,Market VWAP,Qualifiers,PE Ratio,Yield,Open,High,Low,Last,Volume,Open Interest,Settle,Bench Price,Open Yld,High Yld,Low Yld,Close Yld,Close Bid,Close Ask,Block Volume,Data Source,Settlement Implied Volatility
+ABT,20-AUG-2013,,End Of Day (from Real-Time),34.7957,,65.9535,1.6134,34.9,34.95,34.69,34.71,4495078,,,,,,,,34.7,34.87,,Raw,
+ABT,21-AUG-2013,,End Of Day (from Real-Time),34.6277,,65.8205,1.6166,34.68,34.86,34.44,34.64,5413216,,,,,,,,34.36,34.84,,Raw,
+ABT,22-AUG-2013,,End Of Day (from Real-Time),34.5947,,65.8775,1.6152,34.67,34.75,34.43,34.67,4197546,,,,,,,,34.48,34.84,,Raw,
+ABT,23-AUG-2013,,End Of Day (from Real-Time),34.7035,,66.2005,1.6073,34.85,34.87,34.43,34.84,4024563,,,,,,,,34.7,34.99,,Raw,
+ABT,24-AUG-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
+ABT,25-AUG-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
+ABT,26-AUG-2013,,End Of Day (from Real-Time),34.7080,,65.5925,1.6222,34.83,34.9,34.52,34.52,3408959,,,,,,,,34.46,34.73,,Raw,
+ABT,27-AUG-2013,,End Of Day (from Real-Time),34.1222,,64.6234,1.6466,34.32,34.33,33.995,34.01,5301055,,,,,,,,34,34.14,,Raw,
+ABT,28-AUG-2013,,End Of Day (from Real-Time),33.8408,,64.1294,1.6593,33.97,34.035,33.73,33.75,7262110,,,,,,,,33.73,33.91,,Raw,
+ABT,29-AUG-2013,,End Of Day (from Real-Time),33.8722,,64.0914,1.6602,33.63,34.13,33.52,33.73,5676395,,,,,,,,33.63,33.88,,Raw,
+ABT,30-AUG-2013,,End Of Day (from Real-Time),33.4109,,63.3313,1.6802,33.72,33.73,33.23,33.33,7337091,,,,,,,,33.25,33.33,,Raw,
+ABT,31-AUG-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
+ABT,01-SEP-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
+ABT,02-SEP-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
+MMM,20-AUG-2013,,End Of Day (from Real-Time),115.5429,,17.9735,2.2128,115.52,115.89,115.19,115.42,2153925,,,,,,,,115.41,115.99,,Raw,
+MMM,21-AUG-2013,,End Of Day (from Real-Time),114.0054,,17.7598,2.2395,114.79,114.84,113.34,113.42,2293686,,,,,,,,112.8,113.38,,Raw,
+MMM,22-AUG-2013,,End Of Day (from Real-Time),114.5850,,17.9555,2.2151,113.61,114.89,113.3445,114.67,2002010,,,,,,,,100.14,114.97,,Raw,
+MMM,23-AUG-2013,,End Of Day (from Real-Time),114.3062,,17.9132,2.2203,114.76,115,113.59,114.4,1953688,,,,,,,,114.14,114.6,,Raw,
+MMM,24-AUG-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
+MMM,25-AUG-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
+MMM,26-AUG-2013,,End Of Day (from Real-Time),114.7711,,17.9022,2.2216,114.38,115.1725,114.04,114.33,1816978,,,,,,,,113.91,114.98,,Raw,
+MMM,27-AUG-2013,,End Of Day (from Real-Time),113.0752,,17.6517,2.2532,113.41,113.82,112.67,112.73,1916148,,,,,,,,112.55,112.98,,Raw,
+MMM,28-AUG-2013,,End Of Day (from Real-Time),112.9830,,17.694,2.2478,112.51,113.42,112.36,113,1545807,,,,,,,,112.71,113.56,,Raw,
+MMM,29-AUG-2013,,End Of Day (from Real-Time),113.3487,,17.7441,2.2414,112.87,113.83,112.58,113.32,1457228,,,,,,,,113.12,113.99,,Raw,
+MMM,30-AUG-2013,,End Of Day (from Real-Time),113.3413,,17.7848,2.2363,113.61,113.74,112.85,113.58,2205589,,,,,,,,113.36,114.98,,Raw,
+MMM,31-AUG-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
+MMM,01-SEP-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
+MMM,02-SEP-2013,,End Of Day (from Real-Time),,No Trades,,,,,,,,,,,,,,,,,,Raw,
