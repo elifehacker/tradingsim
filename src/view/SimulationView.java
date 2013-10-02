@@ -483,6 +483,15 @@ public class SimulationView extends javax.swing.JFrame {
 			}
     	});
     	
+    	but_trade.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new TradeView(portfolio, getFirms()).setVisible(true);
+			}
+    	});    	
+    	
     	
     	index_table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 

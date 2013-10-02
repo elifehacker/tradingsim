@@ -317,7 +317,7 @@ public class Portfolio {
 			//removeOrder(o);
 			JOptionPane.showMessageDialog(null,
 				    "Option on "+o.getSymbol()+" id:"+o.getId() +" expired/excercised\n"+
-			"Making profit/loss of $"+profit+" * "+o.getVolume());
+			"Making profit/loss of $"+profit*o.getVolume());
 		
 		}
 

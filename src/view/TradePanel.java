@@ -20,7 +20,6 @@ import order.Order;
 import order.StopLimitOrder;
 import order.StopOrder;
 
-import view.TradeView.reselectListener;
 
 /*
  * To change this template, choose Tools | Templates
