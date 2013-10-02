@@ -51,6 +51,13 @@ public class Program {
         Program p = new Program(9);
         reset(p);
         System.out.println(p.getNum());
+        System.out.println("-----------");
+        String s = "08";
+        int i = Integer.parseInt(s);
+        System.out.println(i);
+        s="8//5";
+        String splited[] = s.split("[/-]");
+        System.out.println(splited[0]+" "+splited[1]+" "+splited[2]);
         
     }
 }

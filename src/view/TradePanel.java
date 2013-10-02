@@ -487,7 +487,7 @@ public class TradePanel extends javax.swing.JPanel {
 					}
 	    		}catch (Exception e){
 			    	JOptionPane.showMessageDialog(null,
-			    			"Please enter input in correct format, X_Date(DD-MM-YY)");
+			    			"Please enter input in correct format, X_Date(DD-MM-YYYY)");
 	    		}
 			}
 	    				

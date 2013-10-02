@@ -1,14 +1,18 @@
     import java.awt.event.ActionEvent;
 
     import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.*;
 
 import com.michaelbaranov.microba.calendar.DatePicker;
 
+
     public class Frame extends JFrame{
         private JPanel panel1, panel2;
         private JButton but,but2; 
+        DatePicker dp;
         public Frame()
         {
            createPanel();
@@ -23,11 +27,23 @@ import com.michaelbaranov.microba.calendar.DatePicker;
             panel2 = new JPanel();
             but2 = new JButton("TestButton2");
             but2.setBounds(50, 50, 90, 30);//There are example values but remember about setting size
+            dp = new DatePicker();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            dp.setDateFormat(df);
+            dp.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					System.out.println(dp.getDate().getYear());
+				}
+            	
+            });
         }
         private void addPanel()
         {
             panel1.add(but);
-            panel1.add(new DatePicker());
+            panel1.add(dp);
             panel2.add(but2);
             add(panel1);
         }

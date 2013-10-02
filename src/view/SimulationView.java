@@ -433,6 +433,7 @@ public class SimulationView extends javax.swing.JFrame {
 			//printBuffer();
 			dr.updateTable();
 			portfolio.checkOrders(dr.get_table());
+			portfolio.checkOptions();
 			newtablecontent = true;
 			current_date_TextField.setText(dr.getDate());
 		}
@@ -494,6 +495,8 @@ public class SimulationView extends javax.swing.JFrame {
 					String[] content = dr.getFileContent(row);
 					String[] title = dr.getFileTitle();
 					for(int i =0; i < title.length; i++){
+						//System.out.print(title[i]+": ");
+						//System.out.println(content[i]+"  ");
 						sb.append(title[i]+": "+content[i]+"  ");
 						if(i == title.length/3 ||i == title.length*2/3) sb.append("\n");
 					}
