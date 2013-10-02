@@ -78,8 +78,8 @@ public class BlackSchole {
 	
 	public double timetilmaturity(String a, String b){
 		
-		String d1[] = a.split("-");
-		String d2[] = b.split("-");
+		String d1[] = a.split("[-/]");
+		String d2[] = b.split("[-/]");
 		int integer = Integer.parseInt(d2[2]) - Integer.parseInt(d1[2]);
 		int decimal = Integer.parseInt(d2[1]) - Integer.parseInt(d1[1]);
 		if(decimal <0){
@@ -96,6 +96,11 @@ public class BlackSchole {
 
 	public double BlackScholes(char CallPutFlag, double S, double X, double T, double r, double v)
 	{
+		
+		if(T<0){
+			return -1;
+		}
+		
 		double d1, d2;
 	
 		d1=(Math.log(S/X)+(r+v*v/2)*T)/(v*Math.sqrt(T));

@@ -477,9 +477,15 @@ public class TradePanel extends javax.swing.JPanel {
 			    	BlackSchole bs = new BlackSchole();
 			    	double price = bs.findOptionPrice(symbol, (String)option_type_combo.getSelectedItem(), 
 			    			x_price_tf.getText(), x_date_tf.getText());
+			    	if(price!=-1)
 			    	JOptionPane.showMessageDialog(null,
 						    "Current market price of your option is $"+price);	
-					if(otype.equals("Market Order")){
+			    	else{
+				    	JOptionPane.showMessageDialog(null,
+							    "Please provide a valid X_Date");
+				    	return 0;
+			    	}
+			    	if(otype.equals("Market Order")){
 						total_tf.setText(""+price*v);
 					}else{
 						total_tf.setText(""+p*v);						
@@ -487,6 +493,7 @@ public class TradePanel extends javax.swing.JPanel {
 	    		}catch (Exception e){
 			    	JOptionPane.showMessageDialog(null,
 			    			"Please enter input in correct format, X_Date(DD-MM-YYYY)");
+			    	return 0;
 	    		}
 			}
 	    				
