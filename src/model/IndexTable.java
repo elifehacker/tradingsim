@@ -46,6 +46,9 @@ public class IndexTable {
 	public static void setRic(int ric) {
 		IndexTable.ric = ric;
 	}
+	public static String getDateInString() {
+		return table[0][date];
+	}
 	public static int getDate() {
 		return date;
 	}

@@ -44,6 +44,36 @@ public class Portfolio {
 		return price;
 	}*/
 	
+	private boolean excercise(int cd, int cm, int cy, String[] xp){
+		int day = Integer.parseInt(xp[0]);
+		int month = Integer.parseInt(xp[1]);
+		int year = Integer.parseInt(xp[2]);
+		if(cy>year)return true;
+		else if (cy==year && cm>month) return true;
+		else if(cy==year && cm==month && cd>=day) return true;
+		
+		return false;
+	}
+	
+	public void checkOptions(){
+		String[] currentDate = IndexTable.getDateInString().split("[-/]");
+		int day = Integer.parseInt(currentDate[0]);
+		int month = Integer.parseInt(currentDate[1]);
+		int year = Integer.parseInt(currentDate[2]);
+		LinkedList<Option> list = new LinkedList<Option>();
+		for(Derivative d : onhand){
+			if(d instanceof Option){
+				Option o = (Option)d;
+				if(excercise(day, month, year, o.getMaturity().split("[-/]")))
+					list.add(o);
+			}
+		}
+		for(Option o: list){
+			excerciseOption(o,Float.parseFloat(IndexTable.getCell(o.getSymbol(),IndexTable.getOpen())));
+		}
+
+	}
+	
 	public void checkOrders(String[][] it){
 		indextable = it;
 
@@ -164,7 +194,7 @@ public class Portfolio {
 		return credit;
 	}
 	
-	private void removeOnhand(Derivative gone){
+	private void test_removeOnhand(Derivative gone){
 		for(Derivative d: onhand){
 			if(d.getId() == gone.getId()){
 				onhand.remove(d);
@@ -173,7 +203,7 @@ public class Portfolio {
 		}
 	}
 	
-	private void removeOrder(Derivative gone){
+	private void test_removeOrder(Derivative gone){
 		for(Order o: orders){
 			if(o.getUnderlying().getId() == gone.getId()){
 				orders.remove(o);
@@ -187,7 +217,7 @@ public class Portfolio {
 			credit -= d.getTotal();
 			onhand.add(d);
 			System.out.println("purchase "+d.getId());
-			removeOrder(d);
+			test_removeOrder(d);
 		}
 	}
 	
@@ -197,7 +227,7 @@ public class Portfolio {
 			credit -= d.getVolume()*spotprice;
 			onhand.add(d);
 			System.out.println("purchase "+d.getId());
-			removeOrder(d);
+			test_removeOrder(d);
 		}
 	}
 	 	
@@ -205,8 +235,8 @@ public class Portfolio {
 
 	 		if(onhand.remove(d)){
 				credit += d.getVolume()*spotprice;
-				removeOnhand(d);
-				removeOrder(d);
+				test_removeOnhand(d);
+				test_removeOrder(d);
 
 	 		}
 	 }
@@ -270,16 +300,25 @@ public class Portfolio {
 		
 	}
 	
-    public static float abs(float a) {
+    private float abs(float a) {
         return (a <= 0.0F) ? 0.0F - a : a;
     }
-	
+    
+    private float positive(float a) {
+        return (a <= 0.0F) ? 0.0F : a;
+    }
+    
 	public void excerciseOption(Option o, float spotprice){
 		
 		if(onhand.remove(o)){
-			credit += o.getVolume()*(abs(spotprice - o.getStrike()));
-			removeOnhand(o);
+			float profit = positive(spotprice - o.getStrike());
+			credit += o.getVolume()*profit;
+			//removeOnhand(o);
 			//removeOrder(o);
+			JOptionPane.showMessageDialog(null,
+				    "Option on "+o.getSymbol()+" id:"+o.getId() +" expired/excercised\n"+
+			"Making profit/loss of $"+profit+" * "+o.getVolume());
+		
 		}
 
 	}
