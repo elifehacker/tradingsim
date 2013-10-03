@@ -19,8 +19,8 @@ public class IndexTable {
 	public static String[][] getTable() {
 		return table;
 	}
-	public static void setTable(String[][] table) {
-		IndexTable.table = table;
+	public static void setTable(String[][] t) {
+		IndexTable.table = t;
 	}
 	public static int getOpen() {
 		return open;

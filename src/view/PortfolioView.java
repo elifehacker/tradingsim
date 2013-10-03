@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import action.Action;
+
+import model.IndexTable;
 import model.Portfolio;
 
 import order.MarketOrder;
@@ -39,7 +42,20 @@ public class PortfolioView extends javax.swing.JFrame {
     	setOrderTable();
     	setOnhandTable();
     	setStrategyTable();
-    	//setHistoryTable();
+    	setHistoryTable();
+
+	}
+
+	private void setHistoryTable(){
+		
+		LinkedList<Action> actions = portfolio.getAction();
+		String[][] acts = new String[actions.size()][1];
+		int i = 0;
+		for(Action a: actions){
+			acts[i][0] = a.getTime()+" "+a.getDesc();
+			i++;
+		}
+		history_table.setModel(new javax.swing.table.DefaultTableModel(acts,history_title));
 
 	}
 	
@@ -228,7 +244,6 @@ public class PortfolioView extends javax.swing.JFrame {
         Orders_pane = new javax.swing.JPanel();
         Order_scroll = new javax.swing.JScrollPane();
         orders_table = new javax.swing.JTable();
-        but_neworder = new javax.swing.JButton();
         but_cancelorder = new javax.swing.JButton();
         Stock_pane = new javax.swing.JPanel();
         Stock_scroll = new javax.swing.JScrollPane();
@@ -275,14 +290,6 @@ public class PortfolioView extends javax.swing.JFrame {
         ));
         Order_scroll.setViewportView(orders_table);
 
-        but_neworder.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_neworder.setText("New Order");
-        but_neworder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                but_neworderActionPerformed(evt);
-            }
-        });
-
         but_cancelorder.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_cancelorder.setText("Cancel Order");
 
@@ -293,8 +300,6 @@ public class PortfolioView extends javax.swing.JFrame {
             .addComponent(Order_scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Orders_paneLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(but_neworder, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(but_cancelorder, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -303,9 +308,7 @@ public class PortfolioView extends javax.swing.JFrame {
             .addGroup(Orders_paneLayout.createSequentialGroup()
                 .addComponent(Order_scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(Orders_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(but_cancelorder, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(but_neworder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(but_cancelorder, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -400,26 +403,17 @@ public class PortfolioView extends javax.swing.JFrame {
         ));
         Strategy_scroll.setViewportView(strategy_table);
 
-        but_detail.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_detail.setText("Detail");
-
         javax.swing.GroupLayout Strategy_paneLayout = new javax.swing.GroupLayout(Strategy_pane);
         Strategy_pane.setLayout(Strategy_paneLayout);
         Strategy_paneLayout.setHorizontalGroup(
             Strategy_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Strategy_scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Strategy_paneLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(but_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
         );
         Strategy_paneLayout.setVerticalGroup(
             Strategy_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Strategy_paneLayout.createSequentialGroup()
                 .addComponent(Strategy_scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(but_detail, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         
         Tabbs_pane.addTab("Strategy View", Strategy_pane);
@@ -438,20 +432,32 @@ public class PortfolioView extends javax.swing.JFrame {
             }
         ));
         history_scroll.setViewportView(history_table);
+        but_detail.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        but_detail.setText("Detail");
+        but_detail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                but_detailActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout History_paneLayout = new javax.swing.GroupLayout(History_pane);
         History_pane.setLayout(History_paneLayout);
         History_paneLayout.setHorizontalGroup(
             History_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(history_scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, History_paneLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(but_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
         );
         History_paneLayout.setVerticalGroup(
             History_paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(History_paneLayout.createSequentialGroup()
                 .addComponent(history_scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 52, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(but_detail, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
         Tabbs_pane.addTab("Historical Action", History_pane);
 
         Tabbs_pane.setBounds(20, 50, 750, 400);
@@ -510,11 +516,22 @@ public class PortfolioView extends javax.swing.JFrame {
 
     private void but_neworderActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
+		new TradeView(portfolio, IndexTable.getFirms()).setVisible(true);
+
     }                                            
 
-    private void but_neworder_1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    private void but_detailActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
-    } 
+		int row = history_table.getSelectedRow();
+		if(row!=-1){
+			Action a = portfolio.getAction().get(row);
+			Derivative d = a.getUnderlying();
+    		JOptionPane.showMessageDialog(null,
+				    "Underlying derivative was "+d.getClass()+"\n"+
+				    "Strategy:"+d.getTag()+"\n"+
+				    "ID:"+d.getId()+" RIC:"+d.getSymbol()+" price:"+d.getPrice()+" volume:"+d.getVolume());
+		}
+    }  
     
 	private void but_excerciseActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
@@ -549,6 +566,8 @@ public class PortfolioView extends javax.swing.JFrame {
 						}
 					}
 					setOnhandTable();
+			    	setStrategyTable();
+			    	setHistoryTable();
 				}
 			}
 		}//end of if row == -1;
@@ -599,6 +618,7 @@ public class PortfolioView extends javax.swing.JFrame {
 						}
 					}
 					setOnhandTable();
+					
 				}
 
 			}
@@ -616,8 +636,10 @@ public class PortfolioView extends javax.swing.JFrame {
 				// TODO Auto-generated method stub
 				int row = orders_table.getSelectedRow();
 				if(row!=-1){
-					portfolio.getOrder().remove(row);
+					portfolio.removeOrderbyLocation(row);
 					setOrderTable();
+			    	setStrategyTable();
+			    	setHistoryTable();
 				}
 			}
     	});
@@ -676,6 +698,8 @@ public class PortfolioView extends javax.swing.JFrame {
     private String option_title[] = {"ID","Symbol","Type","Bought at","Volume", "Strike price", "Spot price", "Maturity", "Proft/Loss"};
 
     private String strategy_title[]={"Strat ID", "ID", "Type", "Symbol", "Volume"};
+    private String history_title[]={"Action"};
+
     
     private int selected_stock;
     private int selected_option;
@@ -698,7 +722,6 @@ public class PortfolioView extends javax.swing.JFrame {
     private javax.swing.JButton but_cancelorder;
     private javax.swing.JButton but_detail;
     private javax.swing.JButton but_excercise;
-    private javax.swing.JButton but_neworder;
     private javax.swing.JLabel cash_lab;
     private javax.swing.JLabel cash_lab_num;
     private javax.swing.JScrollPane history_scroll;

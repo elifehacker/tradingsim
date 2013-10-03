@@ -6,6 +6,8 @@ import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
+import action.Action;
+
 import order.LimitOrder;
 import order.MarketOrder;
 import order.Order;
@@ -27,7 +29,10 @@ public class Portfolio {
 	public LinkedList<Order> getOrder() {
 		return orders;
 	}
-	
+
+	public LinkedList<Action> getAction() {
+		return actions;
+	}
 	/*
 	public float getUnderlyingPrice(String sym){
 		if(simulation.getNewTableFlag() == true){
@@ -161,7 +166,12 @@ public class Portfolio {
 									LimitOrder lo = new LimitOrder(d, o.getLongShort(), ((StopLimitOrder) o).getlimitprice());
 
 									removingOrder.add(o);
-									pendingOrder.add(lo);						
+									pendingOrder.add(lo);
+									
+									actions.add(new Action(IndexTable.getDateInString(), 
+											"StopLimit Order of"+d.getClass()+" on "+d.getSymbol()+" was executed. Limit Order was generated.", 
+											d));
+									
 								}
 							}//end of trigger action
 						}//market order executes immediately
@@ -189,7 +199,7 @@ public class Portfolio {
 			c++;
 		}
 	}
-	
+
 	public float getCredit(){
 		return credit;
 	}
@@ -249,6 +259,11 @@ public class Portfolio {
 			System.out.println("order executed in purchase "+under.getId());
 			//orders.remove(o);
 			list.add(o);
+			
+			actions.add(new Action(IndexTable.getDateInString(), 
+					""+o.getClass()+" on "+under.getSymbol()+" was executed. "+under.getClass()+" was added to the portfolio.", 
+					under));
+			
 		}else{
 			JOptionPane.showMessageDialog(null,
 				    "Insufficent fund to execute the order with id "+under.getId()+" of "+under.getSymbol());
@@ -278,6 +293,7 @@ public class Portfolio {
 		} 
 		for(Derivative d: list){
 			int v = d.getVolume()-under.getVolume();
+			int temp = under.getVolume();
 			if(v == 0){
 				onhand.remove(d);
 				credit+= under.getTotal();
@@ -292,7 +308,12 @@ public class Portfolio {
 				onhand.remove(d);
 				under.setVolume(-v);
 				credit+= d.getVolume()*under.getPrice();
+				
+				temp = d.getVolume();
 			}
+			actions.add(new Action(IndexTable.getDateInString(), 
+					temp+" "+d.getClass()+" on "+d.getSymbol()+" was sold.", 
+					d));
 			
 		}
 		System.out.println("order executed in sell");
@@ -319,12 +340,19 @@ public class Portfolio {
 				    "Option on "+o.getSymbol()+" id:"+o.getId() +" expired/excercised\n"+
 			"Making profit/loss of $"+profit*o.getVolume());
 		
+			actions.add(new Action(IndexTable.getDateInString(), 
+					"Option on "+o.getSymbol()+" was expercised.", 
+					o));
 		}
 
 	}
 	
 	public void makeOrder(Order newo){
 		orders.add(newo);
+		Derivative d = newo.getUnderlying();
+		actions.add(new Action(IndexTable.getDateInString(), 
+				""+newo.getClass()+" of "+d.getClass()+" was made on " +d.getSymbol(), 
+				d));
 	}
 
 	public void printAll(){
@@ -363,8 +391,19 @@ public class Portfolio {
 		}
 	}
 	
+	public void removeOrderbyLocation(int i){
+
+		Order o = orders.remove(i);
+		Derivative d = o.getUnderlying();
+		actions.add(new Action(IndexTable.getDateInString(), 
+				o.getClass()+" of "+d.getClass()+" on "+d.getSymbol()+" was cancelled ",
+				d));
+
+	}	
+	
 	private LinkedList<Derivative> onhand;
 	private LinkedList<Order> orders;
+	private LinkedList<Action> actions;
 
 	private String[][] indextable;
 	
@@ -379,6 +418,7 @@ public class Portfolio {
 	public Portfolio( float c) {
 		this.onhand = new LinkedList<Derivative>();
 		this.orders = new LinkedList<Order>();
+		this.actions = new LinkedList<Action>();
 		credit = c;
 	}
 
