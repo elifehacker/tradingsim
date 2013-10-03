@@ -265,7 +265,7 @@ public class TradeStrategyView extends javax.swing.JFrame {
 
         payoff_scroll.setViewportView(payoff_pane);
 
-        payoff_scroll.setBounds(20, 90, 1200, 230);
+        payoff_scroll.setBounds(20, 90, 1200, 240);
         jLayeredPane.add(payoff_scroll, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         symbol_combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
