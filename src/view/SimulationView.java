@@ -12,6 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -530,6 +533,28 @@ public class SimulationView extends javax.swing.JFrame {
 				}
 			}
     	});
+    	
+    	but_check_detail.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				if(!selected.isEmpty()){
+					try {
+						URI url = new URI("www.reuters.com/finance/stocks/overview?symbol="+selected);
+						java.awt.Desktop.getDesktop().browse(url);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+    		
+    	});
+
     	
     }
 	public static void open(File document) throws IOException {
