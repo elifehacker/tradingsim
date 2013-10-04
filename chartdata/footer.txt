@@ -81,10 +81,10 @@
 		<periods>			
 		<period type="hh" count="1">1H</period>
         <period type="DD" count="1">1D</period>
-        <period type="DD" count="7">Week</period>
-    	<period selected="true" type="MM" count="1">1M</period>
+        <period type="DD" count="7">1Week</period>
+    	<period type="MM" count="1">1M</period>
     	<period type="YYYY" count="1">1Y</period>
-    	<period type="YTD" count="0">YTD</period>
+    	<period selected="true" type="YTD" count="0">YTD</period>
     	<period type="MAX">MAX</period>
 		</periods>
 		

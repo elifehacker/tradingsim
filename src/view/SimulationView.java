@@ -277,11 +277,6 @@ public class SimulationView extends javax.swing.JFrame {
 
         update_rate_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         update_rate_TextField.setText("jTextField1");
-        update_rate_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                update_rate_TextFieldActionPerformed(evt);
-            }
-        });
 
         but_minus.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_minus.setText("-");
@@ -445,21 +440,18 @@ public class SimulationView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>  
  
-     private class Nextlistener implements ActionListener{
+  
+	private void goNext() {
+		// TODO Auto-generated method stub
+		//printBuffer();
+		dr.updateTable();
+        news_table.setModel(new javax.swing.table.DefaultTableModel(Newsqueue.toBoard(),news_title));
+		portfolio.checkOrders(dr.get_table());
+		portfolio.checkOptions();
+		newtablecontent = true;
+		current_date_TextField.setText(dr.getDate());
+	}
 
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			//printBuffer();
-			dr.updateTable();
-	        news_table.setModel(new javax.swing.table.DefaultTableModel(Newsqueue.toBoard(),news_title));
-			portfolio.checkOrders(dr.get_table());
-			portfolio.checkOptions();
-			newtablecontent = true;
-			current_date_TextField.setText(dr.getDate());
-		}
-    	
-    }
     
     public void setNewTableFlag(boolean b){
     	 newtablecontent = b;
@@ -468,7 +460,14 @@ public class SimulationView extends javax.swing.JFrame {
     	return newtablecontent;
     }
     private void addlisteners(){
-    	but_next.addActionListener(new Nextlistener());
+    	but_next.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				goNext();
+			}
+    	});
     	
     	but_my_portfolio.addActionListener(new ActionListener(){
 
@@ -605,23 +604,58 @@ public class SimulationView extends javax.swing.JFrame {
         index_table.setModel(new javax.swing.table.DefaultTableModel(displayingtable,index_title));
 	}
 
-  
+	public void setManual(){
+		manual = true;
+    	update_rate_TextField.setText("Paused");
+    	status_TextField.setText("Manual");
+	}
+	
     private void but_pauseActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
+    	setManual();
     } 
     private void but_autoActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
+    	manual = false;
+    	if(AT == null){
+    		AT = new AutoThread();
+        	AT.start();
+    	}
+    	update_rate_TextField.setText(""+rate/1000+" sec");
+    	status_TextField.setText("Auto");
+    	
     }  
+    
+    private class AutoThread extends Thread {
+
+        public void run() {
+        	while(!manual){
+            	goNext();
+                try {
+    				Thread.sleep(rate);
+    			} catch (InterruptedException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        	}
+        }
+        /*
+        public static void main(String args[]) {
+            (new AutoThread()).start();
+        }*/
+
+    }
     private void but_plusActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
+    	rate+=1000;
+    	update_rate_TextField.setText(""+rate/1000+" sec");
     }  
     private void but_minusActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
-    }  
-    
-    private void update_rate_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-        // TODO add your handling code here:
-    }                                                     
+    	if(rate > 2000) rate-=1000;
+    	update_rate_TextField.setText(""+rate/1000+" sec");
+
+    }                                                    
 
     private void but_saveActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
@@ -742,6 +776,10 @@ public class SimulationView extends javax.swing.JFrame {
     public static String[][] displayingtable; 
     public boolean newtablecontent = false;
     
+    private boolean manual = true;
+    private AutoThread AT = null;
+    
+    private int rate= 4000;
     // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;
