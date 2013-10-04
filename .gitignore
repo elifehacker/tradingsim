@@ -15,12 +15,14 @@
 *.exe
 *.o
 *.so
+*.csv
 amcharts/images/*
 amstock/.svn/*
 data*
 tradingDB/*
 bin/*
-chartdata/amstock/*
+chartdata/*
+packages/test/*
 
 # Packages #
 ############

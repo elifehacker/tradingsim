@@ -45,7 +45,7 @@ public class BlackSchole {
 			if(firms[i].equals(tic))break;
 		}
 		double v = volatility[i];
-
+		if(v==-1)return -1;
 		char t = 'P';
 		if(callput.equals("Call")) t = 'C';	
 

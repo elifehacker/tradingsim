@@ -482,7 +482,7 @@ public class TradePanel extends javax.swing.JPanel {
 						    "Current market price of your option is $"+price);	
 			    	else{
 				    	JOptionPane.showMessageDialog(null,
-							    "Please provide a valid X_Date");
+							    "Please provide a valid X_Date or Option input file");
 				    	return 0;
 			    	}
 			    	if(otype.equals("Market Order")){

@@ -6,16 +6,13 @@ public class News {
 		return time;
 	}
 
-
 	public String getHeadline() {
 		return headline;
 	}
 
-
 	public String getLink() {
 		return link;
 	}
-
 
 	String time;
 	String headline;
@@ -27,7 +24,6 @@ public class News {
 		this.headline = headline;
 		this.link = link;
 	}
-
 
 	/**
 	 * @param args
