@@ -19,7 +19,3 @@ full list of available settings, check the amstock_settings.xml file in the amst
 
   <data_sets> 
     <data_set did="0">
-       <title>Index</title>
-       <short>Index</short>
-       <description></description>
-       <file_name>

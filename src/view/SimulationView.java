@@ -91,7 +91,6 @@ public class SimulationView extends javax.swing.JFrame {
         Left = new javax.swing.JPanel();
         leftmultilayer = new javax.swing.JLayeredPane();
         label_stock_index = new javax.swing.JLabel();
-        but_index_chart = new javax.swing.JButton();
         but_check_detail = new javax.swing.JButton();
         simulation_front = new javax.swing.JLabel();
         index_scroll = new javax.swing.JScrollPane();
@@ -160,16 +159,6 @@ public class SimulationView extends javax.swing.JFrame {
         label_stock_index.setText("Stock Index");
         label_stock_index.setBounds(20, 50, 110, 22);
         leftmultilayer.add(label_stock_index, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        but_index_chart.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        but_index_chart.setText("Index Chart");
-        but_index_chart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                but_index_chartActionPerformed(evt);
-            }
-        });
-        but_index_chart.setBounds(310, 551, 143, 40);
-        leftmultilayer.add(but_index_chart, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         but_check_detail.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_check_detail.setText("Check Detail");
@@ -449,21 +438,6 @@ public class SimulationView extends javax.swing.JFrame {
     private void addlisteners(){
     	but_next.addActionListener(new Nextlistener());
     	
-    	but_index_chart.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				File visual = new File("index.html");
-				try {
-					open(visual);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-    		
-    	});
     	but_my_portfolio.addActionListener(new ActionListener(){
 
 			@Override
@@ -500,20 +474,63 @@ public class SimulationView extends javax.swing.JFrame {
 				// TODO Auto-generated method stub
 				int row = index_table.getSelectedRow();
 				if(row !=-1){
+					
 					StringBuffer sb = new StringBuffer();
 					String[] content = dr.getFileContent(row);
 					String[] title = dr.getFileTitle();
+					selected = dr.getFirms()[row];
 					for(int i =0; i < title.length; i++){
 						//System.out.print(title[i]+": ");
 						//System.out.println(content[i]+"  ");
 						sb.append(title[i]+": "+content[i]+"  ");
-						if(i == title.length/3 ||i == title.length*2/3) sb.append("\n");
+						if(i == title.length/4 ||i == title.length/2||i == title.length*3/4) sb.append("\n");
 					}
 					stock_detail_TextArea.setText(sb.toString());					
 				}
 
 			}  		
     	});
+    	
+    	but_check_chart.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(!selected.isEmpty()){
+
+					try {
+						StringBuffer sb = new StringBuffer();
+						BufferedReader br = new BufferedReader(new FileReader("chartdata/header.txt"));
+						String line = null; 
+						while((line =br.readLine())!=null){
+						   sb.append(line).append("\n");
+						 }
+						
+						sb.append("<title>"+selected+"</title>\n"+
+								"<short>"+selected+"</short>\n"+
+								"<description></description>\n");
+						
+						sb.append("<file_name>"+selected+".csv");
+
+						br = new BufferedReader(new FileReader("chartdata/footer.txt"));
+						while((line =br.readLine())!=null){
+							   sb.append(line).append("\n");
+						 }
+						
+						FileWriter fw= new FileWriter("chartdata/amstock_settings.xml");
+						System.out.println(sb.toString());
+						fw.write(sb.toString());
+						fw.close();
+						File graph = new File("chartdata/index.html");
+						open(graph);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+    	});
+    	
     }
 	public static void open(File document) throws IOException {
 	    Desktop dt = Desktop.getDesktop();
@@ -534,65 +551,7 @@ public class SimulationView extends javax.swing.JFrame {
         index_table.setModel(new javax.swing.table.DefaultTableModel(displayingtable,index_title));
 	}
 
-    /*
-    public void add_index_chart_lis(ActionListener l){
-    	but_index_chart.addActionListener(l);
-    }*/
-    
-    public void add_check_detail_lis(ActionListener l){
-    	but_check_detail.addActionListener(l);
-    }
-    
-    public void add_save_lis(ActionListener l){
-    	but_save.addActionListener(l);
-    }
-    
-    public void add_back_lis(ActionListener l){
-    	but_back.addActionListener(l);
-    }
-    
-    public void add_trade_lis(ActionListener l){
-    	but_trade.addActionListener(l);
-    }
-    
-    public void add_check_chart_lis(ActionListener l){
-    	but_check_chart.addActionListener(l);
-    }
-    
-    public void add_strategy_lis(ActionListener l){
-    	but_strategy.addActionListener(l);
-    }
-    
-    public void add_my_portfolio_lis(ActionListener l){
-    	but_my_portfolio.addActionListener(l);
-    }
-    
-    public void add_minus_lis(ActionListener l){
-    	but_minus.addActionListener(l);
-    }
-    
-    public void add_plus_lis(ActionListener l){
-    	but_plus.addActionListener(l);
-    }
-    
-    public void add_pause_lis(ActionListener l){
-    	but_pause.addActionListener(l);
-    }
-    
-    public void add_auto_lis(ActionListener l){
-    	but_auto.addActionListener(l);
-    }
-    /*
-    public void add_next_lis(ActionListener l){
-    	but_next.addActionListener(l);
-    }
-    
-    public void add__lis(ActionListener l){
-    	but_.addActionListener(l);
-    }
-    */
-    
-    
+  
     private void but_pauseActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
     }                                         
@@ -608,10 +567,7 @@ public class SimulationView extends javax.swing.JFrame {
     private void but_backActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
     }                                        
-
-    private void but_index_chartActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
-    }                                               
+                                            
 
     /**
      * @param args the command line arguments
@@ -702,8 +658,7 @@ public class SimulationView extends javax.swing.JFrame {
     	for(int i = 0 ; i < index_title.length; i++){
     		if(index_title[i].equals(s)) return i;
     	}
-		return 0;
-    	
+		return 0;    	
     }
  
     public static String[] get_index_title(){
@@ -711,8 +666,6 @@ public class SimulationView extends javax.swing.JFrame {
 		return index_title;
     	
     }
-    
-
 
     private static String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
     private static int price_index =1; //where "Last" colume is
@@ -720,8 +673,7 @@ public class SimulationView extends javax.swing.JFrame {
 
     private Portfolio portfolio; 
     
-    private String chart_index = "data.csv";
-    private String chart_dir = "chartdata";
+    private String selected = "";
     
     public static String[][] displayingtable; 
     public boolean newtablecontent = false;
@@ -734,7 +686,6 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JButton but_back;
     private javax.swing.JButton but_check_chart;
     private javax.swing.JButton but_check_detail;
-    private javax.swing.JButton but_index_chart;
     private javax.swing.JButton but_minus;
     private javax.swing.JButton but_my_portfolio;
     private javax.swing.JButton but_next;
