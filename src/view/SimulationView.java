@@ -629,15 +629,22 @@ public class SimulationView extends javax.swing.JFrame {
     private class AutoThread extends Thread {
 
         public void run() {
-        	while(!manual){
+        	
+            while(true)
+            {
+            	while(manual){
+            		Thread.yield();
+            	}
+   
             	goNext();
-                try {
-    				Thread.sleep(rate);
-    			} catch (InterruptedException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
-        	}
+				try {
+					Thread.sleep(rate);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+
         }
         /*
         public static void main(String args[]) {
@@ -776,7 +783,7 @@ public class SimulationView extends javax.swing.JFrame {
     public static String[][] displayingtable; 
     public boolean newtablecontent = false;
     
-    private boolean manual = true;
+    private volatile boolean manual = true;
     private AutoThread AT = null;
     
     private int rate= 4000;

@@ -279,7 +279,7 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
 					    BufferedReader br;
 					    String path = "packages/"+folder+"/"+folder;
 						try {
-					        lab_picture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/"+folder+".png")));
+					        lab_picture.setIcon(new javax.swing.ImageIcon(path+".png"));
 
 							br = new BufferedReader(new FileReader(path+".txt"));
 					        StringBuilder sb = new StringBuilder();
