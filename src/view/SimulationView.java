@@ -21,6 +21,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.DataReader;
+import model.Newsqueue;
 import model.Portfolio;
 
 
@@ -75,6 +76,9 @@ public class SimulationView extends javax.swing.JFrame {
 		
 		portfolio = new Portfolio(dr.getStartingCash());
         
+        news_table.setModel(new javax.swing.table.DefaultTableModel(Newsqueue.toBoard(),news_title));
+
+		
         this.addWindowListener(new SwindowsListener());
     }
 
@@ -104,7 +108,7 @@ public class SimulationView extends javax.swing.JFrame {
         but_save = new javax.swing.JButton();
         lab_latest_news = new javax.swing.JLabel();
         news_scroll = new javax.swing.JScrollPane();
-        news_TextArea = new javax.swing.JTextArea();
+        news_table = new javax.swing.JTable();
         lab_stock_detail = new javax.swing.JLabel();
         stockdetail_scroll = new javax.swing.JScrollPane();
         stock_detail_TextArea = new javax.swing.JTextArea();
@@ -233,9 +237,18 @@ public class SimulationView extends javax.swing.JFrame {
         lab_latest_news.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         lab_latest_news.setText("Latest News");
 
-        news_TextArea.setColumns(20);
-        news_TextArea.setRows(5);
-        news_scroll.setViewportView(news_TextArea);
+        news_table.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Title 1", "Title 2", "Title 3", "Title 4"
+                }
+            ));
+        news_scroll.setViewportView(news_table);
 
         lab_stock_detail.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         lab_stock_detail.setText("Stock Detail");
@@ -424,6 +437,7 @@ public class SimulationView extends javax.swing.JFrame {
 			// TODO Auto-generated method stub
 			//printBuffer();
 			dr.updateTable();
+	        news_table.setModel(new javax.swing.table.DefaultTableModel(Newsqueue.toBoard(),news_title));
 			portfolio.checkOrders(dr.get_table());
 			portfolio.checkOptions();
 			newtablecontent = true;
@@ -692,6 +706,7 @@ public class SimulationView extends javax.swing.JFrame {
     	
     }
 
+    private String news_title[] = {"News Headlines"};
     private static String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
     private static int price_index =1; //where "Last" colume is
     private DataReader dr;
@@ -732,7 +747,7 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JLabel lab_updating_rate;
     private javax.swing.JLabel label_stock_index;
     private javax.swing.JLayeredPane leftmultilayer;
-    private javax.swing.JTextArea news_TextArea;
+    private javax.swing.JTable news_table;
     private javax.swing.JScrollPane news_scroll;
     private javax.swing.JLabel simulation_back;
     private javax.swing.JLabel simulation_front;
