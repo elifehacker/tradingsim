@@ -285,9 +285,19 @@ public class SimulationView extends javax.swing.JFrame {
 
         but_minus.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_minus.setText("-");
-
+        but_minus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	but_minusActionPerformed(evt);
+            }
+        });
+        
         but_plus.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_plus.setText("+");
+        but_plus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	but_plusActionPerformed(evt);
+            }
+        });
 
         but_pause.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_pause.setText("||");
@@ -299,6 +309,11 @@ public class SimulationView extends javax.swing.JFrame {
 
         but_auto.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_auto.setText("Auto");
+        but_auto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                but_autoActionPerformed(evt);
+            }
+        });
 
         but_next.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_next.setText(">>");
@@ -535,7 +550,7 @@ public class SimulationView extends javax.swing.JFrame {
 						 }
 						
 						FileWriter fw= new FileWriter("chartdata/amstock_settings.xml");
-						System.out.println(sb.toString());
+						//System.out.println(sb.toString());
 						fw.write(sb.toString());
 						fw.close();
 						File graph = new File("chartdata/index.html");
@@ -593,8 +608,17 @@ public class SimulationView extends javax.swing.JFrame {
   
     private void but_pauseActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
-    }                                         
-
+    } 
+    private void but_autoActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+    }  
+    private void but_plusActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+    }  
+    private void but_minusActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+    }  
+    
     private void update_rate_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {                                                      
         // TODO add your handling code here:
     }                                                     

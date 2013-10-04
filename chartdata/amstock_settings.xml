@@ -11,6 +11,7 @@ full list of available settings, check the amstock_settings.xml file in the amst
 
   <number_format>  
     <letters>
+       <letter number="1"> </letter>
        <letter number="1000">K</letter>
        <letter number="1000000">M</letter>
        <letter number="1000000000">B</letter>
@@ -19,14 +20,14 @@ full list of available settings, check the amstock_settings.xml file in the amst
 
   <data_sets> 
     <data_set did="0">
-       <title>Index</title>
-       <short>Index</short>
-       <description></description>
-       <file_name>data.csv</file_name>
+<title>MMM</title>
+<short>MMM</short>
+<description></description>
+<file_name>MMM.csv</file_name>
        <main_drop_down selected="true"></main_drop_down> 	    	  
        <compare_list_box selected="false"></compare_list_box>
        <csv>
-         <reverse>true</reverse>
+         <reverse>false</reverse>
          <separator>,</separator>
          <date_format>DD-MM-YYYY</date_format>
          <decimal_separator>.</decimal_separator>
@@ -102,11 +103,12 @@ full list of available settings, check the amstock_settings.xml file in the amst
       <text_color_selected>ffffff</text_color_selected>
     </button>
   
-		<periods>				
+		<periods>			
+		<period type="hh" count="1">1H</period>
         <period type="DD" count="1">1D</period>
-        <period type="DD" count="7">7D</period>
-    	<period type="MM" count="1">1M</period>
-    	<period selected="true" type="YYYY" count="1">1Y</period>
+        <period type="DD" count="7">Week</period>
+    	<period selected="true" type="MM" count="1">1M</period>
+    	<period type="YYYY" count="1">1Y</period>
     	<period type="YTD" count="0">YTD</period>
     	<period type="MAX">MAX</period>
 		</periods>

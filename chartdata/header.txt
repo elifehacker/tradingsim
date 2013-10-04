@@ -11,6 +11,7 @@ full list of available settings, check the amstock_settings.xml file in the amst
 
   <number_format>  
     <letters>
+       <letter number="1"> </letter>
        <letter number="1000">K</letter>
        <letter number="1000000">M</letter>
        <letter number="1000000000">B</letter>
