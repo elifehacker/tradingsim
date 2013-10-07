@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionListener;
 import model.DataReader;
 import model.Newsqueue;
 import model.Portfolio;
+import model.SessionController;
 
 
 /*
@@ -35,6 +36,18 @@ import model.Portfolio;
  * @author Pei Wang
  */
 public class SimulationView extends javax.swing.JFrame {
+
+	public DataReader getDr() {
+		return dr;
+	}
+
+	public void setDr(DataReader dr) {
+		this.dr = dr;
+	}
+
+	public void setPortfolio(Portfolio portfolio) {
+		this.portfolio = portfolio;
+	}
 
 	public void setTableContent(String s, int x, int y){
 		index_table.setValueAt(s, x, y);
@@ -58,7 +71,7 @@ public class SimulationView extends javax.swing.JFrame {
     public SimulationView(String folder) {
     	
         dr = new DataReader(folder, 10000);
-        
+        this.folder = folder;
         initComponents();
     	
         addlisteners();
@@ -441,6 +454,12 @@ public class SimulationView extends javax.swing.JFrame {
     }// </editor-fold>  
  
   
+     public void loadme(String date){
+    	 while(!dr.getDate().equals(date)){
+    		 goNext();
+    	 }
+     }
+     
 	private void goNext() {
 		// TODO Auto-generated method stub
 		//printBuffer();
@@ -666,6 +685,8 @@ public class SimulationView extends javax.swing.JFrame {
 
     private void but_saveActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
+    	SessionController sc = new SessionController();
+    	sc.save(folder, portfolio, dr.getDate());
     }                                        
 
     private void but_backActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -775,7 +796,7 @@ public class SimulationView extends javax.swing.JFrame {
     private static String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
     private static int price_index =1; //where "Last" colume is
     private DataReader dr;
-
+    private String folder;
     private Portfolio portfolio; 
     
     private String selected = "";

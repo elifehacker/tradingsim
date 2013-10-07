@@ -28,6 +28,10 @@ public class Action {
 		this.underlying = underlying;
 	}
 
+	public String toString(){
+		return time+","+desc;
+	}
+	
 	/**
 	 * @param args
 	 */

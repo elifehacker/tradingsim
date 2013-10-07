@@ -9,6 +9,14 @@ public class MarketOrder extends Order{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public String toString(){
+		return super.toString()+",Market";
+	}
+	
+	public MarketOrder(String id, String strategyid, String longshort,
+			 String tag, Derivative underlying, String limitprice) {
+		super(id, strategyid, longshort, tag, underlying);
+	}
 	/**
 	 * @param args
 	 */

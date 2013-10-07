@@ -54,7 +54,6 @@ public abstract class Order implements Comparable<Order>{
 	private String tag="";
 	
 	public Order(Derivative underlying, String buysell) {
-		super();
 		this.underlying = underlying;
 		this.longshort = buysell;
 		id = total;
@@ -63,15 +62,25 @@ public abstract class Order implements Comparable<Order>{
 		total++;
 	}
 
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public String toString(){
+		return id+","+strategyid+","+longshort+","+tag;
 	}
 
+	public Order(String id, String strategyid, String longshort,
+			 String tag, Derivative underlying) {
+		super();
+		this.underlying = underlying;
+		this.longshort = longshort;
+		this.id = Integer.parseInt(id);
+		this.strategyid = Integer.parseInt(strategyid);
+		this.tag = tag;
+		if(total<=this.id){
+			total = this.id+1;
+		}
+		if(strategytotal<=this.strategyid){
+			strategytotal = this.strategyid+1;
+		}
+	}
 
 	@Override
 	public int compareTo(Order o) {

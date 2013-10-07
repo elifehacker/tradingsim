@@ -16,6 +16,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.SessionController;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -316,7 +318,14 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == but_load){
-			desc_textarea.setText("load!");
+			if(!folder.equals("")){
+
+				SessionController sc = new SessionController();
+				SimulationView sv = new SimulationView(folder);
+				sc.load(sv, folder);
+				sv.setVisible(true);
+				this.dispose();
+			}
 			
 		}else if (e.getSource() == but_start){
 			System.out.println("start!");

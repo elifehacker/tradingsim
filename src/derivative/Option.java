@@ -42,5 +42,18 @@ public class Option extends Derivative{
 		this.type = type;
 	}
 
+	public Option( String id, String strategyid, String symbol,
+			String price, String volume, String tag,
+			String type, String strike,String maturity) {
+		super( id,  strategyid,  symbol, price,  volume,  tag);
+		this.maturity = maturity;
+		this.strike = Float.parseFloat(strike);
+		this.type = type;
+		
+	}
+	
+	public String toString(){
+		return super.toString()+","+type+","+strike+","+maturity;
+	}
 
 }

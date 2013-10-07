@@ -82,4 +82,25 @@ public abstract class Derivative implements Comparable<Derivative>{
 		int num = this.getId() - s.getId();		
 		return num;
 	}
+	
+	public Derivative( String id, String strategyid, String symbol,
+			String price, String volume, String tag) {
+		super();
+		this.price = Float.parseFloat(price);
+		this.volume = Integer.parseInt(volume);
+		this.symbol = symbol;
+		this.id = Integer.parseInt(id);
+		this.strategyid = Integer.parseInt(strategyid);
+		this.tag = tag;
+		if(total<=this.id){
+			total = this.id+1;
+		}
+		if(strategytotal<=this.strategyid){
+			strategytotal = this.strategyid+1;
+		}
+	}
+
+	public String toString(){
+		return id+","+strategyid+","+symbol+","+price+","+volume+","+tag;
+	}
 }

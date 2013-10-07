@@ -16,6 +16,16 @@ public class StopOrder extends Order{
 		return stopprice;
 	}
 	
+	public String toString(){
+		return super.toString()+",Stop,"+getstopprice();
+	}
+	
+	public StopOrder(String id, String strategyid, String longshort,
+			 String tag, Derivative underlying, String s) {
+		super(id, strategyid, longshort, tag, underlying);
+		this.stopprice = Float.parseFloat(s);
+
+	}
 	/**
 	 * @param args
 	 */

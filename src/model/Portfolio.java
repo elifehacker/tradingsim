@@ -22,6 +22,22 @@ import view.SimulationView;
 
 public class Portfolio {
 
+	public void setOnhand(LinkedList<Derivative> onhand) {
+		this.onhand = onhand;
+	}
+
+	public void setOrders(LinkedList<Order> orders) {
+		this.orders = orders;
+	}
+
+	public void setActions(LinkedList<Action> actions) {
+		this.actions = actions;
+	}
+
+	public void setCredit(float credit) {
+		this.credit = credit;
+	}
+
 	public LinkedList<Derivative> getOnhand() {
 		return onhand;
 	}
@@ -80,7 +96,6 @@ public class Portfolio {
 	}
 	
 	public void checkOrders(String[][] it){
-		indextable = it;
 
 		float newprice = 0;
 		float netchange = 0;
@@ -94,7 +109,7 @@ public class Portfolio {
 		int sym_col = SimulationView.get_index_title_index("Symbol");
 		int last_col = SimulationView.get_index_title_index("Last");
 		int net_col = SimulationView.get_index_title_index("Net Change");
-		while(c < indextable.length){
+		while(c < it.length){
 
 			String row[] = it[c]; 
 			if(hs.contains(row[sym_col])){
@@ -404,8 +419,6 @@ public class Portfolio {
 	private LinkedList<Derivative> onhand;
 	private LinkedList<Order> orders;
 	private LinkedList<Action> actions;
-
-	private String[][] indextable;
 	
 	private float credit;
 	

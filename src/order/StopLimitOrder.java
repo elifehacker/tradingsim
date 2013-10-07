@@ -23,6 +23,18 @@ public class StopLimitOrder extends Order {
 		return limitprice;
 	}
 	
+	public String toString(){
+		return super.toString()+",StopLimit,"+getstopprice()+","+getlimitprice();
+	}
+	
+	public StopLimitOrder(String id, String strategyid, String longshort,
+			 String tag, Derivative underlying, String s, String l) {
+		super(id, strategyid, longshort, tag, underlying);
+		this.limitprice = Float.parseFloat(l);
+		this.stopprice = Float.parseFloat(s);
+
+	}
+	
 	/**
 	 * @param args
 	 */
