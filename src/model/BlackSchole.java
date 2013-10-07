@@ -78,7 +78,7 @@ public class BlackSchole {
 	
 	public double timetilmaturity(String a, String b){
 		
-		System.out.println("BlackSch "+a+" "+b);
+		//System.out.println("BlackSch "+a+" "+b);
 
 		String d1[] = a.split("[-/]");
 		String d2[] = b.split("[-/]");

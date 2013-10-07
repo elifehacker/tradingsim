@@ -691,6 +691,8 @@ public class SimulationView extends javax.swing.JFrame {
 
     private void but_backActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
+        new PackageSelection().setVisible(true);
+        this.dispose();
     }                                        
                                             
 

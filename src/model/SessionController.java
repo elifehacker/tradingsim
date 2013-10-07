@@ -142,16 +142,16 @@ public class SessionController {
 						counter++;
 					}else{
 						if(counter == 3){
-							System.out.println("flag "+flag);
+							//System.out.println("flag "+flag);
 
 							if(flag){//order id+","+strategyid+","+longshort+","+tag; +type of order
 								prev = line.split(",", -1);
 							}else{//underlying
-								System.out.println("sc "+line);
+								//System.out.println("sc "+line);
 
 								Derivative d = getUnder(splited);
 								Order o = getOrder(prev, d);
-								System.out.println("SessionController "+o.toString());
+								//System.out.println("SessionController "+o.toString());
 								orders.add(o);
 							}
 							flag = !flag;
@@ -206,7 +206,7 @@ public class SessionController {
 	private Order getOrder(String[] s, Derivative d){
 		//id+","+strategyid+","+longshort+","+tag; +type of order
 		
-		System.out.println("SessionC getOrder "+s[0]+s[1]+s[2]+s[3]+s[4]);
+		//System.out.println("SessionC getOrder "+s[0]+s[1]+s[2]+s[3]+s[4]);
 
 		
 		if(s.length==5){//market

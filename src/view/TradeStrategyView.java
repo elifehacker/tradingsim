@@ -4,6 +4,9 @@ import java.awt.CardLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import order.Order;
 
@@ -334,6 +337,20 @@ public class TradeStrategyView extends javax.swing.JFrame {
 
     private void but_explainActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
+    	String strategy = (String) strategy_combo.getSelectedItem();
+    	strategy=strategy.replaceAll("\\s+", "%20");
+		URI url;
+		try {
+			url = new URI("https://www.google.com.au/search?q="+strategy);
+			java.awt.Desktop.getDesktop().browse(url);
+
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }                                           
 
     private void but_selectActionPerformed(java.awt.event.ActionEvent evt) {                                           
