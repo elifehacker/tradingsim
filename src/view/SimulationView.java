@@ -685,8 +685,17 @@ public class SimulationView extends javax.swing.JFrame {
 
     private void but_saveActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-    	SessionController sc = new SessionController();
-    	sc.save(folder, portfolio, dr.getDate());
+		int n = JOptionPane.showConfirmDialog(
+			    this,
+			    "Save the current session by overwriting the previous?",
+			    "Confirmation",
+			    JOptionPane.YES_NO_OPTION);
+		System.out.println("Confirmation is "+n); // yes == 0 , no == 1
+		if(n == 0){
+	    	SessionController sc = new SessionController();
+	    	sc.save(folder, portfolio, dr.getDate());
+		}
+
     }                                        
 
     private void but_backActionPerformed(java.awt.event.ActionEvent evt) {                                         

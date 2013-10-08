@@ -8,7 +8,7 @@ public class Newsqueue {
 
 	public static void enque(String n){
 		news.add(n);
-		if(news.size()==10) deque();
+		if(news.size()==50) deque();
 	}
 	
 	public static void deque(){

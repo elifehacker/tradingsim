@@ -1,10 +1,1 @@
-The global financial crisis (GFC) or global economic crisis 
-is commonly believed to have begun in July 2007 with the 
-credit crunch, when a loss of confidence by US investors in 
-the value of sub-prime mortgages caused a liquidity crisis. 
-This, in turn, resulted in the US Federal Bank injecting a 
-large amount of capital into financial markets. By September
- 2008, the crisis had worsened as stock markets around the 
-globe crashed and became highly volatile. Consumer confidence 
-hit rock bottom as everyone tightened their belts in fear of 
-what could lie ahead.
+This is a testing package used for development
