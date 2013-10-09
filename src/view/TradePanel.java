@@ -43,6 +43,19 @@ public class TradePanel extends javax.swing.JPanel {
         addlisteners();
     }
 
+    public TradePanel(Portfolio p, String tic, String strat,
+    		int security, int action, int option) {
+    	portfolio = p;
+    	symbol = tic;
+    	strategy = strat;
+
+        initComponents();
+    	security_combo.setSelectedIndex(security);
+    	action_combo.setSelectedIndex(action);
+    	option_type_combo.setSelectedIndex(option);
+        addlisteners();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

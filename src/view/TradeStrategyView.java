@@ -41,6 +41,14 @@ public class TradeStrategyView extends javax.swing.JFrame {
 	}
 	
 	private void setpayoff(String payoff, int index){
+		
+		if(payoff.equals("longcall"))addpane(1,0,0);
+		if(payoff.equals("longcall2"))addpane(1,0,0);
+		if(payoff.equals("shortcall"))addpane(1,1,0);
+		if(payoff.equals("longput"))addpane(1,0,1);
+		if(payoff.equals("shortput"))addpane(1,1,1);
+		if(payoff.equals("stock"))addpane(0,0,0);
+
 		javax.swing.ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/payoffs/"+payoff+".png"));
 		switch(index){
 		case 1: payoff_lab1.setIcon(icon); 
@@ -81,6 +89,10 @@ public class TradeStrategyView extends javax.swing.JFrame {
 			order_pane.add(new TradePanel(portfolio,getSelectedSymbol() , getSelectedStrategy()), FlowLayout.LEFT);
 			num--;
 		}
+	}
+	
+	private void addpane(int security, int action, int option){ // 0: Stock and Long Call 1: Option and Short Put
+		order_pane.add(new TradePanel(portfolio,getSelectedSymbol() , getSelectedStrategy(),security , action, option), FlowLayout.LEFT);
 	}
 	
 	private void resetview(){
@@ -365,41 +377,43 @@ public class TradeStrategyView extends javax.swing.JFrame {
     		if(strategy.equals("Long Put")) setpayoff("longput", 1);
     		if(strategy.equals("Short Call")) setpayoff("shortcall", 1);    		
     		if(strategy.equals("Short Put")) setpayoff("shortput", 1);
-    		addpane(1);
+    		//addpane(1);
     	}else if(index >=5){
+    		//order panels are concatenated from the left hand side in flow layout
+    		//some the order must be reversed
     		if(strategy.equals("Collar")){
-    			setpayoff("longput", 1);
+    			setpayoff("longput", 5);
     			setpayoff("stock", 3);
-    			setpayoff("shortcall", 5);
+    			setpayoff("shortcall", 1);
     			setpayoff("collar", 7);    			
     			setsymbol(2);
-    			addpane(3);
+    			//addpane(3);
     			
     		}else if(strategy.equals("Covered Call")){
-    			setpayoff("stock", 1);
-    			setpayoff("shortcall",3);
+    			setpayoff("stock", 3);
+    			setpayoff("shortcall",1);
     			setpayoff("covered",5);
     			setsymbol(1);
-    			addpane(2);
+    			//addpane(2);
     			
     		}else if(strategy.equals("Protective Put")){
-    			setpayoff("longput", 1);
-    			setpayoff("stock",3);
+    			setpayoff("longput", 3);
+    			setpayoff("stock",1);
     			setpayoff("protective",5);
     			setsymbol(1);
-    			addpane(2);
+    			//addpane(2);
     		}else if(strategy.equals("Spread")){
-    			setpayoff("longcall2", 1);
-    			setpayoff("shortcall",3);
+    			setpayoff("longcall2", 3);
+    			setpayoff("shortcall",1);
     			setpayoff("spread",5);
     			setsymbol(1);
-    			addpane(2);
+    			//addpane(2);
     		}else if(strategy.equals("Straddle")){
-    			setpayoff("longput", 1);
-    			setpayoff("longcall",3);
+    			setpayoff("longput", 3);
+    			setpayoff("longcall",1);
     			setpayoff("straddle",5);
     			setsymbol(1);
-    			addpane(2);
+    			//addpane(2);
     		}
     	}
     }                                          
