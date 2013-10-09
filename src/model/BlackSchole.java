@@ -87,12 +87,19 @@ public class BlackSchole {
 		String d2[] = b.split("[-/]");
 		int integer = Integer.parseInt(d2[2]) - Integer.parseInt(d1[2]);
 		int decimal = Integer.parseInt(d2[1]) - Integer.parseInt(d1[1]);
+		int day		= Integer.parseInt(d2[0]) - Integer.parseInt(d1[0]);
+
+		if(day <0){
+			decimal--;
+			day+=30;
+		}		
 		if(decimal <0){
 			integer--;
 			decimal+=12;
 		}
+		if(integer<0) return 0;
 		
-		return integer+(double)decimal/12;
+		return integer+(double)decimal/12+(double)day/365;
 	}
 	
 	
