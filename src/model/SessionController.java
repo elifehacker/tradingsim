@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.swing.JFileChooser;
+
 import action.Action;
 
 import derivative.Derivative;
@@ -28,14 +30,16 @@ public class SessionController {
 
 	}
 	
-	public void save(String f, Portfolio p, String dt){
+	public void save(String folder, Portfolio portfolio, String date){
 		
-		folder = f;
-		portfolio = p;		
-		date = dt;
+		JFileChooser fc = new JFileChooser("packages/"+folder+"/saves");
+        int returnVal = fc.showSaveDialog(fc);
+        if (returnVal != JFileChooser.APPROVE_OPTION) {
+        	return;
+        }
+        File file = fc.getSelectedFile();
 		
 		StringBuffer sb = new StringBuffer();		
-
 		sb.append(date+"\n");
 
 		sb.append(portfolio.getCredit()+"\n");
@@ -94,9 +98,9 @@ public class SessionController {
 				sb.append(d.toString());				
 			}
 			sb.append("\n");
-		}
+		}	
 		
-		File file = new File("packages/"+folder+"/save.csv");
+		//File file = new File("packages/"+folder+"/save.csv");
 		try {
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -112,14 +116,20 @@ public class SessionController {
 
 	public void load(SimulationView sv, String folder){
 		
-		File file = new File("packages/"+folder+"/save.csv");
+		JFileChooser fc = new JFileChooser("packages/"+folder+"/saves");
+        int returnVal = fc.showSaveDialog(fc);
+        if (returnVal != JFileChooser.APPROVE_OPTION) {
+        	return;
+        }
+		//File file = new File("packages/"+folder+"/save.csv");
+        File file = fc.getSelectedFile();
 		
 		LinkedList<Derivative> onhand = new LinkedList<Derivative>();
 		LinkedList<Order> orders = new LinkedList<Order>();
 		LinkedList<Action> actions = new LinkedList<Action>();
 		
 		float credit = 0;
-				
+		String date = null;
 		try {
 			FileReader fr = new FileReader(file);
 			BufferedReader bf = new BufferedReader(fr);
@@ -235,10 +245,5 @@ public class SessionController {
 		}
 		
 	}
-
-	String folder;
-	Portfolio portfolio;
-	String date;
-
 
 }
