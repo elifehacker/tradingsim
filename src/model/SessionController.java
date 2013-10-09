@@ -114,15 +114,7 @@ public class SessionController {
 		
 	}
 
-	public void load(SimulationView sv, String folder){
-		
-		JFileChooser fc = new JFileChooser("packages/"+folder+"/saves");
-        int returnVal = fc.showSaveDialog(fc);
-        if (returnVal != JFileChooser.APPROVE_OPTION) {
-        	return;
-        }
-		//File file = new File("packages/"+folder+"/save.csv");
-        File file = fc.getSelectedFile();
+	public void load(SimulationView sv, File file){
 		
 		LinkedList<Derivative> onhand = new LinkedList<Derivative>();
 		LinkedList<Order> orders = new LinkedList<Order>();

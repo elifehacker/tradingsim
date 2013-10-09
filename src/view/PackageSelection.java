@@ -12,6 +12,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.swing.JFileChooser;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -320,9 +321,17 @@ public class PackageSelection extends javax.swing.JFrame implements ActionListen
 		if (e.getSource() == but_load){
 			if(!folder.equals("")){
 
+				JFileChooser fc = new JFileChooser("packages/"+folder+"/saves");
+		        int returnVal = fc.showSaveDialog(fc);
+		        if (returnVal != JFileChooser.APPROVE_OPTION) {
+		        	return;
+		        }
+				//File file = new File("packages/"+folder+"/save.csv");
+		        File file = fc.getSelectedFile();
+				
 				SessionController sc = new SessionController();
 				SimulationView sv = new SimulationView(folder);
-				sc.load(sv, folder);
+				sc.load(sv, file);
 				sv.setVisible(true);
 				this.dispose();
 			}
