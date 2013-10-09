@@ -477,6 +477,7 @@ public class TradePanel extends javax.swing.JPanel {
 			    	BlackSchole bs = new BlackSchole();
 			    	double price = bs.findOptionPrice(symbol, (String)option_type_combo.getSelectedItem(), 
 			    			x_price_tf.getText(), x_date_tf.getText());
+			    	//System.out.println("TradePanel: price"+price);
 			    	if(price!=-1)
 			    	JOptionPane.showMessageDialog(null,
 						    "Current market price of your option is $"+price);	

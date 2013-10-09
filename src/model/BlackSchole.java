@@ -40,11 +40,14 @@ public class BlackSchole {
 	}
 	
 	public double findOptionPrice(String tic, String callput, String x_price, String x_date){
+    	//System.out.println("BS: tic"+tic+" "+callput+" "+x_price+" "+x_date);
+
 		int i;
 		for(i = 0; i<firms.length; i++){
 			if(firms[i].equals(tic))break;
 		}
 		double v = volatility[i];
+		//System.out.println("BS: v i are "+v+" "+i);
 		if(v==-1)return -1;
 		char t = 'P';
 		if(callput.equals("Call")) t = 'C';	

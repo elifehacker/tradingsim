@@ -104,43 +104,46 @@ public class SimulationView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        Top = new javax.swing.JPanel();
-        top_background = new javax.swing.JLayeredPane();
-        lab_adage = new javax.swing.JLabel();
-        lab_background = new javax.swing.JLabel();
-        Left = new javax.swing.JPanel();
-        leftmultilayer = new javax.swing.JLayeredPane();
-        label_stock_index = new javax.swing.JLabel();
-        but_check_detail = new javax.swing.JButton();
-        simulation_front = new javax.swing.JLabel();
-        index_scroll = new javax.swing.JScrollPane();
-        index_table = new javax.swing.JTable();
-        simulation_back = new javax.swing.JLabel();
-        Right = new javax.swing.JPanel();
-        but_back = new javax.swing.JButton();
-        but_save = new javax.swing.JButton();
-        lab_latest_news = new javax.swing.JLabel();
-        news_scroll = new javax.swing.JScrollPane();
-        news_table = new javax.swing.JTable();
-        lab_stock_detail = new javax.swing.JLabel();
-        stockdetail_scroll = new javax.swing.JScrollPane();
-        stock_detail_TextArea = new javax.swing.JTextArea();
-        lab_trading_command = new javax.swing.JLabel();
-        but_trade = new javax.swing.JButton();
-        but_check_chart = new javax.swing.JButton();
-        but_strategy = new javax.swing.JButton();
-        but_my_portfolio = new javax.swing.JButton();
-        lab_updating_rate = new javax.swing.JLabel();
-        update_rate_TextField = new javax.swing.JTextField();
-        but_minus = new javax.swing.JButton();
-        but_plus = new javax.swing.JButton();
-        but_pause = new javax.swing.JButton();
-        but_auto = new javax.swing.JButton();
-        but_next = new javax.swing.JButton();
-        lab_current_time = new javax.swing.JLabel();
-        current_time_TextField = new javax.swing.JTextField();
-        current_date_TextField = new javax.swing.JTextField();
-        status_TextField = new javax.swing.JTextField();
+         Top = new javax.swing.JPanel();
+         top_background = new javax.swing.JLayeredPane();
+         lab_adage = new javax.swing.JLabel();
+         lab_background = new javax.swing.JLabel();
+         Left = new javax.swing.JPanel();
+         leftmultilayer = new javax.swing.JLayeredPane();
+         label_stock_index = new javax.swing.JLabel();
+         but_check_detail = new javax.swing.JButton();
+         simulation_front = new javax.swing.JLabel();
+         index_scroll = new javax.swing.JScrollPane();
+         index_table = new javax.swing.JTable();
+         simulation_back = new javax.swing.JLabel();
+         Right = new javax.swing.JPanel();
+         but_back = new javax.swing.JButton();
+         but_save = new javax.swing.JButton();
+         lab_latest_news = new javax.swing.JLabel();
+         news_scroll = new javax.swing.JScrollPane();
+         news_table = new javax.swing.JTable();
+         lab_stock_detail = new javax.swing.JLabel();
+         stockdetail_scroll = new javax.swing.JScrollPane();
+         stock_detail_TextArea = new javax.swing.JTextArea();
+         lab_trading_command = new javax.swing.JLabel();
+         but_trade = new javax.swing.JButton();
+         but_check_chart = new javax.swing.JButton();
+         but_strategy = new javax.swing.JButton();
+         but_my_portfolio = new javax.swing.JButton();
+         lab_progression_step = new javax.swing.JLabel();
+         update_rate_TextField = new javax.swing.JTextField();
+         but_minus = new javax.swing.JButton();
+         but_plus = new javax.swing.JButton();
+         but_pause = new javax.swing.JButton();
+         but_auto = new javax.swing.JButton();
+         but_next = new javax.swing.JButton();
+         lab_current_time = new javax.swing.JLabel();
+         current_time_TextField = new javax.swing.JTextField();
+         current_date_TextField = new javax.swing.JTextField();
+         status_TextField = new javax.swing.JTextField();
+         progression_step_TextField = new javax.swing.JTextField();
+         lab_progression_type = new javax.swing.JLabel();
+         lab_auto_pro_rate = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -285,27 +288,17 @@ public class SimulationView extends javax.swing.JFrame {
         but_my_portfolio.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_my_portfolio.setText("My Portfolio");
 
-        lab_updating_rate.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        lab_updating_rate.setText("Updating Rate");
+        lab_progression_step.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lab_progression_step.setText("Progression Step");
 
         update_rate_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         update_rate_TextField.setText("jTextField1");
 
         but_minus.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_minus.setText("-");
-        but_minus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	but_minusActionPerformed(evt);
-            }
-        });
-        
+
         but_plus.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_plus.setText("+");
-        but_plus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	but_plusActionPerformed(evt);
-            }
-        });
 
         but_pause.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_pause.setText("||");
@@ -317,11 +310,6 @@ public class SimulationView extends javax.swing.JFrame {
 
         but_auto.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_auto.setText("Auto");
-        but_auto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                but_autoActionPerformed(evt);
-            }
-        });
 
         but_next.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         but_next.setText(">>");
@@ -337,6 +325,15 @@ public class SimulationView extends javax.swing.JFrame {
 
         status_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         status_TextField.setText("jTextField1");
+
+        progression_step_TextField.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        progression_step_TextField.setText("1 day");
+
+        lab_progression_type.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lab_progression_type.setText("Progression Type");
+
+        lab_auto_pro_rate.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lab_auto_pro_rate.setText("Auto Progression Rate");
 
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
@@ -361,44 +358,49 @@ public class SimulationView extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(RightLayout.createSequentialGroup()
+                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(RightLayout.createSequentialGroup()
+                                .addComponent(lab_progression_step)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(progression_step_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(RightLayout.createSequentialGroup()
+                                .addComponent(lab_progression_type)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(status_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(RightLayout.createSequentialGroup()
+                                .addComponent(lab_auto_pro_rate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(RightLayout.createSequentialGroup()
+                                        .addComponent(but_minus)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(but_plus))
+                                    .addComponent(update_rate_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(RightLayout.createSequentialGroup()
-                                .addComponent(lab_updating_rate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(RightLayout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(status_TextField)
-                                    .addComponent(update_rate_TextField))
-                                .addGap(18, 18, 18)
-                                .addComponent(but_minus)
-                                .addGap(18, 18, 18)
-                                .addComponent(but_plus)
-                                .addGap(35, 35, 35)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lab_current_time)
+                                .addComponent(current_date_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                .addComponent(current_time_TextField))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createSequentialGroup()
                                 .addComponent(but_pause)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(but_auto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(but_next)
-                                .addGap(32, 32, 32)))
-                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lab_current_time)
-                            .addComponent(current_date_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                            .addComponent(current_time_TextField))
+                                .addComponent(but_next)))
                         .addGap(19, 19, 19))
                     .addGroup(RightLayout.createSequentialGroup()
-                        .addComponent(lab_trading_command)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(RightLayout.createSequentialGroup()
-                        .addGap(118, 118, 118)
                         .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(but_trade, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(but_strategy, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(but_check_chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(but_my_portfolio, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(109, 109, 109))))
+                            .addComponent(lab_trading_command)
+                            .addGroup(RightLayout.createSequentialGroup()
+                                .addComponent(but_check_chart, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(but_trade, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(but_strategy, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(but_my_portfolio, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(17, Short.MAX_VALUE))))
         );
         RightLayout.setVerticalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,8 +412,8 @@ public class SimulationView extends javax.swing.JFrame {
                 .addGap(1, 1, 1)
                 .addComponent(lab_latest_news)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(news_scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(news_scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lab_stock_detail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stockdetail_scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -420,32 +422,38 @@ public class SimulationView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(but_check_chart, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(but_trade, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addComponent(but_trade, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(but_strategy, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(but_my_portfolio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
                 .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(but_my_portfolio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(but_strategy, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lab_updating_rate)
+                    .addComponent(progression_step_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lab_progression_step)
                     .addComponent(lab_current_time))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(but_minus, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(but_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(but_pause, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(but_next, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(but_auto, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(RightLayout.createSequentialGroup()
-                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(current_date_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                            .addComponent(status_TextField))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(update_rate_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                            .addComponent(current_time_TextField))))
-                .addGap(20, 20, 20))
+                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(status_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lab_progression_type))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(update_rate_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lab_auto_pro_rate)))
+                    .addGroup(RightLayout.createSequentialGroup()
+                        .addComponent(current_date_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(current_time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(but_minus, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(but_plus, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(but_pause, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(but_next, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(but_auto, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         getContentPane().add(Right, java.awt.BorderLayout.CENTER);
@@ -819,7 +827,7 @@ public class SimulationView extends javax.swing.JFrame {
     private AutoThread AT = null;
     
     private int rate= 4000;
-    // Variables declaration - do not modify                     
+ // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;
     private javax.swing.JPanel Top;
@@ -840,16 +848,19 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JScrollPane index_scroll;
     private static javax.swing.JTable index_table;
     private javax.swing.JLabel lab_adage;
+    private javax.swing.JLabel lab_auto_pro_rate;
     private javax.swing.JLabel lab_background;
     private javax.swing.JLabel lab_current_time;
     private javax.swing.JLabel lab_latest_news;
+    private javax.swing.JLabel lab_progression_step;
+    private javax.swing.JLabel lab_progression_type;
     private javax.swing.JLabel lab_stock_detail;
     private javax.swing.JLabel lab_trading_command;
-    private javax.swing.JLabel lab_updating_rate;
     private javax.swing.JLabel label_stock_index;
     private javax.swing.JLayeredPane leftmultilayer;
     private javax.swing.JTable news_table;
     private javax.swing.JScrollPane news_scroll;
+    private javax.swing.JTextField progression_step_TextField;
     private javax.swing.JLabel simulation_back;
     private javax.swing.JLabel simulation_front;
     private javax.swing.JTextField status_TextField;
@@ -857,5 +868,5 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JScrollPane stockdetail_scroll;
     private javax.swing.JLayeredPane top_background;
     private javax.swing.JTextField update_rate_TextField;
-    // End of variables declaration                    
+    // End of variables declaration                                     
 }
