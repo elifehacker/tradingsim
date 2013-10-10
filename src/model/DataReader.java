@@ -145,7 +145,6 @@ public class DataReader {
 	        		
 	        	}
 		        LinkedList<String> flist = new LinkedList<String>();
-		        LinkedList<Double> plist = new LinkedList<Double>();
 
 		        while((line= br.readLine())!= null){
 		        	splited = line.split(",");
@@ -158,7 +157,6 @@ public class DataReader {
 							totalfirm++;
 							stage = 0;
 							flist.add(lastfirm);
-							plist.add(Double.parseDouble(splited[last]));
 
 						}
 						if(stage  == 0){
@@ -182,10 +180,8 @@ public class DataReader {
 		        lasts = new float[totalfirm];
 		        SimulationView.displayingtable = new String[totalfirm+1][SimulationView.get_index_title().length];
 		        
-		        current_price = new double[totalfirm];
 		        for(int i = 0; i < flist.size(); i++){
 		        	firms[i] = flist.get(i);
-		        	current_price[i] = plist.get(i);
 		        	//System.out.println("firm[i] "+firms[i]);
 		        }
 		        IndexTable.setFirms(firms);
@@ -193,12 +189,49 @@ public class DataReader {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				filenotfound(folder+".csv");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
     	}
+		
+		try {		
+	        current_price = new double[totalfirm];
+
+			BufferedReader br = new BufferedReader(new FileReader(path+"current.csv"));
+	        String line;
+	        boolean firstline = true;
+	        int c_ric = 0, c_last=0;
+	        while((line = br.readLine()) !=null){
+		        String[] splited = line.split(",");		        
+		        if(firstline){
+		        	firstline = false;
+		        	for(int k = 0; k < splited.length; k++){
+		        		if(splited[k].equals("Last")){
+	    					c_last = k;
+	    				}if(splited[k].equals("#RIC")){
+	    					c_ric = k;
+	    				}
+		        	}
+		        }else{
+		        	int k;
+					for(k = 0; k<totalfirm; k++){
+						if(firms[k].equals(splited[c_ric]))break;
+					}
+					current_price[k]= Double.parseDouble(splited[c_last]);					
+		        } 
+	        }		       
+	        br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			filenotfound("current.csv");
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
         String[][] preview = new String [totalfirm][3];
 		try {
@@ -224,7 +257,7 @@ public class DataReader {
 		        }else{
 		        	if(!lastric.equals(splited[o_ric].substring(0, 3))&&!splited[o_last].isEmpty()){
 				        lastric = splited[o_ric].substring(0, 3);					        					        	
-		        		preview[counter][0] = lastric;
+		        		preview[counter][0] = splited[o_ric];
 		        		preview[counter][1] = splited[o_last];
 		        		preview[counter][2] = convertdate(splited[o_date]);
 		        		counter++;
@@ -235,6 +268,7 @@ public class DataReader {
 	        br.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			filenotfound("previous.csv");
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -265,15 +299,13 @@ public class DataReader {
 	    				}
 		        	}
 		        }else{
-		        	if(!lastric.equals(splited[o_ric].substring(0, 3))){
-				        lastric = splited[o_ric].substring(0, 3);	
-				        
-				        if(counter==12) System.out.println("DR debug: "+line);
-				        
+		        	if(splited[o_ric].equals(preview[counter][0])){
+				        				        
 				        export[counter][0] = lastric;
 				        export[counter][1] = splited[o_type];
 				        export[counter][2] = splited[x_price];
 				        export[counter][3] = convertdate(splited[x_date]);
+				        //System.out.println("Line "+line+" Export "+export[counter][3]);
 		        		counter++;
 		        	}
 
@@ -282,6 +314,8 @@ public class DataReader {
 	        br.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			filenotfound("export.csv");
+
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -296,39 +330,36 @@ public class DataReader {
 
 			//CallPutFlag,  S,  X,  T,  r,  v1+diff, v2, target
 			try{
-				if(export[i][0].equals(preview[x][0])){
-					String tic = export[i][0];
-					double timediff = bs.timetilmaturity(preview[x][2],export[i][3]);
+				if(firms[i].equals(preview[x][0].substring(0, 3))){
+					String tic = firms[i];
+					double timediff = bs.timetilmaturity(preview[x][2],export[x][3]);
 					double bondyield = bs.bondyield(timediff);
-					int k;
-					for(k = 0; k<totalfirm; k++){
-						if(firms[k].equals(tic))break;
+
+					volatility[i] = bs.findImpliedvolatility(export[x][1].charAt(0),current_price[i], 
+							Double.parseDouble(export[x][2]),timediff,bondyield,(double)0,(double)5,Double.parseDouble(preview[x][1]));
+					
+					if(volatility[i]==0){
+						System.out.println("--DataReader--");
+						System.out.println("Tic v is "+tic);
+						System.out.println("Calculated v is "+volatility[i]);
+						System.out.println("option type is "+export[x][1].charAt(0));
+						System.out.println("current_price is "+current_price[getFirmIndex(tic)]);
+						System.out.println("x_price is "+Double.parseDouble(export[x][2]));
+						System.out.println("bondyield is "+bondyield);
+						System.out.println("Traget price is "+Double.parseDouble(preview[x][1]));												
+						System.out.println("-----");
 					}
-					volatility[k] = bs.findImpliedvolatility(export[i][1].charAt(0),current_price[k], 
-							Double.parseDouble(export[i][2]),timediff,bondyield,(double)0,(double)5,Double.parseDouble(preview[x][1]));
+
 					x++;
-					/*
-					System.out.println("Tic v is "+tic);
-					System.out.println("Calculated v is "+volatility[i]);
-					System.out.println("option type is "+export[i][1].charAt(0));
-					System.out.println("current_price is "+current_price[getFirmIndex(tic)]);
-					System.out.println("x_price is "+Double.parseDouble(export[i][2]));
-					System.out.println("bondyield is "+bondyield);
-					System.out.println("Traget price is "+Double.parseDouble(preview[i][1]));
-					*/
-				
+
 				}else{
-					String tic = export[i][0];
-					for(int k = 0; k<totalfirm; k++){
-						if(firms[k].equals(tic)){
-							volatility[k]= -1;
-							//System.out.println("DataReader else i k "+i+" "+k);
-							break;
-						}
-					}
+					volatility[i]= -1;
+					System.out.println("DataReader else \"no option data\" i "+i);
+
 				}
 			}catch(Exception e){
-				//System.out.println("DataReader exception i "+i);
+				//e.printStackTrace();
+				System.out.println("DataReader exception due to preview[x][0] gives null i "+i);
 				volatility[i]= -1;
 			}
 		}
@@ -365,6 +396,11 @@ public class DataReader {
     				}
     			}
 			}
+		}catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			filenotfound("news.csv");
+
+			e.printStackTrace();
 		}catch(Exception e){
 			
 		}
@@ -477,6 +513,11 @@ public class DataReader {
 
 	}
 
+	private void filenotfound(String file){
+		JOptionPane.showMessageDialog(null,
+			    "Input file "+file+" not found under the package");
+	}
+	
 	private boolean compareNewsdate(String[] cdate, String[] news){
 		int day = Integer.parseInt(news[2]);
 		int month = Integer.parseInt(news[1]);
