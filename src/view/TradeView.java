@@ -41,12 +41,13 @@ public class TradeView extends javax.swing.JFrame {
     /**
      * Creates new form TradePanel
      */
-    public TradeView(Portfolio p, String[] f) {
+    public TradeView(Portfolio p, String[] f, String selected) {
         initComponents();
         portfolio = p;
         firms = f;
         symbol_combo.setModel(new javax.swing.DefaultComboBoxModel(f));
         cash_num_lab.setText(""+portfolio.getCredit());
+        symbol_combo.setSelectedItem(selected);
         updateCredit();
     }
     

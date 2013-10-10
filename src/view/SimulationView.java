@@ -538,7 +538,8 @@ public class SimulationView extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				new TradeView(portfolio, getFirms()).setVisible(true);
+				if(!selected.isEmpty())	new TradeView(portfolio, getFirms(),selected).setVisible(true);
+				else new TradeView(portfolio, getFirms(), "").setVisible(true);
 			}
     	});    	
     	

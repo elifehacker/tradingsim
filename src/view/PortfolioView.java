@@ -513,12 +513,7 @@ public class PortfolioView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                        
-
-    private void but_neworderActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        // TODO add your handling code here:
-		new TradeView(portfolio, IndexTable.getFirms()).setVisible(true);
-
-    }                                            
+                                           
 
     private void but_detailActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
