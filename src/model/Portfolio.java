@@ -313,12 +313,12 @@ public class Portfolio {
 				onhand.remove(d);
 				credit+= under.getTotal();
 				removingOrder.add(o);
-				break;				
+							
 			}else if(v > 0){
 				d.setVolume(v);
 				credit+= under.getTotal();
 				removingOrder.add(o);
-				break;
+				
 			}else if(v < 0){
 				onhand.remove(d);
 				under.setVolume(-v);
