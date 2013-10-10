@@ -21,6 +21,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.DataReader;
+import model.IndexTable;
 import model.Newsqueue;
 import model.Portfolio;
 import model.SessionController;
@@ -679,8 +680,10 @@ public class SimulationView extends javax.swing.JFrame {
             	while(manual){
             		Thread.yield();
             	}
-   
-            	goNext();
+            	if(!IndexTable.isEnd())
+            		goNext();
+            	else
+                	setManual();
 				try {
 					Thread.sleep(rate);
 				} catch (InterruptedException e) {

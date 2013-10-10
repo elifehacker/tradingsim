@@ -4,6 +4,12 @@ import view.SimulationView;
 
 public class IndexTable {
 	
+	public static boolean isEnd() {
+		return end;
+	}
+	public static void setEnd(boolean end) {
+		IndexTable.end = end;
+	}
 	public static int getTotalfirm() {
 		return totalfirm;
 	}
@@ -77,5 +83,7 @@ public class IndexTable {
 	private static int date;
 	private static int totalfirm;		
 	private static String firms[];	
-	
+
+	private static boolean end = false;
+
 }

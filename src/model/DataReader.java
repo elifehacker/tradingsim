@@ -423,6 +423,7 @@ public class DataReader {
 						writeTofile(chart_dir,firms[i], i);
 						
 					}else{
+						IndexTable.setEnd(true);
 						JOptionPane.showMessageDialog(null,
 							    "You have finished this simulation.");
 						simulationend = true;
@@ -471,9 +472,6 @@ public class DataReader {
 				e.printStackTrace();
 			}
 
-		}else{
-			JOptionPane.showMessageDialog(null,
-				    "You have finished this simulation.");
 		}
 		daycount++;
 
