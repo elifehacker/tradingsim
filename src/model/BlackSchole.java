@@ -53,6 +53,8 @@ public class BlackSchole {
 		if(callput.equals("Call")) t = 'C';	
 
 		double timediff = timetilmaturity(date, x_date);
+		if(timediff<=0)return -2;
+
 		/*
 		System.out.println("tic is "+firms[i]);
 		System.out.println("v is "+v);

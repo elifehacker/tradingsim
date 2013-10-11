@@ -491,13 +491,19 @@ public class TradePanel extends javax.swing.JPanel {
 			    	double price = bs.findOptionPrice(symbol, (String)option_type_combo.getSelectedItem(), 
 			    			x_price_tf.getText(), x_date_tf.getText());
 			    	//System.out.println("TradePanel: price"+price);
-			    	if(price!=-1)
+			    	if(price>=0)
 			    	JOptionPane.showMessageDialog(null,
 						    "Current market price of your option is $"+price);	
-			    	else{
+			    	else if(price==-1){
 				    	JOptionPane.showMessageDialog(null,
-							    "Please provide a valid X_Date or Option input file");
+							    "invalid implied volatility deduced from Option input files:\n" +
+							    "export.csv preview.csv current.csv");
 				    	return 0;
+			    	}else if(price==-2){
+				    	JOptionPane.showMessageDialog(null,
+							    "Please enter a valid x_date");
+				    	return 0;	
+			    		
 			    	}
 			    	if(otype.equals("Market Order")){
 						total_tf.setText(""+price*v);
