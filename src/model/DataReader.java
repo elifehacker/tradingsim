@@ -483,24 +483,24 @@ public class DataReader {
 	        	if(nline==null){
 	        		nline= newsreader.readLine();
 	        	}
-    			//System.out.println("news----" );
+    			System.out.println("news----"+nline );
 	        	if(nline != null) { // check again to see if it is the end of file
 		        	do{
-		        		try{
+		        	
 			    			splited = nline.split(",", -1);
 			    			String d = splited[ndate];
 			    			String cd = getDate();
-			    			//System.out.println("nline is "+nline );
+			    			System.out.println("cd d "+cd+" "+d );
 			    			
-			    			if(!splited[ntake].isEmpty()&& compareNewsdate(cd.split("[-/]"), d.split("[-/]"))){
-			    				Newsqueue.enque(splited[ndate]+" "+splited[nhead]);	
-				        		nline= newsreader.readLine();
-		
-			    			}else{
-			    				break;
+			    			if(!splited[ntake].isEmpty()){
+			    				if(compareNewsdate(cd.split("[-/]"), d.split("[-/]"))){
+				    				Newsqueue.enque(splited[ndate]+" "+splited[nhead]);	
+					        		nline= newsreader.readLine();
+			    				}else{
+				    				break;
+			    				}
 			    			}
-		        		}catch(Exception e2){		        			
-		        		}
+		        	
 		        	}while((nline= newsreader.readLine())!= null);
 	        	}
 			} catch (IOException e) {
@@ -519,9 +519,9 @@ public class DataReader {
 	}
 	
 	private boolean compareNewsdate(String[] cdate, String[] news){
-		int day = Integer.parseInt(news[2]);
+		int day = Integer.parseInt(news[0]);
 		int month = Integer.parseInt(news[1]);
-		int year = Integer.parseInt(news[0]);
+		int year = Integer.parseInt(news[2]);
 		
 		int cd = Integer.parseInt(cdate[0]);
 		int cm = Integer.parseInt(cdate[1]);
