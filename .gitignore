@@ -16,6 +16,7 @@
 *.o
 *.so
 *.csv
+*.txt
 amcharts/images/*
 amstock/.svn/*
 tradingDB/*
