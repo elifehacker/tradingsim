@@ -82,7 +82,10 @@ public class DataReader {
 	
 	private String chart_dir = "chartdata";
     private String chart_index = "data.csv";
-	
+    
+    private String gen="generated/";
+    private String prov="provided/";
+    
 	private boolean simulationend = false;
 	private int bufferstage[];
 	
@@ -90,17 +93,19 @@ public class DataReader {
 	
     private int totalfirm = 0;
     private float startingCash;
+    
+    private String session;
 	
 	public DataReader(String folder, float cash){
 		
 		startingCash = cash;
-		
+		session = folder;
 		double current_price[] = null;
 		if(!folder.equals("null")){
 		    path = "packages/"+folder+"/";
 
 			try {
-				BufferedReader br = new BufferedReader(new FileReader(path+folder+".csv"));
+				BufferedReader br = new BufferedReader(new FileReader(path+prov+folder+".csv"));
 		        String line; 
 		        String splited[];
 		        String lastfirm ="";
@@ -160,7 +165,7 @@ public class DataReader {
 
 						}
 						if(stage  == 0){
-							file = new File(path+splited[ric]+".csv");
+							file = new File(path+gen+splited[ric]+".csv");
 							fw = new FileWriter(file);
 							stage = 1;
 							
@@ -200,7 +205,7 @@ public class DataReader {
 		try {		
 	        current_price = new double[totalfirm];
 
-			BufferedReader br = new BufferedReader(new FileReader(path+"current.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(path+prov+"current.csv"));
 	        String line;
 	        boolean firstline = true;
 	        int c_ric = 0, c_last=0;
@@ -235,7 +240,7 @@ public class DataReader {
 		
         String[][] preview = new String [totalfirm][3];
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(path+"preview.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(path+prov+"preview.csv"));
 	        String line;
 	        boolean firstline = true;
 	        int o_ric = 0, o_last=0, o_date=0;
@@ -277,7 +282,7 @@ public class DataReader {
 		
         String[][] export = new String [totalfirm][4];
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(path+"export.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(path+prov+"export.csv"));
 	        String line;
 	        boolean firstline = true;
 	        int o_ric = 0, x_price =0, x_date=0, o_type = 0;
@@ -381,7 +386,7 @@ public class DataReader {
 		try {
 			String line = null;
 	        String splited[];
-	        newsreader = new BufferedReader(new FileReader(path+"news.csv"));
+	        newsreader = new BufferedReader(new FileReader(path+prov+"news.csv"));
 			if((line= newsreader.readLine())!= null){
 	        	splited = line.split(",");
 	        	news_title = new String [splited.length];
@@ -417,7 +422,7 @@ public class DataReader {
 					try {
 						//System.out.println("Debug "+firms[i]+" "+totalfirm);
 
-						brs[i] = new BufferedReader(new FileReader(path+firms[i]+".csv"));
+						brs[i] = new BufferedReader(new FileReader(path+gen+firms[i]+".csv"));
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -607,7 +612,10 @@ public class DataReader {
 	private void writeTofile(String chart_dir, String chart_index, int index) {
 		// TODO Auto-generated method stub		
 		//System.out.println("writeTofile xxx.csv");
-		File file = new File(chart_dir,chart_index+".csv");
+		File file = new File(chart_dir+"/"+session);
+		if (!file.exists()) file.mkdir();
+		
+		file = new File(chart_dir+"/"+session,chart_index+".csv");
 		 
 		// if file doesnt exists, then create it
 		if (!file.exists()) {

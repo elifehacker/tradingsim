@@ -587,7 +587,7 @@ public class SimulationView extends javax.swing.JFrame {
 								"<short>"+selected+"</short>\n"+
 								"<description></description>\n");
 						
-						sb.append("<file_name>"+selected+".csv");
+						sb.append("<file_name>"+folder+"/"+selected+".csv");
 
 						br = new BufferedReader(new FileReader("chartdata/footer.txt"));
 						while((line =br.readLine())!=null){
