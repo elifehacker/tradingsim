@@ -71,7 +71,7 @@ public class SimulationView extends javax.swing.JFrame {
 	
     public SimulationView(String folder) {
     	
-        dr = new DataReader(folder, 10000);
+        dr = new DataReader(folder, 10000, 0);
         this.folder = folder;
         initComponents();
     	
@@ -91,7 +91,7 @@ public class SimulationView extends javax.swing.JFrame {
 		portfolio = new Portfolio(dr.getStartingCash());
         
         news_table.setModel(new javax.swing.table.DefaultTableModel(Newsqueue.toBoard(),news_title));
-
+        news_table.getColumnModel().getColumn(1).setPreferredWidth(600);
 		
         this.addWindowListener(new SwindowsListener());
     }
@@ -117,6 +117,7 @@ public class SimulationView extends javax.swing.JFrame {
          index_scroll = new javax.swing.JScrollPane();
          index_table = new javax.swing.JTable();
          simulation_back = new javax.swing.JLabel();
+         but_check_news = new javax.swing.JButton();
          Right = new javax.swing.JPanel();
          but_back = new javax.swing.JButton();
          but_save = new javax.swing.JButton();
@@ -157,7 +158,7 @@ public class SimulationView extends javax.swing.JFrame {
         lab_adage.setBounds(20, 20, 480, 40);
         top_background.add(lab_adage, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        lab_background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/topbar.png"))); // NOI18N
+        lab_background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui_material/topbar.png"))); // NOI18N
         lab_background.setBounds(0, 0, 1360, 80);
         top_background.add(lab_background, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -216,7 +217,17 @@ public class SimulationView extends javax.swing.JFrame {
         simulation_back.setText("Simulation");
         simulation_back.setBounds(10, 10, 530, 120);
         leftmultilayer.add(simulation_back, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
+        
+        but_check_news.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        but_check_news.setText("Check News");
+        but_check_news.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                but_check_newsActionPerformed(evt);
+            }
+        });
+        but_check_news.setBounds(313, 550, 160, 40);
+        leftmultilayer.add(but_check_news, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
         LeftLayout.setHorizontalGroup(
@@ -481,9 +492,14 @@ public class SimulationView extends javax.swing.JFrame {
  
   
      public void loadme(String date){
+    	 Newsqueue.loading = true;
+
     	 while(!dr.getDate().equals(date)){
     		 goNext();
     	 }
+    	 Newsqueue.loading = false;
+         news_table.setModel(new javax.swing.table.DefaultTableModel(Newsqueue.toBoardLatest(),news_title));
+         news_table.getColumnModel().getColumn(1).setPreferredWidth(600);
      }
      
 	private void goNext() {
@@ -491,6 +507,8 @@ public class SimulationView extends javax.swing.JFrame {
 		//printBuffer();
 		dr.updateTable();
         news_table.setModel(new javax.swing.table.DefaultTableModel(Newsqueue.toBoard(),news_title));
+        news_table.getColumnModel().getColumn(1).setPreferredWidth(600);
+
 		portfolio.checkOrders(dr.get_table());
 		portfolio.checkOptions();
 		newtablecontent = true;
@@ -504,6 +522,17 @@ public class SimulationView extends javax.swing.JFrame {
     public boolean getNewTableFlag(){
     	return newtablecontent;
     }
+    
+    private void but_check_newsActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        // TODO add your handling code here:
+		if(!selected.isEmpty()){
+			news_table.setModel(new javax.swing.table.DefaultTableModel(Newsqueue.toBoard(selected),news_title));
+	        news_table.getColumnModel().getColumn(1).setPreferredWidth(600);
+
+		}
+    	
+    }   
+    
     private void addlisteners(){
     	but_next.addActionListener(new ActionListener(){
 
@@ -724,8 +753,8 @@ public class SimulationView extends javax.swing.JFrame {
         // TODO add your handling code here:
         new PackageSelection().setVisible(true);
         this.dispose();
-    }                                        
-                                            
+    }          
+                                   
 
     /**
      * @param args the command line arguments
@@ -825,7 +854,7 @@ public class SimulationView extends javax.swing.JFrame {
     	
     }
 
-    private String news_title[] = {"News Headlines"};
+    private String news_title[] = {"Date","News Headlines","RIC"};
     private static String index_title[] = {"Symbol","Last","Net Change", "% Change", "Volumn"};
     private static int price_index =1; //where "Last" colume is
     private DataReader dr;
@@ -849,6 +878,7 @@ public class SimulationView extends javax.swing.JFrame {
     private javax.swing.JButton but_back;
     private javax.swing.JButton but_check_chart;
     private javax.swing.JButton but_check_detail;
+    private javax.swing.JButton but_check_news;
     private javax.swing.JButton but_minus;
     private javax.swing.JButton but_my_portfolio;
     private javax.swing.JButton but_next;

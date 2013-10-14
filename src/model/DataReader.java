@@ -11,6 +11,7 @@ import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
+import view.ReviewMode;
 import view.SimulationView;
 
 public class DataReader {
@@ -77,6 +78,8 @@ public class DataReader {
 	private int ndate;
 	private int ntake;
 	private int nhead;
+	private int nric;
+
 	
 	private BlackSchole bs;
 	
@@ -95,8 +98,11 @@ public class DataReader {
     private float startingCash;
     
     private String session;
-	
-	public DataReader(String folder, float cash){
+	private int mode;
+    
+	public DataReader(String folder, float cash, int module){
+		
+		mode = module;
 		
 		startingCash = cash;
 		session = folder;
@@ -183,14 +189,18 @@ public class DataReader {
 		        
 		        firms = new String[totalfirm];
 		        lasts = new float[totalfirm];
-		        SimulationView.displayingtable = new String[totalfirm+1][SimulationView.get_index_title().length];
-		        
+		        if(mode ==0)
+		        	SimulationView.displayingtable = new String[totalfirm+1][SimulationView.get_index_title().length];
+		        if(mode ==1)
+			        ReviewMode.displayingtable = new String[totalfirm+1][ReviewMode.get_index_title().length];
+
 		        for(int i = 0; i < flist.size(); i++){
 		        	firms[i] = flist.get(i);
 		        	//System.out.println("firm[i] "+firms[i]);
 		        }
 		        IndexTable.setFirms(firms);
-				
+		        IndexTable.setTotalfirm(totalfirm);
+				Newsqueue.reset();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -370,8 +380,12 @@ public class DataReader {
 		}
 		bs.setFirms(firms);
 		bs.setVolatility(volatility);
-		
-		index_table = new String[totalfirm][SimulationView.get_index_title().length];
+        if(mode ==0)
+        	index_table = new String[totalfirm][SimulationView.get_index_title().length];
+        if(mode ==1)
+    		index_table = new String[totalfirm][ReviewMode.get_index_title().length];
+
+        
 		file_content = new String[totalfirm][];
 		
 		brs = new BufferedReader[totalfirm];
@@ -399,6 +413,9 @@ public class DataReader {
     				}if(news_title[k].equals("HEADLINE_ALERT_TEXT")){
     					nhead = k;
     				}
+    				if(news_title[k].equals("RELATED_RICS")){
+    					nric = k;
+    				}
     			}
 			}
 		}catch (FileNotFoundException e) {
@@ -409,7 +426,6 @@ public class DataReader {
 		}catch(Exception e){
 			
 		}
-
 	}
 	
 	public void updateTable(){
@@ -477,7 +493,12 @@ public class DataReader {
 
 			}
 			IndexTable.setTable(file_content);
-			SimulationView.setDisplay(index_table);
+			IndexTable.setTotalfirm(totalfirm);
+	        if(mode ==0)
+	        	SimulationView.setDisplay(index_table);
+	        if(mode ==1)
+	        	ReviewMode.setDisplay(index_table);
+
 			bs.updatePrices(current_price);
 			bs.updateDate(this.getDate());
 			hourcounter++;

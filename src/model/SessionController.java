@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 import action.Action;
 
@@ -22,6 +23,7 @@ import order.MarketOrder;
 import order.Order;
 import order.StopLimitOrder;
 import order.StopOrder;
+import view.ReviewMode;
 import view.SimulationView;
 
 public class SessionController {
@@ -114,7 +116,7 @@ public class SessionController {
 		
 	}
 
-	public void load(SimulationView sv, File file){
+	public void load(JFrame sv, File file){
 		
 		LinkedList<Derivative> onhand = new LinkedList<Derivative>();
 		LinkedList<Order> orders = new LinkedList<Order>();
@@ -191,9 +193,14 @@ public class SessionController {
 		p.setActions(actions);
 		p.setCredit(credit);
 		
-		
-		sv.loadme(date);
-		sv.setPortfolio(p);
+		if(sv instanceof SimulationView){
+			((SimulationView) sv).loadme(date);
+			((SimulationView) sv).setPortfolio(p);
+		}
+		if(sv instanceof ReviewMode){
+			((ReviewMode) sv).loadme(date);
+			((ReviewMode) sv).setPortfolio(p);
+		}
 			
 	}
 
