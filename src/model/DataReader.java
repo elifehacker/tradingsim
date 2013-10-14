@@ -509,18 +509,22 @@ public class DataReader {
 	        	if(nline==null){
 	        		nline= newsreader.readLine();
 	        	}
-    			System.out.println("news----"+nline );
+    			//System.out.println("news----"+nline );
 	        	if(nline != null) { // check again to see if it is the end of file
 		        	do{
 		        	
 			    			splited = nline.split(",", -1);
 			    			String d = splited[ndate];
 			    			String cd = getDate();
-			    			System.out.println("cd d "+cd+" "+d );
+			    			//System.out.println("cd d "+cd+" "+d );
 			    			
 			    			if(!splited[ntake].isEmpty()){
 			    				if(compareNewsdate(cd.split("[-/]"), d.split("[-/]"))){
-				    				Newsqueue.enque(splited[ndate]+" "+splited[nhead]);	
+			    					if(Newsqueue.loading ==false)
+			    						Newsqueue.enque(new News(splited[ndate],splited[nhead],splited[nric]));
+			    					else
+			    						Newsqueue.enquell(new News(splited[ndate],splited[nhead],splited[nric]));
+			    						
 					        		nline= newsreader.readLine();
 			    				}else{
 				    				break;

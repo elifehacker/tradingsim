@@ -2,6 +2,7 @@ package model;
 
 import javax.swing.JFrame;
 
+import view.HomeView;
 import view.PackageSelection;
 import view.SimulationView;
 
@@ -34,7 +35,7 @@ public class systemMain {
 	        /* Create and display the form */
 	        java.awt.EventQueue.invokeLater(new Runnable() {
 	            public void run() {
-	                new PackageSelection().setVisible(true);
+	                new HomeView().setVisible(true);
 	                
 	            }
 	        });
