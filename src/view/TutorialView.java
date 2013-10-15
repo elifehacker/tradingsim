@@ -1,6 +1,9 @@
 package view;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /*
  * To change this template, choose Tools | Templates
@@ -154,23 +157,38 @@ public class TutorialView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
+    private void openURI(String uri){
+		try {
+			URI url = new URI(uri);
+			java.awt.Desktop.getDesktop().browse(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
     private void but_strategyActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
+    	openURI("http://www.asx.com.au/products/equity-options/strategies.htm");
     }                                            
 
     private void but_shareActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
+    	openURI("http://www.asx.com.au/products/shares.htm");
     }                                         
 
 	private void but_optionActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
-		
+		openURI("http://www.asx.com.au/products/equity-options.htm");
 	}
 
 	private void but_linksActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
-		
+        new LinksView().setVisible(true);
+
 	}
 
 	private void but_backActionPerformed(ActionEvent evt) {
