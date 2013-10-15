@@ -103,7 +103,7 @@ public class DataReader {
 	public DataReader(String folder, float cash, int module){
 		
 		mode = module;
-		
+		IndexTable.setEnd(false);
 		startingCash = cash;
 		session = folder;
 		double current_price[] = null;
@@ -513,23 +513,23 @@ public class DataReader {
 	        	if(nline != null) { // check again to see if it is the end of file
 		        	do{
 		        	
-			    			splited = nline.split(",", -1);
-			    			String d = splited[ndate];
-			    			String cd = getDate();
-			    			//System.out.println("cd d "+cd+" "+d );
-			    			
-			    			if(!splited[ntake].isEmpty()){
-			    				if(compareNewsdate(cd.split("[-/]"), d.split("[-/]"))){
-			    					if(Newsqueue.loading ==false)
-			    						Newsqueue.enque(new News(splited[ndate],splited[nhead],splited[nric]));
-			    					else
-			    						Newsqueue.enquell(new News(splited[ndate],splited[nhead],splited[nric]));
-			    						
-					        		nline= newsreader.readLine();
-			    				}else{
-				    				break;
-			    				}
-			    			}
+		    			splited = nline.split(",", -1);
+		    			String d = splited[ndate];
+		    			String cd = getDate();
+		    			//System.out.println("cd d "+cd+" "+d );
+		    			
+		    			if(!splited[ntake].isEmpty()){
+		    				if(compareNewsdate(cd.split("[-/]"), d.split("[-/]"))){
+		    					if(Newsqueue.loading ==false)
+		    						Newsqueue.enque(new News(splited[ndate],splited[nhead],splited[nric]));
+		    					else
+		    						Newsqueue.enquell(new News(splited[ndate],splited[nhead],splited[nric]));
+		    						
+				        		nline= newsreader.readLine();
+		    				}else{
+			    				break;
+		    				}
+		    			}
 		        	
 		        	}while((nline= newsreader.readLine())!= null);
 	        	}

@@ -24,6 +24,7 @@ import model.DataReader;
 import model.IndexTable;
 import model.Newsqueue;
 import model.Portfolio;
+import model.RecordTaker;
 import model.SessionController;
 
 
@@ -513,6 +514,10 @@ public class SimulationView extends javax.swing.JFrame {
 		portfolio.checkOptions();
 		newtablecontent = true;
 		current_date_TextField.setText(dr.getDate());
+		if(IndexTable.isEnd()&&recorded == false){
+			recorded = true;
+			takeRecord();
+		}
 	}
 
     
@@ -683,6 +688,11 @@ public class SimulationView extends javax.swing.JFrame {
 		manual = true;
     	update_rate_TextField.setText("Paused");
     	status_TextField.setText("Manual");
+	}
+	
+	public void takeRecord(){
+		RecordTaker rt = new RecordTaker(folder, ""+portfolio.getNet());
+    	rt.setVisible(true);
 	}
 	
     private void but_pauseActionPerformed(java.awt.event.ActionEvent evt) {                                          
@@ -870,6 +880,7 @@ public class SimulationView extends javax.swing.JFrame {
     private AutoThread AT = null;
     
     private int rate= 4000;
+    private boolean recorded = false;
  // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;

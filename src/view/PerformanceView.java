@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.RecordTaker;
 import model.SessionController;
 
 /**
@@ -45,16 +46,26 @@ public class PerformanceView extends javax.swing.JFrame {
         }
         
         select_table.setModel(new javax.swing.table.DefaultTableModel(
-        		pss,new String [] {
-                    "Packages"
-                }
+        		pss,selected_title
             ));
         select_table.setEnabled(true);
         select_table.setRowHeight(22);
         
+        setLeaderboard(new String [][] { });
+        
     }
 
-    public String[] packageScan(String path) throws IOException {
+    private void setLeaderboard(String[][] content) {
+		// TODO Auto-generated method stub
+        leaderboard_table.setModel(new javax.swing.table.DefaultTableModel(
+        		content
+        		,leaderboard_title
+            ));
+        leaderboard_table.setEnabled(true);
+        leaderboard_table.setRowHeight(22);
+	}
+
+	public String[] packageScan(String path) throws IOException {
 
     	  String file;
     	  File folder = new File(path);
@@ -248,9 +259,41 @@ public class PerformanceView extends javax.swing.JFrame {
 				
 				int row = select_table.getSelectedRow();
 				folder = (String) select_table.getValueAt(row, 0);
+				if(!folder.equals("null")){
 
+					File file = new File("packages/"+folder+"/record");
+					if(!file.exists()){
+						RecordTaker.createFile(file);
+					}
+						
+					String leaders [][] = new String[10][2];	
+					FileReader fr;
+					try {
+						fr = new FileReader(file);
+						BufferedReader br = new BufferedReader(fr);
+						String line;
+						boolean cleared = false;
+						int i = 0;
+						while((line = br.readLine())!=null && i <10){
+							String[]splited = line.split(",");
+							leaders[i]= splited;
+							i++;
+						}
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					setLeaderboard(leaders);
+				}
 			}
         });
+        
+        
+        
         pack();
     }// </editor-fold>                        
 
@@ -315,6 +358,8 @@ public class PerformanceView extends javax.swing.JFrame {
     }
     
     private String folder ="";
+    private  String [] leaderboard_title={"Trader","Score"};
+    private  String [] selected_title={"Packages"};
     // Variables declaration - do not modify                     
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Right;

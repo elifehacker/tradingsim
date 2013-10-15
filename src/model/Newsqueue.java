@@ -55,11 +55,11 @@ public class Newsqueue {
 		String [][] board = new String [size][3];
 		int i =0;
 		for(LinkedList<News> l : newsll){
-			if(l.getLast()!=null){
+			if(!l.isEmpty()){
 				News n = l.getLast();
-				board[size-i-1][0] = n.getTime();
-				board[size-i-1][1] = n.getHeadline();
-				board[size-i-1][2] = n.getLink();
+				board[i][0] = n.getTime();
+				board[i][1] = n.getHeadline();
+				board[i][2] = n.getLink();
 				i++;
 			}
 		}

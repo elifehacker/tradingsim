@@ -65,6 +65,22 @@ public class Portfolio {
 		return price;
 	}*/
 	
+	public double getNet(){
+		double net = credit;
+		for(Derivative d : onhand){
+			float cur_price = SimulationView.get_price(d.getSymbol());
+			if(d instanceof Stock){
+				net += (cur_price-d.getPrice())*d.getVolume();			
+			}else{
+				Option o = (Option) d;
+				if(o.getType().equals("Call")) net+= (cur_price-o.getStrike()-o.getPrice())*o.getVolume();
+				else if(o.getType().equals("Put"))net+= (o.getStrike()-cur_price-o.getPrice())*o.getVolume();
+			}
+		}
+		return net;
+		
+	}
+	
 	private boolean excercise(int cd, int cm, int cy, String[] xp){
 		int day = Integer.parseInt(xp[0]);
 		int month = Integer.parseInt(xp[1]);
